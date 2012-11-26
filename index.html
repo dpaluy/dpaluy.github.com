@@ -10,7 +10,7 @@
 
   
   <meta name="description" content="TL;DR Download and apply CFLAG.patch for all Ruby versions till ruby-1.9.3-p327. 1
-rvm reinstall 1.9.3 --patch cflags.patch There are several posts, &hellip;">
+rvm reinstall 1.9.3 --patch cflags.patch I would like to share my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,8 @@ rvm reinstall 1.9.3 --patch cflags.patch There are several posts, &hellip;">
 </pre></td><td class='code'><pre><code class=''><span class='line'>rvm reinstall 1.9.3 --patch cflags.patch</span></code></pre></td></tr></table></div></figure>
 
 
+<h2>I would like to share my experience and summarize this issue.</h2>
+
 <h4>There are several posts, regarding Ruby compiling optimization while using RVM, like:</h4>
 
 <ul>
@@ -122,9 +124,7 @@ rvm reinstall 1.9.3 --patch cflags.patch There are several posts, &hellip;">
 </ul>
 
 
-<h3>I would like to share my experience and summarize this issue.</h3>
-
-<p>First you should understand what is <a href="http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html">Optimization Options</a> are.</p>
+<h3>First you should understand what is <a href="http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html">Optimization Options</a> are.</h3>
 
 <p><strong>O3</strong>
 : turns on all optimizations specified by -O2 and also turns on the <em>-finline-functions, -funswitch-loops, -fpredictive-commoning, -fgcse-after-reload, -ftree-vectorize, -fvect-cost-model, -ftree-partial-pre and -fipa-cp-clone</em> options.</p>
