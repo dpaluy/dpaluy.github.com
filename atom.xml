@@ -4,7 +4,7 @@
   <title><![CDATA[Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.com/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.com/"/>
-  <updated>2012-11-26T10:26:10+02:00</updated>
+  <updated>2012-11-26T10:27:24+02:00</updated>
   <id>http://dpaluy.github.com/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -36,7 +36,7 @@
 </ul>
 
 
-<h3>First you should understand what <a href="http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html">Optimization Options</a> are.</h3>
+<h3>First you should understand what are <a href="http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html">Optimization Options</a>.</h3>
 
 <p><strong>O3</strong>
 : turns on all optimizations specified by -O2 and also turns on the <em>-finline-functions, -funswitch-loops, -fpredictive-commoning, -fgcse-after-reload, -ftree-vectorize, -fvect-cost-model, -ftree-partial-pre and -fipa-cp-clone</em> options.</p>
