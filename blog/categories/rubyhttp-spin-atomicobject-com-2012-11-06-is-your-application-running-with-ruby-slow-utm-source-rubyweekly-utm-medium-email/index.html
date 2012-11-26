@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>REST Debug Tips - Paluy on Miscellaneous</title>
+  <title>Category: Rubyhttp://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/?utm_source=rubyweekly&utm_medium=email - Paluy on Miscellaneous</title>
   <meta name="author" content="David Paluy">
 
   
-  <meta name="description" content="If you need to debug Net protocol between your application and some other API,
-you can output all request, this way: class Net::HTTP class &lt;&lt; &hellip;">
+  <meta name="description" content="Category: Rubyhttp://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/?utm_source=rubyweekly&utm_medium=email">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ you can output all request, this way: class Net::HTTP class &lt;&lt; &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips/">
+  <link rel="canonical" href="http://dpaluy.github.comblog/categories/rubyhttp-spin-atomicobject-com-2012-11-06-is-your-application-running-with-ruby-slow-utm-source-rubyweekly-utm-medium-email/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -76,108 +75,35 @@ you can output all request, this way: class Net::HTTP class &lt;&lt; &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">REST Debug Tips</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-04T00:00:00+02:00" pubdate data-updated="true">Mar 4<span>th</span>, 2012</time>
-        
-      </p>
+    <h1 class="entry-title">Category: Rubyhttp://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/?utm_source=rubyweekly&utm_medium=email</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-<div class="entry-content"><p>If you need to debug Net protocol between your application and some other API,
-you can output all request, this way:</p>
 
-<pre><code>class Net::HTTP
-  class &lt;&lt; self
-    def new_with_debug(*args)
-      new_without_debug(*args).tap { |http| http.set_debug_output(STDERR) }
-    end
-    alias_method_chain :new, :debug
-  end
-end
-</code></pre>
+  
+  <h2>2012</h2>
 
-<p>Another &#8220;Monkey patch&#8221; for RestClient so it will always provide authentication:</p>
+<article>
+  
+<h1><a href="/blog/2012/11/25/optimize-your-ruby/">Optimize your Ruby</a></h1>
+<time datetime="2012-11-25T22:15:00+02:00" pubdate><span class='month'>Nov</span> <span class='day'>25</span> <span class='year'>2012</span></time>
 
-<pre><code>require 'restclient'
-module RestClient
-  class Request
-    def execute_with_auth(&amp;block)
-      @user ||= 'someuser'
-      @pass ||= 'password'
-      execute_without_auth(&amp;block)
-    end
-    alias_method_chain :execute, :auth
-  end
-end
-</code></pre>
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/rubyhttp-spin-atomicobject-com-2012-11-06-is-your-application-running-with-ruby-slow-utm-source-rubyweekly-utm-medium-email/'>Rubyhttp://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/?utm_source=rubyweekly&utm_medium=email</a></span>
+</footer>
 
-<p>Thanks to <a href="https://github.com/romanbsd">@romanbsd</a> for providing those tips.</p>
+
+</article>
+
 </div>
 
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">David Paluy</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-04T00:00:00+02:00" pubdate data-updated="true">Mar 4<span>th</span>, 2012</time>
-      
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips/" data-via="dpaluy" data-counturl="http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips/" >Tweet</a>
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2012/03/01/passwordlesslogin/" title="Previous Post: Passwordless Login">&laquo; Passwordless Login</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2012/11/25/optimize-your-ruby/" title="Next Post: Optimize your Ruby">Optimize your Ruby &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
 </div>

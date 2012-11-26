@@ -4,7 +4,7 @@
   <title><![CDATA[Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.com/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.com/"/>
-  <updated>2012-11-13T23:19:26+02:00</updated>
+  <updated>2012-11-26T10:00:51+02:00</updated>
   <id>http://dpaluy.github.com/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Optimize your Ruby]]></title>
+    <link href="http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby/"/>
+    <updated>2012-11-25T22:15:00+02:00</updated>
+    <id>http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby</id>
+    <content type="html"><![CDATA[<h3>TL;DR</h3>
+
+<p>Download and apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd35483f73d43c2ab9ee49405a287e/cflags.patch">CFLAG.patch</a> for all Ruby versions till <strong>ruby-1.9.3-p327</strong>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm reinstall 1.9.3 --patch cflags.patch</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>There are several posts, regarding Ruby compiling optimization while using RVM, like:</h4>
+
+<ul>
+<li><a href="http://alisnic.net/blog/making-your-ruby-fly/">Making your ruby fly</a></li>
+<li><a href="http://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/?utm_source=rubyweekly&amp;utm_medium=email">Is Your Application Running with Ruby – Slow?</a></li>
+</ul>
+
+
+<h3>I would like to share my experience and summarize this issue.</h3>
+
+<p>First you should understand what is <a href="http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html">Optimization Options</a> are.</p>
+
+<p><strong>O3</strong>
+: turns on all optimizations specified by -O2 and also turns on the <em>-finline-functions, -funswitch-loops, -fpredictive-commoning, -fgcse-after-reload, -ftree-vectorize, -fvect-cost-model, -ftree-partial-pre and -fipa-cp-clone</em> options.</p>
+
+<p>I followed the <a href="https://github.com/wayneeseguin/rvm/issues/1240">RVM issue</a> discussion at Github.
+It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd35483f73d43c2ab9ee49405a287e/cflags.patch">CFLAG.patch</a> for all Ruby versions till <strong>ruby-1.9.3-p327</strong>.</p>
+
+<p><em>NOTE</em>: <strong>1.9.3-p327</strong> does not require it, rvm uses a new feature with allowing multiple paths in <em>&#8211;with-opt-dir=</em> - so no <em>CFLAGS / LDFLAGS</em> are used.</p>
+
+<p>How to apply:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm reinstall 1.9.3 --patch cflags.patch</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Is it really improves ruby benchmark? Yes.</h3>
+
+<p>See my results (<a href="https://gist.github.com/4147054">benchmark.rb</a>):</p>
+
+<h4>ruby-1.9.3-p286 without patch</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark
+</span><span class='line'>       user     system      total        real
+</span><span class='line'>+=  46.020000   2.610000  48.630000 ( 48.827064)
+</span><span class='line'>&lt;&lt;   0.220000   0.000000   0.220000 (  0.224581)</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>ruby-1.9.3-p286 with patch</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark
+</span><span class='line'>       user     system      total        real
+</span><span class='line'>+=  42.830000   2.480000  45.310000 ( 45.521011)
+</span><span class='line'>&lt;&lt;   0.100000   0.000000   0.100000 (  0.099425)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Is it good for production?</h3>
+
+<p>We use this patch in production with ruby-1.9.3-p286 for more than a month. Everything is stable, and we see significant improve in our application.</p>
+
+<h3>Summary</h3>
+
+<p>If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[REST Debug Tips]]></title>
