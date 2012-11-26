@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Rubyhttp://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/?utm_source=rubyweekly&utm_medium=email | Paluy on Miscellaneous]]></title>
-  <link href="http://dpaluy.github.com/blog/categories/rubyhttp-spin-atomicobject-com-2012-11-06-is-your-application-running-with-ruby-slow-utm-source-rubyweekly-utm-medium-email/atom.xml" rel="self"/>
+  <title><![CDATA[Category: ruby | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.com/"/>
-  <updated>2012-11-26T10:03:30+02:00</updated>
+  <updated>2012-11-26T10:24:06+02:00</updated>
   <id>http://dpaluy.github.com/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Optimize your Ruby]]></title>
+    <title type="html"><![CDATA[Optimize your RVM Ruby ]]></title>
     <link href="http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby/"/>
     <updated>2012-11-25T22:15:00+02:00</updated>
     <id>http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby</id>
@@ -30,7 +30,7 @@
 
 <ul>
 <li><a href="http://alisnic.net/blog/making-your-ruby-fly/">Making your ruby fly</a></li>
-<li><a href="http://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/?utm_source=rubyweekly&amp;utm_medium=email">Is Your Application Running with Ruby – Slow?</a></li>
+<li><a href="http://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/">Is Your Application Running with Ruby – Slow?</a></li>
 </ul>
 
 
@@ -94,6 +94,43 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
 <h3>Summary</h3>
 
 <p>If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[REST Debug Tips]]></title>
+    <link href="http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips/"/>
+    <updated>2012-03-04T00:00:00+02:00</updated>
+    <id>http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips</id>
+    <content type="html"><![CDATA[<p>If you need to debug Net protocol between your application and some other API,
+you can output all request, this way:</p>
+
+<pre><code>class Net::HTTP
+  class &lt;&lt; self
+    def new_with_debug(*args)
+      new_without_debug(*args).tap { |http| http.set_debug_output(STDERR) }
+    end
+    alias_method_chain :new, :debug
+  end
+end
+</code></pre>
+
+<p>Another "Monkey patch" for RestClient so it will always provide authentication:</p>
+
+<pre><code>require 'restclient'
+module RestClient
+  class Request
+    def execute_with_auth(&amp;block)
+      @user ||= 'someuser'
+      @pass ||= 'password'
+      execute_without_auth(&amp;block)
+    end
+    alias_method_chain :execute, :auth
+  end
+end
+</code></pre>
+
+<p>Thanks to <a href="https://github.com/romanbsd">@romanbsd</a> for providing those tips.</p>
 ]]></content>
   </entry>
   
