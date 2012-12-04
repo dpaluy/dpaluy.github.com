@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Passwordless Login - Paluy on Miscellaneous</title>
+  <title>Category: rails - Paluy on Miscellaneous</title>
   <meta name="author" content="David Paluy">
 
   
-  <meta name="description" content="I noticed that some developers didn&#8217;t know about Passwordless Login On your local computer, you must have an RSA public/private keys. Otherwise &hellip;">
+  <meta name="description" content="Category: rails">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin/">
+  <link rel="canonical" href="http://dpaluy.github.comblog/categories/rails/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -75,120 +75,35 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">Passwordless Login</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-01T00:00:00+02:00" pubdate data-updated="true">Mar 1<span>st</span>, 2012</time>
-        
-      </p>
+    <h1 class="entry-title">Category: Rails</h1>
     
   </header>
+  
+  <div id="blog-archives" class="category">
 
 
-<div class="entry-content"><p>I noticed that some developers didn&#8217;t know about <em>Passwordless Login</em></p>
 
-<p>On your local computer, you must have an RSA public/private keys. Otherwise generate it:</p>
+  
+  <h2>2012</h2>
 
-<pre><code>ssh-keygen -t rsa
-</code></pre>
+<article>
+  
+<h1><a href="/blog/2012/12/04/improve-rails-startup-performance/">Improve Rails startup performance</a></h1>
+<time datetime="2012-12-04T21:27:00+02:00" pubdate><span class='month'>Dec</span> <span class='day'>04</span> <span class='year'>2012</span></time>
 
-<p>One row solution is here:</p>
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/rails/'>rails</a></span>
+</footer>
 
-<pre><code>cat .ssh/id_rsa.pub | ssh user@example.com 'cat &gt;&gt; .ssh/authorized_keys'
-</code></pre>
 
-<p>Otherwise step-by-step explanation:</p>
+</article>
 
-<p>Copy your public key to your <em>example.com</em></p>
-
-<pre><code>scp ~/.ssh/id_rsa.pub user@example.com:~/
-</code></pre>
-
-<p>SSH to your server</p>
-
-<pre><code>ssh user@example.com
-</code></pre>
-
-<p>Now, append the public key to your authorized keys file and delete the file you uploaded:</p>
-
-<pre><code>mkdir .ssh
-cat id_rsa.pub &gt;&gt; .ssh/authorized_keys
-rm id_rsa.pub
-</code></pre>
-
-<p>Make sure your permissions set properly:</p>
-
-<pre><code>chmod go-w ~
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
-</code></pre>
 </div>
 
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">David Paluy</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-01T00:00:00+02:00" pubdate data-updated="true">Mar 1<span>st</span>, 2012</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/tools/'>Tools</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin/" data-via="dpaluy" data-counturl="http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin/" >Tweet</a>
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-      
-        <a class="basic-alignment right" href="/blog/2012/03/04/rest-debug-tips/" title="Next Post: REST Debug Tips">REST Debug Tips &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
 </div>

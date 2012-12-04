@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Paluy on Miscellaneous]]></title>
-  <link href="http://dpaluy.github.com/atom.xml" rel="self"/>
+  <title><![CDATA[Category: rails | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.com/"/>
   <updated>2012-12-04T21:57:32+02:00</updated>
   <id>http://dpaluy.github.com/</id>
@@ -26,11 +26,10 @@
 
 <h5>The test is:</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>echo puts Time.now > test_script
-</span><span class='line'>  time rails runner test_script</span></code></pre></td></tr></table></div></figure>
-
+</span><span class='line'>  time rails runner test_script</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h5>The results are:</h5>
 
@@ -46,9 +45,8 @@
 
 <p>Than, install the patch:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3 --patch fast_load.patch -n fast_load</span></code></pre></td></tr></table></div></figure>
-
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3 --patch fast_load.patch -n fast_load</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <h3>Credentials</h3>
 
@@ -58,7 +56,7 @@
 
 <h4>The Patch</h4>
 
-<div><script src='https://gist.github.com/4148257.js?file='></script>
+<p><div><script src='https://gist.github.com/4148257.js?file='></script>
 <noscript><pre><code>diff --git a/load.c b/load.c
 index b0e6f16..4c98dbb 100644
 --- a/load.c
@@ -80,7 +78,7 @@ index b0e6f16..4c98dbb 100644
 +*/
  static VALUE
  loaded_feature_path(const char *name, long vlen, const char *feature, long len,
-            int type, VALUE load_path)
+ 		    int type, VALUE load_path)
 @@ -77,7 +88,7 @@
      long plen;
      const char *e;
@@ -88,40 +86,40 @@ index b0e6f16..4c98dbb 100644
 -    if(vlen &lt; len) return 0;
 +    if(vlen &lt; len+1) return 0;
      if (!strncmp(name+(vlen-len),feature,len)){
-    plen = vlen - len - 1;
+ 	plen = vlen - len - 1;
      } else {
 @@ -88,23 +99,22 @@
-        return 0;
-    plen = e - name - len - 1;
+ 	    return 0;
+ 	plen = e - name - len - 1;
      }
 +    if (type == 's' &amp;&amp; !IS_DLEXT(&amp;name[plen+len+1])
 +     || type == 'r' &amp;&amp; !IS_RBEXT(&amp;name[plen+len+1])
 +     || name[plen] != '/') {
-+   return 0;
++	return 0;
 +    }
 +    /* Now name == &quot;#{prefix}/#{feature}#{ext}&quot; where ext is acceptable
 +       (possibly empty) and prefix is some string of length plen. */
 +
      for (i = 0; i &lt; RARRAY_LEN(load_path); ++i) {
-    VALUE p = RARRAY_PTR(load_path)[i];
-    const char *s = StringValuePtr(p);
-    long n = RSTRING_LEN(p);
+ 	VALUE p = RARRAY_PTR(load_path)[i];
+ 	const char *s = StringValuePtr(p);
+ 	long n = RSTRING_LEN(p);
  
--   if (n != plen ) continue;
--   if (n &amp;&amp; (strncmp(name, s, n) || name[n] != '/')) continue;
--   switch (type) {
--     case 's':
--       if (IS_DLEXT(&amp;name[n+len+1])) return p;
--       break;
--     case 'r':
--       if (IS_RBEXT(&amp;name[n+len+1])) return p;
--       break;
--     default:
--       return p;
--   }
-+   if (n != plen) continue;
-+   if (n &amp;&amp; strncmp(name, s, n)) continue;
-+   return p;
+-	if (n != plen ) continue;
+-	if (n &amp;&amp; (strncmp(name, s, n) || name[n] != '/')) continue;
+-	switch (type) {
+-	  case 's':
+-	    if (IS_DLEXT(&amp;name[n+len+1])) return p;
+-	    break;
+-	  case 'r':
+-	    if (IS_RBEXT(&amp;name[n+len+1])) return p;
+-	    break;
+-	  default:
+-	    return p;
+-	}
++	if (n != plen) continue;
++	if (n &amp;&amp; strncmp(name, s, n)) continue;
++	return p;
      }
      return 0;
  }
@@ -129,28 +127,28 @@ index b0e6f16..4c98dbb 100644
      }
      features = get_loaded_features();
      for (i = 0; i &lt; RARRAY_LEN(features); ++i) {
-+   /* This loop searches `features` for an entry such that either
-+        &quot;#{features[i]}&quot; == &quot;#{load_path[j]}/#{feature}#{e}&quot;
-+      for some j, or
-+        &quot;#{features[i]}&quot; == &quot;#{feature}#{e}&quot;
-+      Here `e` is an &quot;allowed&quot; extension -- either empty or one
-+      of the extensions accepted by IS_RBEXT, IS_SOEXT, or
-+      IS_DLEXT.  Further, if `ext &amp;&amp; rb` then `IS_RBEXT(e)`,
-+      and if `ext &amp;&amp; !rb` then `IS_SOEXT(e) || IS_DLEXT(e)`.
++	/* This loop searches `features` for an entry such that either
++	     &quot;#{features[i]}&quot; == &quot;#{load_path[j]}/#{feature}#{e}&quot;
++	   for some j, or
++	     &quot;#{features[i]}&quot; == &quot;#{feature}#{e}&quot;
++	   Here `e` is an &quot;allowed&quot; extension -- either empty or one
++	   of the extensions accepted by IS_RBEXT, IS_SOEXT, or
++	   IS_DLEXT.  Further, if `ext &amp;&amp; rb` then `IS_RBEXT(e)`,
++	   and if `ext &amp;&amp; !rb` then `IS_SOEXT(e) || IS_DLEXT(e)`.
 +
-+      If `expanded`, then only the latter form (without
-+      load_path[j]) is accepted.  Otherwise either form is
-+      accepted, *unless* `ext` is false and an otherwise-matching
-+      entry of the first form is preceded by an entry of the form
-+        &quot;#{features[i2]}&quot; == &quot;#{load_path[j2]}/#{feature}#{e2}&quot;
-+      where `e2` matches /^\.[^./]*$/ but is not an allowed extension.
-+      After a &quot;distractor&quot; entry of this form, only entries of the
-+      form &quot;#{feature}#{e}&quot; are accepted.
-+   */
++	   If `expanded`, then only the latter form (without
++	   load_path[j]) is accepted.  Otherwise either form is
++	   accepted, *unless* `ext` is false and an otherwise-matching
++	   entry of the first form is preceded by an entry of the form
++	     &quot;#{features[i2]}&quot; == &quot;#{load_path[j2]}/#{feature}#{e2}&quot;
++	   where `e2` matches /^\.[^./]*$/ but is not an allowed extension.
++	   After a &quot;distractor&quot; entry of this form, only entries of the
++	   form &quot;#{feature}#{e}&quot; are accepted.
++	*/
 +
-    v = RARRAY_PTR(features)[i];
-    f = StringValuePtr(v);
-    if ((n = RSTRING_LEN(v)) &lt; len) continue;
+ 	v = RARRAY_PTR(features)[i];
+ 	f = StringValuePtr(v);
+ 	if ((n = RSTRING_LEN(v)) &lt; len) continue;
 diff --git a/array.c b/array.c
 index 524553a..e98cbb7 100644
 --- a/array.c
@@ -170,7 +168,7 @@ index 524553a..e98cbb7 100644
 +    if (!ARY_EMBED_P(ary1) &amp;&amp; ARY_SHARED_P(ary1)
 +     &amp;&amp; !ARY_EMBED_P(ary2) &amp;&amp; ARY_SHARED_P(ary2)
 +     &amp;&amp; RARRAY(ary1)-&gt;as.heap.aux.shared == RARRAY(ary2)-&gt;as.heap.aux.shared) {
-+   return Qtrue;
++	return Qtrue;
 +    }
 +    return Qfalse;
 +}
@@ -256,8 +254,8 @@ index 4c98dbb..75df5ab 100644
 +    VALUE features_index, this_feature_index;
 +    features_index = get_loaded_features_index_raw();
 +    if ((this_feature_index = rb_hash_lookup(features_index, short_feature)) == Qnil) {
-+   this_feature_index = rb_ary_new();
-+   rb_hash_aset(features_index, short_feature, this_feature_index);
++	this_feature_index = rb_ary_new();
++	rb_hash_aset(features_index, short_feature, this_feature_index);
 +    }
 +    rb_ary_push(this_feature_index, offset);
 +}
@@ -281,7 +279,7 @@ index 4c98dbb..75df5ab 100644
 +
 +    for (ext = feature_end; ext &gt; feature_str; ext--)
 +      if (*ext == '.' || *ext == '/')
-+   break;
++	break;
 +    if (*ext != '.')
 +      ext = NULL;
 +    /* Now `ext` points to the only string matching %r{^\.[^./]*$} that is
@@ -289,23 +287,23 @@ index 4c98dbb..75df5ab 100644
 +
 +    p = ext ? ext : feature_end;
 +    while (1) {
-+   p--;
-+   while (p &gt;= feature_str &amp;&amp; *p != '/')
-+       p--;
-+   if (p &lt; feature_str)
-+       break;
-+   /* Now *p == '/'.  We reach this point for every '/' in `feature`. */
-+   short_feature = rb_str_substr(feature, p + 1 - feature_str, feature_end - p - 1);
-+   features_index_add_single(short_feature, offset);
-+   if (ext) {
-+       short_feature = rb_str_substr(feature, p + 1 - feature_str, ext - p - 1);
-+       features_index_add_single(short_feature, offset);
-+   }
++	p--;
++	while (p &gt;= feature_str &amp;&amp; *p != '/')
++	    p--;
++	if (p &lt; feature_str)
++	    break;
++	/* Now *p == '/'.  We reach this point for every '/' in `feature`. */
++	short_feature = rb_str_substr(feature, p + 1 - feature_str, feature_end - p - 1);
++	features_index_add_single(short_feature, offset);
++	if (ext) {
++	    short_feature = rb_str_substr(feature, p + 1 - feature_str, ext - p - 1);
++	    features_index_add_single(short_feature, offset);
++	}
 +    }
 +    features_index_add_single(feature, offset);
 +    if (ext) {
-+   short_feature = rb_str_substr(feature, 0, ext - feature_str);
-+   features_index_add_single(short_feature, offset);
++	short_feature = rb_str_substr(feature, 0, ext - feature_str);
++	features_index_add_single(short_feature, offset);
 +    }
 +}
 +
@@ -317,20 +315,20 @@ index 4c98dbb..75df5ab 100644
 +    rb_vm_t *vm = GET_VM();
 +
 +    if (!rb_ary_shared_with_p(vm-&gt;loaded_features_snapshot, vm-&gt;loaded_features)) {
-+   /* The sharing was broken; something (other than us in rb_provide_feature())
-+      modified loaded_features.  Rebuild the index. */
-+   rb_hash_clear(vm-&gt;loaded_features_index);
-+   features = vm-&gt;loaded_features;
-+   for (i = 0; i &lt; RARRAY_LEN(features); i++) {
-+       VALUE entry, as_str;
-+       as_str = entry = rb_ary_entry(features, i);
-+       StringValue(as_str);
-+       if (as_str != entry)
-+       rb_ary_store(features, i, as_str);
-+       rb_str_freeze(as_str);
-+       features_index_add(as_str, INT2FIX(i));
-+   }
-+   reset_loaded_features_snapshot();
++	/* The sharing was broken; something (other than us in rb_provide_feature())
++	   modified loaded_features.  Rebuild the index. */
++	rb_hash_clear(vm-&gt;loaded_features_index);
++	features = vm-&gt;loaded_features;
++	for (i = 0; i &lt; RARRAY_LEN(features); i++) {
++	    VALUE entry, as_str;
++	    as_str = entry = rb_ary_entry(features, i);
++	    StringValue(as_str);
++	    if (as_str != entry)
++		rb_ary_store(features, i, as_str);
++	    rb_str_freeze(as_str);
++	    features_index_add(as_str, INT2FIX(i));
++	}
++	reset_loaded_features_snapshot();
 +    }
 +    return vm-&gt;loaded_features_index;
 +}
@@ -348,30 +346,30 @@ index 4c98dbb..75df5ab 100644
      long i, len, elen, n;
      st_table *loading_tbl;
 @@ -161,27 +258,39 @@ struct loaded_feature_searching {
-    type = 0;
+ 	type = 0;
      }
      features = get_loaded_features();
 -    for (i = 0; i &lt; RARRAY_LEN(features); ++i) {
--   /* This loop searches `features` for an entry such that either
--        &quot;#{features[i]}&quot; == &quot;#{load_path[j]}/#{feature}#{e}&quot;
--      for some j, or
--        &quot;#{features[i]}&quot; == &quot;#{feature}#{e}&quot;
--      Here `e` is an &quot;allowed&quot; extension -- either empty or one
--      of the extensions accepted by IS_RBEXT, IS_SOEXT, or
--      IS_DLEXT.  Further, if `ext &amp;&amp; rb` then `IS_RBEXT(e)`,
--      and if `ext &amp;&amp; !rb` then `IS_SOEXT(e) || IS_DLEXT(e)`.
+-	/* This loop searches `features` for an entry such that either
+-	     &quot;#{features[i]}&quot; == &quot;#{load_path[j]}/#{feature}#{e}&quot;
+-	   for some j, or
+-	     &quot;#{features[i]}&quot; == &quot;#{feature}#{e}&quot;
+-	   Here `e` is an &quot;allowed&quot; extension -- either empty or one
+-	   of the extensions accepted by IS_RBEXT, IS_SOEXT, or
+-	   IS_DLEXT.  Further, if `ext &amp;&amp; rb` then `IS_RBEXT(e)`,
+-	   and if `ext &amp;&amp; !rb` then `IS_SOEXT(e) || IS_DLEXT(e)`.
 -
--      If `expanded`, then only the latter form (without
--      load_path[j]) is accepted.  Otherwise either form is
--      accepted, *unless* `ext` is false and an otherwise-matching
--      entry of the first form is preceded by an entry of the form
--        &quot;#{features[i2]}&quot; == &quot;#{load_path[j2]}/#{feature}#{e2}&quot;
--      where `e2` matches /^\.[^./]*$/ but is not an allowed extension.
--      After a &quot;distractor&quot; entry of this form, only entries of the
--      form &quot;#{feature}#{e}&quot; are accepted.
--   */
+-	   If `expanded`, then only the latter form (without
+-	   load_path[j]) is accepted.  Otherwise either form is
+-	   accepted, *unless* `ext` is false and an otherwise-matching
+-	   entry of the first form is preceded by an entry of the form
+-	     &quot;#{features[i2]}&quot; == &quot;#{load_path[j2]}/#{feature}#{e2}&quot;
+-	   where `e2` matches /^\.[^./]*$/ but is not an allowed extension.
+-	   After a &quot;distractor&quot; entry of this form, only entries of the
+-	   form &quot;#{feature}#{e}&quot; are accepted.
+-	*/
 -
--   v = RARRAY_PTR(features)[i];
+-	v = RARRAY_PTR(features)[i];
 +    features_index = get_loaded_features_index();
 +
 +    feature_val = rb_str_new(feature, len);
@@ -403,19 +401,19 @@ index 4c98dbb..75df5ab 100644
 +       as any distractors, so we may ignore all other entries in `features`.
 +     */
 +    for (i = 0; this_feature_index != Qnil &amp;&amp; i &lt; RARRAY_LEN(this_feature_index); i++) {
-+   long index = FIX2LONG(rb_ary_entry(this_feature_index, i));
-+   v = RARRAY_PTR(features)[index];
-    f = StringValuePtr(v);
-    if ((n = RSTRING_LEN(v)) &lt; len) continue;
-    if (strncmp(f, feature, len) != 0) {
++	long index = FIX2LONG(rb_ary_entry(this_feature_index, i));
++	v = RARRAY_PTR(features)[index];
+ 	f = StringValuePtr(v);
+ 	if ((n = RSTRING_LEN(v)) &lt; len) continue;
+ 	if (strncmp(f, feature, len) != 0) {
 @@ -204,6 +313,7 @@ struct loaded_feature_searching {
-        return 'r';
-    }
+ 	    return 'r';
+ 	}
      }
 +
      loading_tbl = get_loading_table();
      if (loading_tbl) {
-    f = 0;
+ 	f = 0;
 @@ -283,11 +393,18 @@ struct loaded_feature_searching {
  static void
  rb_provide_feature(VALUE feature)
@@ -425,8 +423,8 @@ index 4c98dbb..75df5ab 100644
 +
 +    features = get_loaded_features();
 +    if (OBJ_FROZEN(features)) {
-    rb_raise(rb_eRuntimeError,
-         &quot;$LOADED_FEATURES is frozen; cannot append feature&quot;);
+ 	rb_raise(rb_eRuntimeError,
+ 		 &quot;$LOADED_FEATURES is frozen; cannot append feature&quot;);
      }
 -    rb_ary_push(get_loaded_features(), feature);
 +    rb_str_freeze(feature);
@@ -451,14 +449,14 @@ index 55ccfe7..5391c2a 100644
 --- a/vm.c
 +++ b/vm.c
 @@ -1501,6 +1501,8 @@
-    RUBY_MARK_UNLESS_NULL(vm-&gt;mark_object_ary);
-    RUBY_MARK_UNLESS_NULL(vm-&gt;load_path);
-    RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features);
-+   RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features_snapshot);
-+   RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features_index);
-    RUBY_MARK_UNLESS_NULL(vm-&gt;top_self);
-    RUBY_MARK_UNLESS_NULL(vm-&gt;coverages);
-    rb_gc_mark_locations(vm-&gt;special_exceptions, vm-&gt;special_exceptions + ruby_special_error_count);
+ 	RUBY_MARK_UNLESS_NULL(vm-&gt;mark_object_ary);
+ 	RUBY_MARK_UNLESS_NULL(vm-&gt;load_path);
+ 	RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features);
++	RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features_snapshot);
++	RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features_index);
+ 	RUBY_MARK_UNLESS_NULL(vm-&gt;top_self);
+ 	RUBY_MARK_UNLESS_NULL(vm-&gt;coverages);
+ 	rb_gc_mark_locations(vm-&gt;special_exceptions, vm-&gt;special_exceptions + ruby_special_error_count);
 diff --git a/vm_core.h b/vm_core.h
 index 9d776c9..484ac5e 100644
 --- a/vm_core.h
@@ -493,18 +491,18 @@ index 75df5ab..dfea0ef 100644
  
      ary = rb_ary_new2(RARRAY_LEN(load_path));
      for (i = 0; i &lt; RARRAY_LEN(load_path); ++i) {
--   VALUE path = rb_file_expand_path_fast(RARRAY_PTR(load_path)[i], Qnil);
--   rb_str_freeze(path);
--   rb_ary_push(ary, path);
-+   VALUE path, as_str, expanded_path;
-+   as_str = path = RARRAY_PTR(load_path)[i];
-+   StringValue(as_str);
-+   if (as_str != path)
-+       rb_ary_store(load_path, i, as_str);
-+   rb_str_freeze(as_str);
-+   expanded_path = rb_file_expand_path_fast(as_str, Qnil);
-+   rb_str_freeze(expanded_path);
-+   rb_ary_push(ary, expanded_path);
+-	VALUE path = rb_file_expand_path_fast(RARRAY_PTR(load_path)[i], Qnil);
+-	rb_str_freeze(path);
+-	rb_ary_push(ary, path);
++	VALUE path, as_str, expanded_path;
++	as_str = path = RARRAY_PTR(load_path)[i];
++	StringValue(as_str);
++	if (as_str != path)
++	    rb_ary_store(load_path, i, as_str);
++	rb_str_freeze(as_str);
++	expanded_path = rb_file_expand_path_fast(as_str, Qnil);
++	rb_str_freeze(expanded_path);
++	rb_ary_push(ary, expanded_path);
      }
      rb_obj_freeze(ary);
 -    return ary;
@@ -517,8 +515,8 @@ index 75df5ab..dfea0ef 100644
 +{
 +    rb_vm_t *vm = GET_VM();
 +    if (!rb_ary_shared_with_p(vm-&gt;load_path_snapshot, vm-&gt;load_path)) {
-+   /* The load path was modified.  Rebuild the expanded load path. */
-+   rb_construct_expanded_load_path();
++	/* The load path was modified.	Rebuild the expanded load path. */
++	rb_construct_expanded_load_path();
 +    }
 +    return vm-&gt;expanded_load_path;
  }
@@ -538,13 +536,13 @@ index 2fbd48f..66b2443 100644
 --- a/ruby.c
 +++ b/ruby.c
 @@ -1377,7 +1377,8 @@ struct cmdline_options {
-    long i;
-    VALUE load_path = GET_VM()-&gt;load_path;
-    for (i = 0; i &lt; RARRAY_LEN(load_path); ++i) {
--       rb_enc_associate(RARRAY_PTR(load_path)[i], lenc);
-+       RARRAY_PTR(load_path)[i] =
-+       rb_enc_associate(rb_str_dup(RARRAY_PTR(load_path)[i]), lenc);
-    }
+ 	long i;
+ 	VALUE load_path = GET_VM()-&gt;load_path;
+ 	for (i = 0; i &lt; RARRAY_LEN(load_path); ++i) {
+-	    rb_enc_associate(RARRAY_PTR(load_path)[i], lenc);
++	    RARRAY_PTR(load_path)[i] =
++		rb_enc_associate(rb_str_dup(RARRAY_PTR(load_path)[i]), lenc);
+ 	}
      }
      if (!(opt-&gt;disable &amp; DISABLE_BIT(gems))) {
 diff --git a/vm.c b/vm.c
@@ -552,14 +550,14 @@ index 5391c2a..04466b2 100644
 --- a/vm.c
 +++ b/vm.c
 @@ -1500,6 +1500,8 @@
-    RUBY_MARK_UNLESS_NULL(vm-&gt;thgroup_default);
-    RUBY_MARK_UNLESS_NULL(vm-&gt;mark_object_ary);
-    RUBY_MARK_UNLESS_NULL(vm-&gt;load_path);
-+   RUBY_MARK_UNLESS_NULL(vm-&gt;load_path_snapshot);
-+   RUBY_MARK_UNLESS_NULL(vm-&gt;expanded_load_path);
-    RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features);
-    RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features_snapshot);
-    RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features_index);
+ 	RUBY_MARK_UNLESS_NULL(vm-&gt;thgroup_default);
+ 	RUBY_MARK_UNLESS_NULL(vm-&gt;mark_object_ary);
+ 	RUBY_MARK_UNLESS_NULL(vm-&gt;load_path);
++	RUBY_MARK_UNLESS_NULL(vm-&gt;load_path_snapshot);
++	RUBY_MARK_UNLESS_NULL(vm-&gt;expanded_load_path);
+ 	RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features);
+ 	RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features_snapshot);
+ 	RUBY_MARK_UNLESS_NULL(vm-&gt;loaded_features_index);
 diff --git a/vm_core.h b/vm_core.h
 index 484ac5e..2d4e30e 100644
 --- a/vm_core.h
@@ -574,162 +572,7 @@ index 484ac5e..2d4e30e 100644
      VALUE loaded_features_snapshot;
      VALUE loaded_features_index;
 </code></pre></noscript></div>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Optimize your RVM Ruby ]]></title>
-    <link href="http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby/"/>
-    <updated>2012-11-25T22:15:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby</id>
-    <content type="html"><![CDATA[<h3>TL;DR</h3>
-
-<p>If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch.</p>
-
-<h2>I would like to share my experience and summarize this issue.</h2>
-
-<h4>There are several posts, regarding Ruby compiling optimization while using RVM, like:</h4>
-
-<ul>
-<li><a href="http://alisnic.net/blog/making-your-ruby-fly/">Making your ruby fly</a></li>
-<li><a href="http://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/">Is Your Application Running with Ruby – Slow?</a></li>
-</ul>
-
-
-<h3>First you should understand what are <a href="http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html">Optimization Options</a>.</h3>
-
-<p><strong>O3</strong>
-: turns on all optimizations specified by -O2 and also turns on the <em>-finline-functions, -funswitch-loops, -fpredictive-commoning, -fgcse-after-reload, -ftree-vectorize, -fvect-cost-model, -ftree-partial-pre and -fipa-cp-clone</em> options.</p>
-
-<p>I followed the <a href="https://github.com/wayneeseguin/rvm/issues/1240">RVM issue</a> discussion at Github.
-It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd35483f73d43c2ab9ee49405a287e/cflags.patch">CFLAG.patch</a> for all Ruby versions till <strong>ruby-1.9.3-p327</strong>.</p>
-
-<p><em>NOTE</em>: <strong>1.9.3-p327</strong> does not require it, rvm uses a new feature with allowing multiple paths in <em>&#8211;with-opt-dir=</em> - so no <em>CFLAGS / LDFLAGS</em> are used.</p>
-
-<p>How to apply:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm reinstall 1.9.3 --patch cflags.patch</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Is it really improves ruby benchmark? Yes.</h3>
-
-<p>See my results (<a href="https://gist.github.com/4147054">benchmark.rb</a>):</p>
-
-<h4>ruby-1.9.3-p286 without patch</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark
-</span><span class='line'>       user     system      total        real
-</span><span class='line'>+=  46.020000   2.610000  48.630000 ( 48.827064)
-</span><span class='line'>&lt;&lt;   0.220000   0.000000   0.220000 (  0.224581)</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>ruby-1.9.3-p286 with patch</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark
-</span><span class='line'>       user     system      total        real
-</span><span class='line'>+=  42.830000   2.480000  45.310000 ( 45.521011)
-</span><span class='line'>&lt;&lt;   0.100000   0.000000   0.100000 (  0.099425)</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Is it good for production?</h3>
-
-<p>We use this patch in production with ruby-1.9.3-p286 for more than a month. Everything is stable, and we see significant improve in our application.</p>
-
-<h3>Summary</h3>
-
-<p>If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[REST Debug Tips]]></title>
-    <link href="http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips/"/>
-    <updated>2012-03-04T00:00:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips</id>
-    <content type="html"><![CDATA[<p>If you need to debug Net protocol between your application and some other API,
-you can output all request, this way:</p>
-
-<pre><code>class Net::HTTP
-  class &lt;&lt; self
-    def new_with_debug(*args)
-      new_without_debug(*args).tap { |http| http.set_debug_output(STDERR) }
-    end
-    alias_method_chain :new, :debug
-  end
-end
-</code></pre>
-
-<p>Another &#8220;Monkey patch&#8221; for RestClient so it will always provide authentication:</p>
-
-<pre><code>require 'restclient'
-module RestClient
-  class Request
-    def execute_with_auth(&amp;block)
-      @user ||= 'someuser'
-      @pass ||= 'password'
-      execute_without_auth(&amp;block)
-    end
-    alias_method_chain :execute, :auth
-  end
-end
-</code></pre>
-
-<p>Thanks to <a href="https://github.com/romanbsd">@romanbsd</a> for providing those tips.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Passwordless Login]]></title>
-    <link href="http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin/"/>
-    <updated>2012-03-01T00:00:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin</id>
-    <content type="html"><![CDATA[<p>I noticed that some developers didn&#8217;t know about <em>Passwordless Login</em></p>
-
-<p>On your local computer, you must have an RSA public/private keys. Otherwise generate it:</p>
-
-<pre><code>ssh-keygen -t rsa
-</code></pre>
-
-<p>One row solution is here:</p>
-
-<pre><code>cat .ssh/id_rsa.pub | ssh user@example.com 'cat &gt;&gt; .ssh/authorized_keys'
-</code></pre>
-
-<p>Otherwise step-by-step explanation:</p>
-
-<p>Copy your public key to your <em>example.com</em></p>
-
-<pre><code>scp ~/.ssh/id_rsa.pub user@example.com:~/
-</code></pre>
-
-<p>SSH to your server</p>
-
-<pre><code>ssh user@example.com
-</code></pre>
-
-<p>Now, append the public key to your authorized keys file and delete the file you uploaded:</p>
-
-<pre><code>mkdir .ssh
-cat id_rsa.pub &gt;&gt; .ssh/authorized_keys
-rm id_rsa.pub
-</code></pre>
-
-<p>Make sure your permissions set properly:</p>
-
-<pre><code>chmod go-w ~
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
-</code></pre>
+</p>
 ]]></content>
   </entry>
   
