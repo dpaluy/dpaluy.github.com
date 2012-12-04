@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.com/"/>
-  <updated>2012-12-04T21:57:32+02:00</updated>
+  <updated>2012-12-04T22:04:35+02:00</updated>
   <id>http://dpaluy.github.com/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Improve Rails startup performance]]></title>
-    <link href="http://dpaluy.github.com/blog/2012/12/04/improve-rails-startup-performance/"/>
+    <title type="html"><![CDATA[Improve Rails Bootup Time]]></title>
+    <link href="http://dpaluy.github.com/blog/2012/12/04/improve-rails-bootup-time/"/>
     <updated>2012-12-04T21:27:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2012/12/04/improve-rails-startup-performance</id>
+    <id>http://dpaluy.github.com/blog/2012/12/04/improve-rails-bootup-time</id>
     <content type="html"><![CDATA[<h3>Guide: How to improve your Rails Bootup Time</h3>
 
 <h4>Benchmarks:</h4>
