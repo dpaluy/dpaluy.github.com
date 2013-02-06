@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Paluy on Miscellaneous</title>
+  <title>Debugging Rails Application - Part 1 - Paluy on Miscellaneous</title>
   <meta name="author" content="David Paluy">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dpaluy.github.com/">
+  <link rel="canonical" href="http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -74,15 +74,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/01/30/debugging-rails-application-part1/">Debugging Rails Application - Part 1</a></h1>
+      <h1 class="entry-title">Debugging Rails Application - Part 1</h1>
     
     
       <p class="meta">
@@ -105,7 +102,7 @@
   </header>
 
 
-  <div class="entry-content"><h2>How to debug Rails application?</h2>
+<div class="entry-content"><h2>How to debug Rails application?</h2>
 
 <p>There are several gems to debug your Ruby code:</p>
 
@@ -215,99 +212,16 @@ You can use all <a href="">pry</a> functionality inside your application in addi
 </ul>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/12/04/improve-rails-bootup-time/">Improve Rails Bootup Time</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">David Paluy</span></span>
 
-<time datetime="2012-12-04T21:27:00+02:00" pubdate data-updated="true">Dec 4<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Guide: How to improve your Rails Bootup Time</h3>
-
-<h4>Benchmarks:</h4>
-
-<p>I used <em>ruby-1.9.3-p327</em> with and without patch.</p>
-
-<h5>The test is:</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo puts Time.now > test_script
-</span><span class='line'>  time rails runner test_script</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>The results are:</h5>
-
-<ul>
-<li><strong>ruby-1.9.3-p327:</strong> rails runner test_script <em>16.01s</em> user <em>0.61s</em> system 99% cpu <strong>16.725 total</strong></li>
-<li><strong>ruby-1.9.3-p327-fast_load:</strong> rails runner test_script  <em>6.11s</em> user <em>0.55s</em> system 98% cpu <strong>6.732 total</strong></li>
-</ul>
-
-
-<h4>How to apply:</h4>
-
-<p>Download <a href="https://gist.github.com/4148257">fast_load.patch</a></p>
-
-<p>Than, install the patch:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3 --patch fast_load.patch -n fast_load</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Credentials</h3>
-
-<p>Thanks to <a href="https://twitter.com/romanbsd">@romanbsd</a> for sending me this patch</p>
-
-<h3>Faster Hacking!!!</h3>
-
-<h2>Update</h2>
-
-<p>I found the origin of this patch. It&#8217;s <a href="https://gist.github.com/4063779#file_require_perf.patch">here</a> and <a href="http://bugs.ruby-lang.org/issues/7158">here</a>
-It&#8217;s a part of <a href="https://gist.github.com/4136519">falcon patch</a> but only for <em>fast require</em></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/11/25/optimize-your-ruby/">Optimize Your RVM Ruby</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -319,227 +233,44 @@ It&#8217;s a part of <a href="https://gist.github.com/4136519">falcon patch</a> 
   
 
 
-<time datetime="2012-11-25T22:15:00+02:00" pubdate data-updated="true">Nov 25<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>TL;DR</h3>
-
-<p>If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch.</p>
-
-<h2>I would like to share my experience and summarize this issue.</h2>
-
-<h4>There are several posts, regarding Ruby compiling optimization while using RVM, like:</h4>
-
-<ul>
-<li><a href="http://alisnic.net/blog/making-your-ruby-fly/">Making your ruby fly</a></li>
-<li><a href="http://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/">Is Your Application Running with Ruby – Slow?</a></li>
-</ul>
-
-
-<h3>First you should understand what are <a href="http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html">Optimization Options</a>.</h3>
-
-<p><strong>O3</strong>
-: turns on all optimizations specified by -O2 and also turns on the <em>-finline-functions, -funswitch-loops, -fpredictive-commoning, -fgcse-after-reload, -ftree-vectorize, -fvect-cost-model, -ftree-partial-pre and -fipa-cp-clone</em> options.</p>
-
-<p>I followed the <a href="https://github.com/wayneeseguin/rvm/issues/1240">RVM issue</a> discussion at Github.
-It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd35483f73d43c2ab9ee49405a287e/cflags.patch">CFLAG.patch</a> for all Ruby versions till <strong>ruby-1.9.3-p327</strong>.</p>
-
-<p><em>NOTE</em>: <strong>1.9.3-p327</strong> does not require it, rvm uses a new feature with allowing multiple paths in <em>&#8211;with-opt-dir=</em> - so no <em>CFLAGS / LDFLAGS</em> are used.</p>
-
-<p>How to apply:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm reinstall 1.9.3 --patch cflags.patch</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Is it really improves ruby benchmark? Yes.</h3>
-
-<p>See my results (<a href="https://gist.github.com/4147054">benchmark.rb</a>):</p>
-
-<h4>ruby-1.9.3-p286 without patch</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark
-</span><span class='line'>       user     system      total        real
-</span><span class='line'>+=  46.020000   2.610000  48.630000 ( 48.827064)
-</span><span class='line'>&lt;&lt;   0.220000   0.000000   0.220000 (  0.224581)</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>ruby-1.9.3-p286 with patch</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark
-</span><span class='line'>       user     system      total        real
-</span><span class='line'>+=  42.830000   2.480000  45.310000 ( 45.521011)
-</span><span class='line'>&lt;&lt;   0.100000   0.000000   0.100000 (  0.099425)</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Is it good for production?</h3>
-
-<p>We use this patch in production with ruby-1.9.3-p286 for more than a month. Everything is stable, and we see significant improve in our application.</p>
-
-<h3>Summary</h3>
-
-<p>If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2013-01-30T09:25:00+02:00" pubdate data-updated="true">Jan 30<span>th</span>, 2013</time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/04/rest-debug-tips/">REST Debug Tips</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/tools/'>Tools</a>
+  
+</span>
 
 
-<time datetime="2012-03-04T00:00:00+02:00" pubdate data-updated="true">Mar 4<span>th</span>, 2012</time>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>If you need to debug Net protocol between your application and some other API,
-you can output all request, this way:</p>
-
-<pre><code>class Net::HTTP
-  class &lt;&lt; self
-    def new_with_debug(*args)
-      new_without_debug(*args).tap { |http| http.set_debug_output(STDERR) }
-    end
-    alias_method_chain :new, :debug
-  end
-end
-</code></pre>
-
-<p>Another &#8220;Monkey patch&#8221; for RestClient so it will always provide authentication:</p>
-
-<pre><code>require 'restclient'
-module RestClient
-  class Request
-    def execute_with_auth(&amp;block)
-      @user ||= 'someuser'
-      @pass ||= 'password'
-      execute_without_auth(&amp;block)
-    end
-    alias_method_chain :execute, :auth
-  end
-end
-</code></pre>
-
-<p>Thanks to <a href="https://github.com/romanbsd">@romanbsd</a> for providing those tips.</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/" data-via="dpaluy" data-counturl="http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/01/passwordlesslogin/">Passwordless Login</a></h1>
-    
-    
-      <p class="meta">
-        
+        <a class="basic-alignment left" href="/blog/2012/12/04/improve-rails-bootup-time/" title="Previous Post: Improve Rails Bootup Time">&laquo; Improve Rails Bootup Time</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-01T00:00:00+02:00" pubdate data-updated="true">Mar 1<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I noticed that some developers didn&#8217;t know about <em>Passwordless Login</em></p>
-
-<p>On your local computer, you must have an RSA public/private keys. Otherwise generate it:</p>
-
-<pre><code>ssh-keygen -t rsa
-</code></pre>
-
-<p>One row solution is here:</p>
-
-<pre><code>cat .ssh/id_rsa.pub | ssh user@example.com 'cat &gt;&gt; .ssh/authorized_keys'
-</code></pre>
-
-<p>Otherwise step-by-step explanation:</p>
-
-<p>Copy your public key to your <em>example.com</em></p>
-
-<pre><code>scp ~/.ssh/id_rsa.pub user@example.com:~/
-</code></pre>
-
-<p>SSH to your server</p>
-
-<pre><code>ssh user@example.com
-</code></pre>
-
-<p>Now, append the public key to your authorized keys file and delete the file you uploaded:</p>
-
-<pre><code>mkdir .ssh
-cat id_rsa.pub &gt;&gt; .ssh/authorized_keys
-rm id_rsa.pub
-</code></pre>
-
-<p>Make sure your permissions set properly:</p>
-
-<pre><code>chmod go-w ~
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
-</code></pre>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  
-  
+  </section>
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -573,7 +304,7 @@ chmod 600 ~/.ssh/authorized_keys
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -593,6 +324,7 @@ chmod 600 ~/.ssh/authorized_keys
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -607,7 +339,10 @@ chmod 600 ~/.ssh/authorized_keys
       var disqus_shortname = 'paluyonmiscellaneous';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/';
+        var disqus_url = 'http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
