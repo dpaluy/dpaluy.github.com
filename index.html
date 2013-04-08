@@ -9,7 +9,7 @@
   <meta name="author" content="David Paluy">
 
   
-  <meta name="description" content="How to debug Rails application? There are several gems to debug your Ruby code: debugger - A fork of ruby-debug that works on Ruby 1.9.3 Install (rvm &hellip;">
+  <meta name="description" content="In previous post, I described which tools I use for debugging Rails (Ruby) applications. In this post I will show you how to debug your Garbage &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,159 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/02/06/debugging-rails-application-part-2/">Debugging Rails Application - Part 2</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-06T11:32:00+02:00" pubdate data-updated="true">Feb 6<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In previous <a href="/blog/2013/01/30/debugging-rails-application-part1/">post</a>, I described which tools I use for debugging Rails (Ruby) applications.</p>
+
+<p>In this post I will show you how to debug your Garbage Collector.</p>
+
+<h3>Why should I debug my GC?</h3>
+
+<p>First, you should understand how ruby allocates memory for new objects.
+What happened inside your OS, each time you write <code>book = Book.new</code>?</p>
+
+<p><img src="/images/how_ruby_works.png" alt="How Ruby Memory Works" /></p>
+
+<p>RVM defines Process Heap for each Ruby process. Than, it creates first Ruby Heap.
+Each Ruby Heap contains allocated objects. There is a &#8220;Free List&#8221; array inside the heap.</p>
+
+<p><img src="/images/freelist_ruby_heap.png" alt="Ruby Heap - Free List" /></p>
+
+<p>While new object allocated, the RVM looks for an empty place in &#8220;Free List&#8221; and allocates it for a newly creted one.
+If the &#8220;Free List&#8221; is empty (all slots are allocated), RVM calls to Garbage Collector (GC).</p>
+
+<p>The Garbage Collector finds non-reachable objects and remove them. If &#8220;Free List&#8221; is still empty, another Heap allocated.</p>
+
+<p><strong>Conclusion</strong>: The more objects we have, the longer GC process. And it&#8217;s a cause for slow application.</p>
+
+<h3>How should I debug my GC?</h3>
+
+<p>I suggest to use <a href="https://github.com/nixme/pry-debugger">pry-debugger</a>.</p>
+
+<p>There are several tools we can use while debugging:</p>
+
+<ul>
+<li><em>ObjectSpace class</em></li>
+<li><em>Heap dump (via GC patch)</em></li>
+</ul>
+
+
+<p>But to get it all functionality you need to use patched version of Ruby.</p>
+
+<p>To enable heap dump support, pass the –enable-gcdebug option to the rvm install command:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3 --patch railsexpress -C --enable-gcdebug -n gcdebug</span></code></pre></td></tr></table></div></figure>
+
+
+<h4><a href="http://ruby-doc.org/core-1.9.3/ObjectSpace.html">ObjectSpace class</a></h4>
+
+<ul>
+<li><em>ObjectSpace.count_objects</em> - returns a hash of counts objects of each type</li>
+<li><a href="http://cirw.in/blog/find-references">Visualizing memory leaks in Ruby</a></li>
+</ul>
+
+
+<p>An example of method I used to get a better output:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_object_stats</span>
+</span><span class='line'>  <span class="n">return_value</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="no">ObjectSpace</span><span class="o">::</span><span class="n">each_object</span><span class="p">(</span><span class="no">Object</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">my_object</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">unless</span> <span class="n">return_value</span><span class="o">[</span><span class="n">my_object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">downcase</span><span class="o">].</span><span class="n">nil?</span>
+</span><span class='line'>      <span class="n">return_value</span><span class="o">[</span><span class="n">my_object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">downcase</span><span class="o">][</span><span class="ss">:count</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">return_value</span><span class="o">[</span><span class="n">my_object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">downcase</span><span class="o">]</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>      <span class="n">return_value</span><span class="o">[</span><span class="n">my_object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">downcase</span><span class="o">][</span><span class="ss">:name</span><span class="o">]</span> <span class="o">=</span> <span class="n">my_object</span><span class="o">.</span><span class="n">class</span>
+</span><span class='line'>      <span class="n">return_value</span><span class="o">[</span><span class="n">my_object</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">downcase</span><span class="o">][</span><span class="ss">:count</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">return_value</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span><span class="o">|</span><span class="n">k</span><span class="p">,</span><span class="n">v</span><span class="o">|</span> <span class="o">-</span><span class="n">v</span><span class="o">[</span><span class="ss">:count</span><span class="o">]</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="https://blog.engineyard.com/2013/ruby-concurrency">Source</a></p>
+
+<h4>Heap dump</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">GC</span><span class="o">.</span><span class="n">enable_stats</span> <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="no">GC</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="no">GC</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="ss">:enable_stats</span><span class="p">)</span>
+</span><span class='line'><span class="no">GC</span><span class="o">.</span><span class="n">start</span> <span class="c1"># clean up heap</span>
+</span><span class='line'><span class="c1"># ...</span>
+</span><span class='line'><span class="c1"># YOUR CODE GOES HERE</span>
+</span><span class='line'><span class="c1"># ...</span>
+</span><span class='line'><span class="c1"># dump it, including class names of heap objects</span>
+</span><span class='line'><span class="no">GC</span><span class="o">.</span><span class="n">dump_file_and_line_info</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="s2">&quot;heap.dump&quot;</span><span class="p">,</span> <span class="n">include_class_names</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'><span class="n">stat_string</span> <span class="o">=</span> <span class="s2">&quot;allocated: </span><span class="si">#{</span><span class="no">GC</span><span class="o">.</span><span class="n">allocated_size</span><span class="o">/</span><span class="mi">1024</span><span class="si">}</span><span class="s2">K total in </span><span class="si">#{</span><span class="no">GC</span><span class="o">.</span><span class="n">num_allocations</span><span class="si">}</span><span class="s2"> allocations, GC calls: </span><span class="si">#{</span><span class="no">GC</span><span class="o">.</span><span class="n">collections</span><span class="si">}</span><span class="s2">, GC time: </span><span class="si">#{</span><span class="no">GC</span><span class="o">.</span><span class="n">time</span> <span class="o">/</span> <span class="mi">1000</span><span class="si">}</span><span class="s2"> msec&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Other interesting solutions to check:</h3>
+
+<ul>
+<li><a href="https://github.com/tmm1/gdb.rb">gdb7 hooks for MRI</a></li>
+<li><a href="http://patshaughnessy.net/2012/3/23/why-you-should-be-excited-about-garbage-collection-in-ruby-2-0">Why You Should Be Excited About Garbage Collection in Ruby 2.0</a></li>
+<li><a href="https://github.com/tmm1/rbtrace">Trace for Ruby</a></li>
+<li><a href="http://vimeo.com/12748731">GoRuCo 2010 - Aman Gupta - memprof: the ruby level memory profiler</a> - A little bit outdated but very interesting</li>
+</ul>
+
+
+<p><em>Note</em>: the <a href="https://github.com/ice799/memprof">memprof</a> works only with Ruby 1.8.x</p>
+
+<p>My <a href="https://speakerdeck.com/dpaluy/debugging-and-profiling-rails-app">slides</a> at <a href="http://www.rubyunderground.co.il/">RubyUnderground</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -202,7 +355,7 @@
 
 
 <p>Now start your rails server (<em>rails s</em>) and visit your controller url: <em>http://localhost:3000/home</em>. The pry debugger console will appear in your terminal.
-You can use all <a href="">pry</a> functionality inside your application in addition to predefined aliases(next, step, continue, etc.).</p>
+You can use all <a href="https://github.com/pry/pry">pry</a> functionality inside your application in addition to predefined aliases(next, step, continue, etc.).</p>
 
 <p><strong>Other useful commands:</strong></p>
 
@@ -547,6 +700,10 @@ chmod 600 ~/.ssh/authorized_keys
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/02/06/debugging-rails-application-part-2/">Debugging Rails Application - Part 2</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/30/debugging-rails-application-part1/">Debugging Rails Application - Part 1</a>
       </li>
     
@@ -560,10 +717,6 @@ chmod 600 ~/.ssh/authorized_keys
     
       <li class="post">
         <a href="/blog/2012/03/04/rest-debug-tips/">REST Debug Tips</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/01/passwordlesslogin/">Passwordless Login</a>
       </li>
     
   </ul>
