@@ -142,10 +142,13 @@ If the &#8220;Free List&#8221; is empty (all slots are allocated), RVM calls to 
 <p>To enable heap dump support, pass the –enable-gcdebug option to the rvm install command:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3 --patch railsexpress -C --enable-gcdebug -n gcdebug</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3 -C --enable-gcdebug -n gcdebug</span></code></pre></td></tr></table></div></figure>
 
 
-<h4><a href="http://ruby-doc.org/core-1.9.3/ObjectSpace.html">ObjectSpace class</a></h4>
+
+
+<h4 id="object-space"><a href="http://ruby-doc.org/core-1.9.3/ObjectSpace.html" target="_blank">ObjectSpace class</a></h4>
+
 
 <ul>
 <li><em>ObjectSpace.count_objects</em> - returns a hash of counts objects of each type</li>
@@ -268,6 +271,8 @@ If the &#8220;Free List&#8221; is empty (all slots are allocated), RVM calls to 
         <a class="basic-alignment left" href="/blog/2013/01/30/debugging-rails-application-part1/" title="Previous Post: Debugging Rails Application - Part 1">&laquo; Debugging Rails Application - Part 1</a>
       
       
+        <a class="basic-alignment right" href="/blog/2013/04/09/profiling-rails-applications/" title="Next Post: Profiling Rails Applications">Profiling Rails Applications &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -287,6 +292,10 @@ If the &#8220;Free List&#8221; is empty (all slots are allocated), RVM calls to 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/09/profiling-rails-applications/">Profiling Rails Applications</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/02/06/debugging-rails-application-part-2/">Debugging Rails Application - Part 2</a>
       </li>
     
@@ -300,10 +309,6 @@ If the &#8220;Free List&#8221; is empty (all slots are allocated), RVM calls to 
     
       <li class="post">
         <a href="/blog/2012/11/25/optimize-your-ruby/">Optimize your RVM Ruby </a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/04/rest-debug-tips/">REST Debug Tips</a>
       </li>
     
   </ul>

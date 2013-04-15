@@ -9,7 +9,7 @@
   <meta name="author" content="David Paluy">
 
   
-  <meta name="description" content="In previous post, I described which tools I use for debugging Rails (Ruby) applications. In this post I will show you how to debug your Garbage &hellip;">
+  <meta name="description" content="Your finaly got clients and everything works fine. But users expect several performance issues. How can I profile my Ruby on Rails application? &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,269 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/04/09/profiling-rails-applications/">Profiling Rails Applications</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-09T01:49:00+03:00" pubdate data-updated="true">Apr 9<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Your finaly got clients and everything works fine.</p>
+
+<p><img src="/images/mass_attack.gif" title="Users Attack" ></p>
+
+<p>But users expect several performance issues.</p>
+
+<h2>How can I profile my Ruby on Rails application?</h2>
+
+<h3>Available Tools</h3>
+
+<ul>
+<li><a href="#gc-profiler">GC::Profiler</a></li>
+<li><a href="#ruby-benchmark">Ruby Benchmark</a></li>
+<li><a href="#object-space">ObjectSpace</a></li>
+<li><a href="#ruby-prof">gem ruby-prof</a></li>
+<li><a href="#perftools">gem perftools.rb</a></li>
+</ul>
+
+
+<h4 id='gc-profiler'><a href="http://ruby-doc.org/core-1.9.3/GC/Profiler.html" target="_blank">GC::Profiler</a></h4>
+
+
+<p>The GC profiler provides access to information on GC runs including time, length and object space size.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">GC</span><span class="o">.</span><span class="n">start</span> <span class="c1"># clear GC before profiling</span>
+</span><span class='line'><span class="no">GC</span><span class="o">::</span><span class="no">Profiler</span><span class="o">.</span><span class="n">enable</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># your code</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">GC</span><span class="o">.</span><span class="n">start</span>
+</span><span class='line'><span class="nb">puts</span> <span class="no">GC</span><span class="o">::</span><span class="no">Profiler</span><span class="o">.</span><span class="n">report</span>
+</span><span class='line'><span class="no">GC</span><span class="o">::</span><span class="no">Profiler</span><span class="o">.</span><span class="n">disable</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h4 id='ruby-benchmark'><a href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/benchmark/rdoc/Benchmark.html" target="_blank">Ruby Benchmark</a></h4>
+
+
+<p>Ruby has core module to Benchmark your code. It helps you to mesure running time of your code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Benchmark</span><span class="o">.</span><span class="n">bm</span> <span class="k">do</span><span class="o">|</span><span class="n">b</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">b</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;+= &quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>    <span class="mi">500_000</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">a</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">b</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="s2">&quot;&lt;&lt; &quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">a</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>    <span class="mi">500_000</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;.&quot;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I suggest you to add <a href="https://github.com/evanphx/benchmark_suite" target="_blank">benchmark_suite gem</a>. There is a set of enhancements to the standard library benchmark.rb</p>
+
+<h4 id='object-space'>ObjectSpace</h4>
+
+
+<p>ObjectSpace class already described in previous <a href="/blog/2013/02/06/debugging-rails-application-part-2/#object-space">post</a>.
+You should also check <a href="http://cirw.in/blog/find-references" target="_blank">Visualizing memory leaks in Ruby</a> using ObjectSpace methods.</p>
+
+<h4 id='ruby-prof'><a href="https://github.com/ruby-prof/ruby-prof" target="_blank">RUBY-PROF</a></h4>
+
+
+<p><strong>How to use in Rails:</strong></p>
+
+<ul>
+<li>Add the ruby-prof to your gemfile</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:profile</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;ruby-prof&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Note:</strong> verify your <em>/config/environments/profile.rb</em> has the following settings:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">cache_classes</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">cache_template_loading</span> <span class="o">=</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Add rack adapter to <strong>config.ru</strong>:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">profile?</span>
+</span><span class='line'>  <span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">RubyProf</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">&#39;/temp/profile&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Note:</strong> By default the rack adapter will generate a html call graph report and flat text report. You can add printer option as following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">RubyProf</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">&#39;/temp/profile&#39;</span><span class="p">,</span> <span class="ss">:printers</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="no">RubyProf</span><span class="o">::</span><span class="no">GraphHtmlPrinter</span> <span class="o">=&gt;</span> <span class="s1">&#39;graph.html&#39;</span><span class="p">}</span> <span class="c1"># or any other printer as described</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>More printers options can be found <a href="https://github.com/ruby-prof/ruby-prof#printers" target="_blank">here</a></p>
+
+<ul>
+<li>Add Profile to your code:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># define mesurment type</span>
+</span><span class='line'><span class="c1"># as described: https://github.com/ruby-prof/ruby-prof#measurements</span>
+</span><span class='line'><span class="no">RubyProf</span><span class="o">.</span><span class="n">measure_mode</span> <span class="o">=</span> <span class="no">RubyProf</span><span class="o">::</span><span class="no">PROCESS_TIME</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">RubyProf</span><span class="o">.</span><span class="n">start</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># code to profile</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="no">RubyProf</span><span class="o">.</span><span class="n">stop</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<h4 id='perftools'><a href="https://github.com/tmm1/perftools.rb" target="_blank">Perftools.rb</a></h4>
+
+
+<p>While ruby-prof is a good tool, I, personally, prefere to use <strong>perftools.rb</strong>.
+It also has a <a href="https://github.com/bhb/rack-perftools_profiler" target="_blank">rack gem</a>.</p>
+
+<p>The <strong>main advantage</strong> of perftools: it samples your process using setitimer() so it can be used in production with minimal overhead.</p>
+
+<p><strong>How to use in Rails:</strong></p>
+
+<ul>
+<li>Add the rack-perftools_profiler to your gemfile</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;rack-perftools_profiler&#39;</span><span class="p">,</span> <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="s1">&#39;rack/perftools_profiler&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Add middleware to <strong>config/environment.rb</strong>:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">use</span> <span class="o">::</span><span class="no">Rack</span><span class="o">::</span><span class="no">PerftoolsProfiler</span><span class="p">,</span> <span class="ss">:default_printer</span> <span class="o">=&gt;</span> <span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="ss">:bundler</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>See more options <a href="https://github.com/bhb/rack-perftools_profiler#options" target="_blank">here</a>.</p>
+
+<ul>
+<li>Profile your application</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">curl</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">localhost</span><span class="p">:</span><span class="mi">3000</span><span class="o">/</span><span class="n">__start__</span>
+</span><span class='line'><span class="n">curl</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">localhost</span><span class="p">:</span><span class="mi">3000</span><span class="o">/</span><span class="n">__stop__</span>
+</span><span class='line'><span class="n">curl</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">localhost</span><span class="p">:</span><span class="mi">3000</span><span class="o">/</span><span class="n">__data__</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Visualization of your report</h3>
+
+<ul>
+<li>ruby-prof and perftools.rb has support for different output formats. One of them is <a href="http://kcachegrind.sourceforge.net/html/Home.html" target="_blank">KCacheGrind</a></li>
+<li>In Ruby 2 you can gather your stack traces. Read more <a href="Flame graphs in Ruby MiniProfiler" target="_blank">here</a></li>
+</ul>
+
+
+<h2>Summary</h2>
+
+<ul>
+<li>Remember: More Objects => Longer GC => Slow application</li>
+<li>Always examine your HEAP</li>
+<li>Use Tools!</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/02/06/debugging-rails-application-part-2/">Debugging Rails Application - Part 2</a></h1>
     
     
@@ -145,10 +408,13 @@ If the &#8220;Free List&#8221; is empty (all slots are allocated), RVM calls to 
 <p>To enable heap dump support, pass the –enable-gcdebug option to the rvm install command:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3 --patch railsexpress -C --enable-gcdebug -n gcdebug</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3 -C --enable-gcdebug -n gcdebug</span></code></pre></td></tr></table></div></figure>
 
 
-<h4><a href="http://ruby-doc.org/core-1.9.3/ObjectSpace.html">ObjectSpace class</a></h4>
+
+
+<h4 id="object-space"><a href="http://ruby-doc.org/core-1.9.3/ObjectSpace.html" target="_blank">ObjectSpace class</a></h4>
+
 
 <ul>
 <li><em>ObjectSpace.count_objects</em> - returns a hash of counts objects of each type</li>
@@ -700,6 +966,10 @@ chmod 600 ~/.ssh/authorized_keys
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/09/profiling-rails-applications/">Profiling Rails Applications</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/02/06/debugging-rails-application-part-2/">Debugging Rails Application - Part 2</a>
       </li>
     
@@ -713,10 +983,6 @@ chmod 600 ~/.ssh/authorized_keys
     
       <li class="post">
         <a href="/blog/2012/11/25/optimize-your-ruby/">Optimize your RVM Ruby </a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/03/04/rest-debug-tips/">REST Debug Tips</a>
       </li>
     
   </ul>
