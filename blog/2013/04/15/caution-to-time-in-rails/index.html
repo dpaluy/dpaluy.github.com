@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Optimize your RVM Ruby  - Paluy on Miscellaneous</title>
+  <title>Caution - to_time in Rails - Paluy on Miscellaneous</title>
   <meta name="author" content="David Paluy">
 
   
-  <meta name="description" content="TL;DR If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch. I would like to share my experience and summarize this &hellip;">
+  <meta name="description" content="TL;DR Attention on time zone while using today.to_time in your Rails application! Ruby to_time in your Rails application Suppose, you need to convert &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby/">
+  <link rel="canonical" href="http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Optimize Your RVM Ruby</h1>
+      <h1 class="entry-title">Caution - To_time in Rails</h1>
     
     
       <p class="meta">
@@ -95,78 +95,62 @@
   
 
 
-<time datetime="2012-11-25T22:15:00+02:00" pubdate data-updated="true">Nov 25<span>th</span>, 2012</time>
+<time datetime="2013-04-15T13:14:00+03:00" pubdate data-updated="true">Apr 15<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h3>TL;DR</h3>
+<div class="entry-content"><h2>TL;DR</h2>
 
-<p>If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch.</p>
+<p>Attention on time zone while using <em>today.to_time</em> in your Rails application!</p>
 
-<h2>I would like to share my experience and summarize this issue.</h2>
+<h2>Ruby <em>to_time</em> in your Rails application</h2>
 
-<h4>There are several posts, regarding Ruby compiling optimization while using RVM, like:</h4>
+<p>Suppose, you need to convert some date to datetime. You can use the Ruby <a href="http://api.rubyonrails.org/classes/Date.html#method-i-to_time" target="_blank">to_time</a> method:</p>
 
-<ul>
-<li><a href="http://alisnic.net/blog/making-your-ruby-fly/">Making your ruby fly</a></li>
-<li><a href="http://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/">Is Your Application Running with Ruby – Slow?</a></li>
-</ul>
-
-
-<h3>First you should understand what are <a href="http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html">Optimization Options</a>.</h3>
-
-<p><strong>O3</strong>
-: turns on all optimizations specified by -O2 and also turns on the <em>-finline-functions, -funswitch-loops, -fpredictive-commoning, -fgcse-after-reload, -ftree-vectorize, -fvect-cost-model, -ftree-partial-pre and -fipa-cp-clone</em> options.</p>
-
-<p>I followed the <a href="https://github.com/wayneeseguin/rvm/issues/1240">RVM issue</a> discussion at Github.
-It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd35483f73d43c2ab9ee49405a287e/cflags.patch">CFLAG.patch</a> for all Ruby versions till <strong>ruby-1.9.3-p327</strong>.</p>
-
-<p><em>NOTE</em>: <strong>1.9.3-p327</strong> does not require it, rvm uses a new feature with allowing multiple paths in <em>&#8211;with-opt-dir=</em> - so no <em>CFLAGS / LDFLAGS</em> are used.</p>
-
-<p>How to apply:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm reinstall 1.9.3 --patch cflags.patch</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Is it really improves ruby benchmark? Yes.</h3>
-
-<p>See my results (<a href="https://gist.github.com/4147054">benchmark.rb</a>):</p>
-
-<h4>ruby-1.9.3-p286 without patch</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark
-</span><span class='line'>       user     system      total        real
-</span><span class='line'>+=  46.020000   2.610000  48.630000 ( 48.827064)
-</span><span class='line'>&lt;&lt;   0.220000   0.000000   0.220000 (  0.224581)</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">date</span> <span class="o">=</span> <span class="no">Date</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">2013</span><span class="p">,</span> <span class="mo">04</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">date</span><span class="o">.</span><span class="n">to_time</span>            <span class="c1"># 2013-04-15 00:00:00 +0300</span>
+</span><span class='line'><span class="n">date</span><span class="o">.</span><span class="n">to_time</span><span class="p">(</span><span class="ss">:local</span><span class="p">)</span>    <span class="c1"># 2013-04-15 00:00:00 +0300</span>
+</span><span class='line'><span class="c1"># The Time Zone depends on your local machine</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">date</span><span class="o">.</span><span class="n">to_time</span><span class="p">(</span><span class="ss">:utc</span><span class="p">)</span>      <span class="c1"># 2013-04-15 00:00:00 +0000</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h4>ruby-1.9.3-p286 with patch</h4>
+<p>If your server time zone is UTC, but Rails application has different time zone, for example:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark
-</span><span class='line'>       user     system      total        real
-</span><span class='line'>+=  42.830000   2.480000  45.310000 ( 45.521011)
-</span><span class='line'>&lt;&lt;   0.100000   0.000000   0.100000 (  0.099425)</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">time_zone</span> <span class="o">=</span> <span class="s1">&#39;Central Time (US &amp; Canada)&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Is it good for production?</h3>
+<p>converting from date to time will ignore Rails settings!</p>
 
-<p>We use this patch in production with ruby-1.9.3-p286 for more than a month. Everything is stable, and we see significant improve in our application.</p>
+<p>It happens, when you need to output your date in epoch format (for example: in json).</p>
 
-<h3>Summary</h3>
+<p>I suggest to convert your date to utc and than to epoch.</p>
 
-<p>If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">epoch</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">to_time</span><span class="p">(</span><span class="ss">:utc</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, apply local time zone using JavaScript::</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="n">date</span> <span class="o">=</span> <span class="kp">new</span> <span class="no">Date</span><span class="p">(</span><span class="n">epoch</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
@@ -189,12 +173,12 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
   
 
 
-<time datetime="2012-11-25T22:15:00+02:00" pubdate data-updated="true">Nov 25<span>th</span>, 2012</time>
+<time datetime="2013-04-15T13:14:00+03:00" pubdate data-updated="true">Apr 15<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+    <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/time-zone/'>Time Zone</a>
   
 </span>
 
@@ -203,7 +187,7 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby/" data-via="dpaluy" data-counturl="http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails/" data-via="dpaluy" data-counturl="http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails/" >Tweet</a>
   
   
   
@@ -212,10 +196,8 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/03/04/rest-debug-tips/" title="Previous Post: REST Debug Tips">&laquo; REST Debug Tips</a>
+        <a class="basic-alignment left" href="/blog/2013/04/09/profiling-rails-applications/" title="Previous Post: Profiling Rails Applications">&laquo; Profiling Rails Applications</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/12/04/improve-rails-bootup-time/" title="Next Post: Improve Rails Bootup Time">Improve Rails Bootup Time &raquo;</a>
       
     </p>
   </footer>
@@ -298,8 +280,8 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby/';
-        var disqus_url = 'http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby/';
+        var disqus_identifier = 'http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails/';
+        var disqus_url = 'http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails/';
         var disqus_script = 'embed.js';
       
     (function () {

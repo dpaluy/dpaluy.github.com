@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Time Zone | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.com/blog/categories/time-zone/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.com/"/>
+  <updated>2013-04-15T14:13:20+03:00</updated>
+  <id>http://dpaluy.github.com/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Caution - to_time in Rails]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails/"/>
+    <updated>2013-04-15T13:14:00+03:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
+
+<p>Attention on time zone while using <em>today.to_time</em> in your Rails application!</p>
+
+<h2>Ruby <em>to_time</em> in your Rails application</h2>
+
+<p>Suppose, you need to convert some date to datetime. You can use the Ruby <a href="http://api.rubyonrails.org/classes/Date.html#method-i-to_time" target="_blank">to_time</a> method:</p>
+
+<p>```ruby
+date = Date.new(2013, 04, 15)</p>
+
+<p>date.to_time            # 2013-04-15 00:00:00 +0300
+date.to_time(:local)    # 2013-04-15 00:00:00 +0300</p>
+
+<h1>The Time Zone depends on your local machine</h1>
+
+<p>date.to_time(:utc)      # 2013-04-15 00:00:00 +0000
+```</p>
+
+<p>If your server time zone is UTC, but Rails application has different time zone, for example:</p>
+
+<p><code>ruby
+config.time_zone = 'Central Time (US &amp; Canada)'
+</code></p>
+
+<p>converting from date to time will ignore Rails settings!</p>
+
+<p>It happens, when you need to output your date in epoch format (for example: in json).</p>
+
+<p>I suggest to convert your date to utc and than to epoch.</p>
+
+<p><code>ruby
+epoch = date.to_time(:utc).to_i
+</code></p>
+
+<p>Then, apply local time zone using JavaScript::</p>
+
+<p><code>
+var date = new Date(epoch);
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>
