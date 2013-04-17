@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: ruby | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.com/blog/tags/ruby/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.com/"/>
+  <updated>2013-04-17T10:10:45+03:00</updated>
+  <id>http://dpaluy.github.com/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Caution - to_time in Rails]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails/"/>
+    <updated>2013-04-15T13:14:00+03:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
+
+<p>Attention on time zone while using <em>today.to_time</em> in your Rails application!</p>
+
+<h2>Ruby <em>to_time</em> in your Rails application</h2>
+
+<p>Suppose, you need to convert some date to datetime. You can use the Ruby <a href="http://api.rubyonrails.org/classes/Date.html#method-i-to_time" target="_blank">to_time</a> method:</p>
+
+<p>```ruby
+date = Date.new(2013, 04, 15)</p>
+
+<p>date.to_time            # 2013-04-15 00:00:00 +0300
+date.to_time(:local)    # 2013-04-15 00:00:00 +0300</p>
+
+<h1>The Time Zone depends on your local machine</h1>
+
+<p>date.to_time(:utc)      # 2013-04-15 00:00:00 +0000
+```</p>
+
+<p>If your server time zone is UTC, but Rails application has different time zone, for example:</p>
+
+<p><code>ruby
+config.time_zone = 'Central Time (US &amp; Canada)'
+</code></p>
+
+<p>converting from date to time will ignore Rails settings!</p>
+
+<p>It happens, when you need to output your date in epoch format (for example: in json).</p>
+
+<p>I suggest to convert your date to utc and than to epoch.</p>
+
+<p><code>ruby
+epoch = date.to_time(:utc).to_i
+</code></p>
+
+<p>Then, apply local time zone using JavaScript::</p>
+
+<p><code>
+var date = new Date(epoch);
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Profiling Rails Applications]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/04/09/profiling-rails-applications/"/>
+    <updated>2013-04-09T01:49:00+03:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/04/09/profiling-rails-applications</id>
+    <content type="html"><![CDATA[<p>Your finaly got clients and everything works fine.</p>
+
+<p><img src="/images/mass_attack.gif" title="Users Attack" ></p>
+
+<p>But users expect several performance issues.</p>
+
+<h2>How can I profile my Ruby on Rails application?</h2>
+
+<h3>Available Tools</h3>
+
+<ul>
+<li><a href="#gc-profiler">GC::Profiler</a></li>
+<li><a href="#ruby-benchmark">Ruby Benchmark</a></li>
+<li><a href="#object-space">ObjectSpace</a></li>
+<li><a href="#ruby-prof">gem ruby-prof</a></li>
+<li><a href="#perftools">gem perftools.rb</a></li>
+</ul>
+
+
+<h4 id='gc-profiler'><a href="http://ruby-doc.org/core-1.9.3/GC/Profiler.html" target="_blank">GC::Profiler</a></h4>
+
+
+<p>The GC profiler provides access to information on GC runs including time, length and object space size.</p>
+
+<p>```ruby
+GC.start # clear GC before profiling
+GC::Profiler.enable</p>
+
+<h1>your code</h1>
+
+<p>GC.start
+puts GC::Profiler.report
+GC::Profiler.disable
+```</p>
+
+<h4 id='ruby-benchmark'><a href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/benchmark/rdoc/Benchmark.html" target="_blank">Ruby Benchmark</a></h4>
+
+
+<p>Ruby has core module to Benchmark your code. It helps you to mesure running time of your code.</p>
+
+<p>```ruby
+require 'benchmark'</p>
+
+<p>Benchmark.bm do|b|
+  b.report("+= ") do</p>
+
+<pre><code>a = ""
+500_000.times { a += "." }
+</code></pre>
+
+<p>  end</p>
+
+<p>  b.report("&lt;&lt; ") do</p>
+
+<pre><code>a = ""
+500_000.times { a &lt;&lt; "." }
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>I suggest you to add <a href="https://github.com/evanphx/benchmark_suite" target="_blank">benchmark_suite gem</a>. There is a set of enhancements to the standard library benchmark.rb</p>
+
+<h4 id='object-space'>ObjectSpace</h4>
+
+
+<p>ObjectSpace class already described in previous <a href="/blog/2013/02/06/debugging-rails-application-part-2/#object-space">post</a>.
+You should also check <a href="http://cirw.in/blog/find-references" target="_blank">Visualizing memory leaks in Ruby</a> using ObjectSpace methods.</p>
+
+<h4 id='ruby-prof'><a href="https://github.com/ruby-prof/ruby-prof" target="_blank">RUBY-PROF</a></h4>
+
+
+<p><strong>How to use in Rails:</strong></p>
+
+<ul>
+<li>Add the ruby-prof to your gemfile</li>
+</ul>
+
+
+<p><code>ruby
+group :profile do
+  gem 'ruby-prof'
+end
+</code></p>
+
+<p><strong>Note:</strong> verify your <em>/config/environments/profile.rb</em> has the following settings:</p>
+
+<p><code>ruby
+config.cache_classes = true
+config.cache_template_loading = true
+</code></p>
+
+<ul>
+<li>Add rack adapter to <strong>config.ru</strong>:</li>
+</ul>
+
+
+<p><code>ruby
+if Rails.env.profile?
+  use Rack::RubyProf, :path =&gt; '/temp/profile'
+end
+</code></p>
+
+<p><strong>Note:</strong> By default the rack adapter will generate a html call graph report and flat text report. You can add printer option as following:</p>
+
+<p><code>ruby
+use Rack::RubyProf, :path =&gt; '/temp/profile', :printers =&gt; {RubyProf::GraphHtmlPrinter =&gt; 'graph.html'} # or any other printer as described
+</code></p>
+
+<p>More printers options can be found <a href="https://github.com/ruby-prof/ruby-prof#printers" target="_blank">here</a></p>
+
+<ul>
+<li>Add Profile to your code:</li>
+</ul>
+
+
+<p>```ruby</p>
+
+<h1>define mesurment type</h1>
+
+<h1>as described: https://github.com/ruby-prof/ruby-prof#measurements</h1>
+
+<p>RubyProf.measure_mode = RubyProf::PROCESS_TIME</p>
+
+<p>RubyProf.start</p>
+
+<h1>code to profile</h1>
+
+<p>result = RubyProf.stop
+```</p>
+
+<h4 id='perftools'><a href="https://github.com/tmm1/perftools.rb" target="_blank">Perftools.rb</a></h4>
+
+
+<p>While ruby-prof is a good tool, I, personally, prefere to use <strong>perftools.rb</strong>.
+It also has a <a href="https://github.com/bhb/rack-perftools_profiler" target="_blank">rack gem</a>.</p>
+
+<p>The <strong>main advantage</strong> of perftools: it samples your process using setitimer() so it can be used in production with minimal overhead.</p>
+
+<p><strong>How to use in Rails:</strong></p>
+
+<ul>
+<li>Add the rack-perftools_profiler to your gemfile</li>
+</ul>
+
+
+<p><code>ruby
+gem 'rack-perftools_profiler', :require =&gt; 'rack/perftools_profiler'
+</code></p>
+
+<ul>
+<li>Add middleware to <strong>config/environment.rb</strong>:</li>
+</ul>
+
+
+<p><code>ruby
+config.middleware.use ::Rack::PerftoolsProfiler, :default_printer =&gt; 'pdf', :bundler =&gt; true
+</code></p>
+
+<p>See more options <a href="https://github.com/bhb/rack-perftools_profiler#options" target="_blank">here</a>.</p>
+
+<ul>
+<li>Profile your application</li>
+</ul>
+
+
+<p><code>
+curl http://localhost:3000/__start__
+curl http://localhost:3000/__stop__
+curl http://localhost:3000/__data__
+</code></p>
+
+<h3>Visualization of your report</h3>
+
+<ul>
+<li>ruby-prof and perftools.rb has support for different output formats. One of them is <a href="http://kcachegrind.sourceforge.net/html/Home.html" target="_blank">KCacheGrind</a></li>
+<li>In Ruby 2 you can gather your stack traces. Read more <a href="Flame graphs in Ruby MiniProfiler" target="_blank">here</a></li>
+</ul>
+
+
+<h2>Summary</h2>
+
+<ul>
+<li>Remember: More Objects => Longer GC => Slow application</li>
+<li>Always examine your HEAP</li>
+<li>Use Tools!</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Debugging Rails Application - Part 2]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/02/06/debugging-rails-application-part-2/"/>
+    <updated>2013-02-06T11:32:00+02:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/02/06/debugging-rails-application-part-2</id>
+    <content type="html"><![CDATA[<p>In previous <a href="/blog/2013/01/30/debugging-rails-application-part1/">post</a>, I described which tools I use for debugging Rails (Ruby) applications.</p>
+
+<p>In this post I will show you how to debug your Garbage Collector.</p>
+
+<h3>Why should I debug my GC?</h3>
+
+<p>First, you should understand how ruby allocates memory for new objects.
+What happened inside your OS, each time you write <code>book = Book.new</code>?</p>
+
+<p><img src="/images/how_ruby_works.png" alt="How Ruby Memory Works" /></p>
+
+<p>RVM defines Process Heap for each Ruby process. Than, it creates first Ruby Heap.
+Each Ruby Heap contains allocated objects. There is a "Free List" array inside the heap.</p>
+
+<p><img src="/images/freelist_ruby_heap.png" alt="Ruby Heap - Free List" /></p>
+
+<p>While new object allocated, the RVM looks for an empty place in "Free List" and allocates it for a newly creted one.
+If the "Free List" is empty (all slots are allocated), RVM calls to Garbage Collector (GC).</p>
+
+<p>The Garbage Collector finds non-reachable objects and remove them. If "Free List" is still empty, another Heap allocated.</p>
+
+<p><strong>Conclusion</strong>: The more objects we have, the longer GC process. And it's a cause for slow application.</p>
+
+<h3>How should I debug my GC?</h3>
+
+<p>I suggest to use <a href="https://github.com/nixme/pry-debugger">pry-debugger</a>.</p>
+
+<p>There are several tools we can use while debugging:</p>
+
+<ul>
+<li><em>ObjectSpace class</em></li>
+<li><em>Heap dump (via GC patch)</em></li>
+</ul>
+
+
+<p>But to get it all functionality you need to use patched version of Ruby.</p>
+
+<p>To enable heap dump support, pass the –enable-gcdebug option to the rvm install command:</p>
+
+<p><code>
+rvm install 1.9.3 -C --enable-gcdebug -n gcdebug
+</code></p>
+
+<h4 id="object-space"><a href="http://ruby-doc.org/core-1.9.3/ObjectSpace.html" target="_blank">ObjectSpace class</a></h4>
+
+
+<ul>
+<li><em>ObjectSpace.count_objects</em> - returns a hash of counts objects of each type</li>
+<li><a href="http://cirw.in/blog/find-references">Visualizing memory leaks in Ruby</a></li>
+</ul>
+
+
+<p>An example of method I used to get a better output:</p>
+
+<p>```ruby
+def get_object_stats
+  return_value = Hash.new
+  ObjectSpace::each_object(Object) {|my_object|</p>
+
+<pre><code>unless return_value[my_object.class.to_s.downcase].nil?
+  return_value[my_object.class.to_s.downcase][:count] += 1
+else
+  return_value[my_object.class.to_s.downcase] = Hash.new
+  return_value[my_object.class.to_s.downcase][:name] = my_object.class
+  return_value[my_object.class.to_s.downcase][:count] = 1
+end
+</code></pre>
+
+<p>  }
+  return_value.sort_by {|k,v| -v[:count]}
+end
+```</p>
+
+<p><a href="https://blog.engineyard.com/2013/ruby-concurrency">Source</a></p>
+
+<h4>Heap dump</h4>
+
+<p>```ruby
+GC.enable_stats if defined?(GC) &amp;&amp; GC.respond_to?(:enable_stats)
+GC.start # clean up heap</p>
+
+<h1>...</h1>
+
+<h1>YOUR CODE GOES HERE</h1>
+
+<h1>...</h1>
+
+<h1>dump it, including class names of heap objects</h1>
+
+<p>GC.dump_file_and_line_info(filename: "heap.dump", include_class_names: true)
+stat_string = "allocated: #{GC.allocated_size/1024}K total in #{GC.num_allocations} allocations, GC calls: #{GC.collections}, GC time: #{GC.time / 1000} msec"
+```</p>
+
+<h3>Other interesting solutions to check:</h3>
+
+<ul>
+<li><a href="https://github.com/tmm1/gdb.rb">gdb7 hooks for MRI</a></li>
+<li><a href="http://patshaughnessy.net/2012/3/23/why-you-should-be-excited-about-garbage-collection-in-ruby-2-0">Why You Should Be Excited About Garbage Collection in Ruby 2.0</a></li>
+<li><a href="https://github.com/tmm1/rbtrace">Trace for Ruby</a></li>
+<li><a href="http://vimeo.com/12748731">GoRuCo 2010 - Aman Gupta - memprof: the ruby level memory profiler</a> - A little bit outdated but very interesting</li>
+</ul>
+
+
+<p><em>Note</em>: the <a href="https://github.com/ice799/memprof">memprof</a> works only with Ruby 1.8.x</p>
+
+<p>My <a href="https://speakerdeck.com/dpaluy/debugging-and-profiling-rails-app">slides</a> at <a href="http://www.rubyunderground.co.il/">RubyUnderground</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Debugging Rails Application - Part 1]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/"/>
+    <updated>2013-01-30T09:25:00+02:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1</id>
+    <content type="html"><![CDATA[<h2>How to debug Rails application?</h2>
+
+<p>There are several gems to debug your Ruby code:</p>
+
+<h3><strong><a href="https://github.com/cldwalker/debugger">debugger</a></strong> - A fork of ruby-debug that works on Ruby 1.9.3</h3>
+
+<p><strong>Install</strong> (rvm):
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>gem install debugger -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-p374/
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gemfile </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;gem &#39;debugger&#39;</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><strong>Usage</strong>:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
+</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;debugger&#39;</span><span class="p">;</span> <span class="n">debugger</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3><strong><a href="https://github.com/nixme/pry-debugger">pry-debugger</a></strong> - Using debugger within <a href="https://github.com/pry/pry">pry</a></h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gemfile </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;gem &#39;pry-debugger&#39;</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><strong>Configuration</strong> (Optional):</p>
+
+<p>Add aliases:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>$HOME/.pryrc </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;con&#39;</span><span class="p">,</span> <span class="s1">&#39;continue&#39;</span>
+</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span>
+</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;next&#39;</span>
+</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;fin&#39;</span><span class="p">,</span> <span class="s1">&#39;finish&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><strong><em>NOTE: You won't be able to use those words as params while debugging</em></strong></p>
+
+<p><strong>Usage</strong>:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
+</span><span class='line'>  <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Example:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>home_controller.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="no">ApplicationController</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;def index</span>
+</span><span class='line'><span class="sr">  # Some code ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">  binding.pry</span>
+</span><span class='line'><span class="sr">  # Code to debug</span>
+</span><span class='line'><span class="sr">  # ...</span>
+</span><span class='line'><span class="sr">end</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now start your rails server (<em>rails s</em>) and visit your controller url: <em>http://localhost:3000/home</em>. The pry debugger console will appear in your terminal.
+You can use all <a href="https://github.com/pry/pry">pry</a> functionality inside your application in addition to predefined aliases(next, step, continue, etc.).</p>
+
+<p><strong>Other useful commands:</strong></p>
+
+<ul>
+<li><strong>help</strong> - show a list of available commands</li>
+<li><strong>exit</strong> - exit a context with a user provided value</li>
+<li><strong>whereami</strong> - describe the current location (alternative: <strong>$</strong>)</li>
+<li><strong>break</strong> - set a breakpoint</li>
+<li><strong>wtf -v</strong> - see the entire backtrace</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Optimize your RVM Ruby ]]></title>
+    <link href="http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby/"/>
+    <updated>2012-11-25T22:15:00+02:00</updated>
+    <id>http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby</id>
+    <content type="html"><![CDATA[<h3>TL;DR</h3>
+
+<p>If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch.</p>
+
+<h2>I would like to share my experience and summarize this issue.</h2>
+
+<h4>There are several posts, regarding Ruby compiling optimization while using RVM, like:</h4>
+
+<ul>
+<li><a href="http://alisnic.net/blog/making-your-ruby-fly/">Making your ruby fly</a></li>
+<li><a href="http://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/">Is Your Application Running with Ruby – Slow?</a></li>
+</ul>
+
+
+<h3>First you should understand what are <a href="http://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html">Optimization Options</a>.</h3>
+
+<p><strong>O3</strong>
+: turns on all optimizations specified by -O2 and also turns on the <em>-finline-functions, -funswitch-loops, -fpredictive-commoning, -fgcse-after-reload, -ftree-vectorize, -fvect-cost-model, -ftree-partial-pre and -fipa-cp-clone</em> options.</p>
+
+<p>I followed the <a href="https://github.com/wayneeseguin/rvm/issues/1240">RVM issue</a> discussion at Github.
+It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd35483f73d43c2ab9ee49405a287e/cflags.patch">CFLAG.patch</a> for all Ruby versions till <strong>ruby-1.9.3-p327</strong>.</p>
+
+<p><em>NOTE</em>: <strong>1.9.3-p327</strong> does not require it, rvm uses a new feature with allowing multiple paths in <em>--with-opt-dir=</em> - so no <em>CFLAGS / LDFLAGS</em> are used.</p>
+
+<p>How to apply:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm reinstall 1.9.3 --patch cflags.patch</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Is it really improves ruby benchmark? Yes.</h3>
+
+<p>See my results (<a href="https://gist.github.com/4147054">benchmark.rb</a>):</p>
+
+<h4>ruby-1.9.3-p286 without patch</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>   user     system      total        real
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>+=  46.020000   2.610000  48.630000 ( 48.827064)
+</span><span class='line'>&lt;&lt;   0.220000   0.000000   0.220000 (  0.224581)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h4>ruby-1.9.3-p286 with patch</h4>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>   user     system      total        real
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p>+=  42.830000   2.480000  45.310000 ( 45.521011)
+</span><span class='line'>&lt;&lt;   0.100000   0.000000   0.100000 (  0.099425)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Is it good for production?</h3>
+
+<p>We use this patch in production with ruby-1.9.3-p286 for more than a month. Everything is stable, and we see significant improve in our application.</p>
+
+<h3>Summary</h3>
+
+<p>If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch.</p>
+]]></content>
+  </entry>
+  
+</feed>

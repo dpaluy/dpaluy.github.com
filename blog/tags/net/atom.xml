@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: NET | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.com/blog/tags/net/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.com/"/>
+  <updated>2013-04-17T10:10:45+03:00</updated>
+  <id>http://dpaluy.github.com/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[REST Debug Tips]]></title>
+    <link href="http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips/"/>
+    <updated>2012-03-04T00:00:00+02:00</updated>
+    <id>http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips</id>
+    <content type="html"><![CDATA[<p>If you need to debug Net protocol between your application and some other API,
+you can output all request, this way:</p>
+
+<pre><code>class Net::HTTP
+  class &lt;&lt; self
+    def new_with_debug(*args)
+      new_without_debug(*args).tap { |http| http.set_debug_output(STDERR) }
+    end
+    alias_method_chain :new, :debug
+  end
+end
+</code></pre>
+
+<p>Another "Monkey patch" for RestClient so it will always provide authentication:</p>
+
+<pre><code>require 'restclient'
+module RestClient
+  class Request
+    def execute_with_auth(&amp;block)
+      @user ||= 'someuser'
+      @pass ||= 'password'
+      execute_without_auth(&amp;block)
+    end
+    alias_method_chain :execute, :auth
+  end
+end
+</code></pre>
+
+<p>Thanks to <a href="https://github.com/romanbsd">@romanbsd</a> for providing those tips.</p>
+]]></content>
+  </entry>
+  
+</feed>

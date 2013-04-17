@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: obfuscate | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.com/blog/tags/obfuscate/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.com/"/>
+  <updated>2013-04-17T10:10:45+03:00</updated>
+  <id>http://dpaluy.github.com/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[protect email from spam bots]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots/"/>
+    <updated>2013-04-16T23:54:00+03:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
+
+<p>Spam bots are getting a lot smarter at harvesting email addresses from web pages. Use <em>encode</em> option while using <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-mail_to" target="_blank">mail_to</a></p>
+
+<h2>Ways to protect your email: me@domain.com</h2>
+
+<ul>
+<li>Weak solution - substitute characters: <strong>me_at_domain_dot_com</strong></li>
+<li>Weak solution - HEX encoding: <strong>%6d%65@%64%6f%6d%61%69%6e.%63%6f%6d</strong></li>
+<li>Better solution - Javascript encoding:</li>
+</ul>
+
+
+<p>```ruby
+mail_to "me@domain.com", "Contact us", :encode => "javascript"</p>
+
+<h1>=> <script type="text/javascript">eval(decodeURIComponent('%64%6f%63...%27%29%3b'))</script></h1>
+
+<p>#</p>
+
+<h1>The JavaScript evaluates the following:</h1>
+
+<h1>document.write('<a href=\"mailto:me@domain.com\">Contact us&lt;\/a>');</h1>
+
+<p>```</p>
+
+<p>Check more details <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-mail_to" target="_blank">here</a>.</p>
+
+<h3>Another way to encode your mail_to with JavaScript</h3>
+
+<p><a href="http://www.jottings.com/obfuscator.htm" target="_blank">Email obfuscator script 2.1 by Tim Williams</a></p>
+
+<p>```</p>
+
+<script type="text/javascript" language="javascript">
+<!--
+// Email obfuscator script 2.1 by Tim Williams, University of Arizona
+// Random encryption key feature by Andrew Moulden, Site Engineering Ltd
+// This code is freeware provided these four comment lines remain intact
+// A wizard to generate this code is at http://www.jottings.com/obfuscator/
+{
+  coded = "B6@LSBeJv.ASB"
+  key = "78ncPmS9z0hseXrvAKBlgi1OC6tjYU2qdIJw5MVfQyb3ZLH4ExRWNTpoFkuGDa"
+  shift=coded.length
+  link=""
+  for (i=0; i<coded.length; i++) {
+    if (key.indexOf(coded.charAt(i))==-1) {
+      ltr = coded.charAt(i)
+      link += (ltr)
+    }
+    else {
+      ltr = (key.indexOf(coded.charAt(i))-shift+key.length) % key.length
+      link += (key.charAt(ltr))
+    }
+  }
+  document.write("<a href='mailto:"+link+"'>Contact us</a>")
+}
+//-->
+</script>
+
+
+<p><noscript>Sorry, you need Javascript on to email me.</noscript></p>
+
+<p>```</p>
+
+<h3>Important! You can't protect your email 100%</h3>
+
+<p>If the bot evaluates JavaScript before harvesting email addresses, you can't resist it.</p>
+
+<p>For example, it can be done using <a href="http://phantomjs.org/" target='_blank'>PhantomJS</a></p>
+]]></content>
+  </entry>
+  
+</feed>

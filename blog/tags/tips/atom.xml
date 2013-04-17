@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: tips | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.com/blog/tags/tips/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.com/"/>
+  <updated>2013-04-17T10:10:45+03:00</updated>
+  <id>http://dpaluy.github.com/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[REST Debug Tips]]></title>
+    <link href="http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips/"/>
+    <updated>2012-03-04T00:00:00+02:00</updated>
+    <id>http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips</id>
+    <content type="html"><![CDATA[<p>If you need to debug Net protocol between your application and some other API,
+you can output all request, this way:</p>
+
+<pre><code>class Net::HTTP
+  class &lt;&lt; self
+    def new_with_debug(*args)
+      new_without_debug(*args).tap { |http| http.set_debug_output(STDERR) }
+    end
+    alias_method_chain :new, :debug
+  end
+end
+</code></pre>
+
+<p>Another "Monkey patch" for RestClient so it will always provide authentication:</p>
+
+<pre><code>require 'restclient'
+module RestClient
+  class Request
+    def execute_with_auth(&amp;block)
+      @user ||= 'someuser'
+      @pass ||= 'password'
+      execute_without_auth(&amp;block)
+    end
+    alias_method_chain :execute, :auth
+  end
+end
+</code></pre>
+
+<p>Thanks to <a href="https://github.com/romanbsd">@romanbsd</a> for providing those tips.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Passwordless Login]]></title>
+    <link href="http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin/"/>
+    <updated>2012-03-01T00:00:00+02:00</updated>
+    <id>http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin</id>
+    <content type="html"><![CDATA[<p>I noticed that some developers didn't know about <em>Passwordless Login</em></p>
+
+<p>On your local computer, you must have an RSA public/private keys. Otherwise generate it:</p>
+
+<pre><code>ssh-keygen -t rsa
+</code></pre>
+
+<p>One row solution is here:</p>
+
+<pre><code>cat .ssh/id_rsa.pub | ssh user@example.com 'cat &gt;&gt; .ssh/authorized_keys'
+</code></pre>
+
+<p>Otherwise step-by-step explanation:</p>
+
+<p>Copy your public key to your <em>example.com</em></p>
+
+<pre><code>scp ~/.ssh/id_rsa.pub user@example.com:~/
+</code></pre>
+
+<p>SSH to your server</p>
+
+<pre><code>ssh user@example.com
+</code></pre>
+
+<p>Now, append the public key to your authorized keys file and delete the file you uploaded:</p>
+
+<pre><code>mkdir .ssh
+cat id_rsa.pub &gt;&gt; .ssh/authorized_keys
+rm id_rsa.pub
+</code></pre>
+
+<p>Make sure your permissions set properly:</p>
+
+<pre><code>chmod go-w ~
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

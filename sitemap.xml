@@ -2,46 +2,46 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin/</loc>
-        <lastmod>2012-11-13T23:18:35+02:00</lastmod>
+        <lastmod>2013-04-17T08:50:10+03:00</lastmod>
     </url>
     <url>
         <loc>http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips/</loc>
-        <lastmod>2012-11-26T10:23:15+02:00</lastmod>
+        <lastmod>2013-04-17T09:45:06+03:00</lastmod>
     </url>
     <url>
         <loc>http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby/</loc>
-        <lastmod>2012-11-26T10:29:11+02:00</lastmod>
+        <lastmod>2013-04-17T08:50:29+03:00</lastmod>
     </url>
     <url>
         <loc>http://dpaluy.github.com/blog/2012/12/04/improve-rails-bootup-time/</loc>
-        <lastmod>2012-12-05T20:38:31+02:00</lastmod>
+        <lastmod>2013-04-17T10:10:32+03:00</lastmod>
     </url>
     <url>
         <loc>http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/</loc>
-        <lastmod>2013-02-06T11:29:58+02:00</lastmod>
+        <lastmod>2013-04-17T08:51:28+03:00</lastmod>
     </url>
     <url>
         <loc>http://dpaluy.github.com/blog/2013/02/06/debugging-rails-application-part-2/</loc>
-        <lastmod>2013-04-15T10:27:36+03:00</lastmod>
+        <lastmod>2013-04-17T08:40:03+03:00</lastmod>
     </url>
     <url>
         <loc>http://dpaluy.github.com/blog/2013/04/09/profiling-rails-applications/</loc>
-        <lastmod>2013-04-15T12:10:32+03:00</lastmod>
+        <lastmod>2013-04-17T08:51:40+03:00</lastmod>
     </url>
     <url>
         <loc>http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails/</loc>
-        <lastmod>2013-04-15T14:13:20+03:00</lastmod>
+        <lastmod>2013-04-17T08:51:13+03:00</lastmod>
     </url>
     <url>
         <loc>http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots/</loc>
-        <lastmod>2013-04-17T08:24:58+03:00</lastmod>
+        <lastmod>2013-04-17T08:51:02+03:00</lastmod>
     </url>
     <url>
         <loc>http://dpaluy.github.com/</loc>
-        <lastmod>2013-04-17T08:24:58+03:00</lastmod>
+        <lastmod>2013-04-17T10:10:32+03:00</lastmod>
     </url>
     <url>
         <loc>http://dpaluy.github.com/blog/archives/</loc>
-        <lastmod>2013-04-17T08:24:58+03:00</lastmod>
+        <lastmod>2013-04-17T10:10:32+03:00</lastmod>
     </url>
 </urlset>

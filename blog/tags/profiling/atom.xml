@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: profiling | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.com/blog/tags/profiling/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.com/"/>
+  <updated>2013-04-17T10:10:45+03:00</updated>
+  <id>http://dpaluy.github.com/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Profiling Rails Applications]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/04/09/profiling-rails-applications/"/>
+    <updated>2013-04-09T01:49:00+03:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/04/09/profiling-rails-applications</id>
+    <content type="html"><![CDATA[<p>Your finaly got clients and everything works fine.</p>
+
+<p><img src="/images/mass_attack.gif" title="Users Attack" ></p>
+
+<p>But users expect several performance issues.</p>
+
+<h2>How can I profile my Ruby on Rails application?</h2>
+
+<h3>Available Tools</h3>
+
+<ul>
+<li><a href="#gc-profiler">GC::Profiler</a></li>
+<li><a href="#ruby-benchmark">Ruby Benchmark</a></li>
+<li><a href="#object-space">ObjectSpace</a></li>
+<li><a href="#ruby-prof">gem ruby-prof</a></li>
+<li><a href="#perftools">gem perftools.rb</a></li>
+</ul>
+
+
+<h4 id='gc-profiler'><a href="http://ruby-doc.org/core-1.9.3/GC/Profiler.html" target="_blank">GC::Profiler</a></h4>
+
+
+<p>The GC profiler provides access to information on GC runs including time, length and object space size.</p>
+
+<p>```ruby
+GC.start # clear GC before profiling
+GC::Profiler.enable</p>
+
+<h1>your code</h1>
+
+<p>GC.start
+puts GC::Profiler.report
+GC::Profiler.disable
+```</p>
+
+<h4 id='ruby-benchmark'><a href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/benchmark/rdoc/Benchmark.html" target="_blank">Ruby Benchmark</a></h4>
+
+
+<p>Ruby has core module to Benchmark your code. It helps you to mesure running time of your code.</p>
+
+<p>```ruby
+require 'benchmark'</p>
+
+<p>Benchmark.bm do|b|
+  b.report("+= ") do</p>
+
+<pre><code>a = ""
+500_000.times { a += "." }
+</code></pre>
+
+<p>  end</p>
+
+<p>  b.report("&lt;&lt; ") do</p>
+
+<pre><code>a = ""
+500_000.times { a &lt;&lt; "." }
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>I suggest you to add <a href="https://github.com/evanphx/benchmark_suite" target="_blank">benchmark_suite gem</a>. There is a set of enhancements to the standard library benchmark.rb</p>
+
+<h4 id='object-space'>ObjectSpace</h4>
+
+
+<p>ObjectSpace class already described in previous <a href="/blog/2013/02/06/debugging-rails-application-part-2/#object-space">post</a>.
+You should also check <a href="http://cirw.in/blog/find-references" target="_blank">Visualizing memory leaks in Ruby</a> using ObjectSpace methods.</p>
+
+<h4 id='ruby-prof'><a href="https://github.com/ruby-prof/ruby-prof" target="_blank">RUBY-PROF</a></h4>
+
+
+<p><strong>How to use in Rails:</strong></p>
+
+<ul>
+<li>Add the ruby-prof to your gemfile</li>
+</ul>
+
+
+<p><code>ruby
+group :profile do
+  gem 'ruby-prof'
+end
+</code></p>
+
+<p><strong>Note:</strong> verify your <em>/config/environments/profile.rb</em> has the following settings:</p>
+
+<p><code>ruby
+config.cache_classes = true
+config.cache_template_loading = true
+</code></p>
+
+<ul>
+<li>Add rack adapter to <strong>config.ru</strong>:</li>
+</ul>
+
+
+<p><code>ruby
+if Rails.env.profile?
+  use Rack::RubyProf, :path =&gt; '/temp/profile'
+end
+</code></p>
+
+<p><strong>Note:</strong> By default the rack adapter will generate a html call graph report and flat text report. You can add printer option as following:</p>
+
+<p><code>ruby
+use Rack::RubyProf, :path =&gt; '/temp/profile', :printers =&gt; {RubyProf::GraphHtmlPrinter =&gt; 'graph.html'} # or any other printer as described
+</code></p>
+
+<p>More printers options can be found <a href="https://github.com/ruby-prof/ruby-prof#printers" target="_blank">here</a></p>
+
+<ul>
+<li>Add Profile to your code:</li>
+</ul>
+
+
+<p>```ruby</p>
+
+<h1>define mesurment type</h1>
+
+<h1>as described: https://github.com/ruby-prof/ruby-prof#measurements</h1>
+
+<p>RubyProf.measure_mode = RubyProf::PROCESS_TIME</p>
+
+<p>RubyProf.start</p>
+
+<h1>code to profile</h1>
+
+<p>result = RubyProf.stop
+```</p>
+
+<h4 id='perftools'><a href="https://github.com/tmm1/perftools.rb" target="_blank">Perftools.rb</a></h4>
+
+
+<p>While ruby-prof is a good tool, I, personally, prefere to use <strong>perftools.rb</strong>.
+It also has a <a href="https://github.com/bhb/rack-perftools_profiler" target="_blank">rack gem</a>.</p>
+
+<p>The <strong>main advantage</strong> of perftools: it samples your process using setitimer() so it can be used in production with minimal overhead.</p>
+
+<p><strong>How to use in Rails:</strong></p>
+
+<ul>
+<li>Add the rack-perftools_profiler to your gemfile</li>
+</ul>
+
+
+<p><code>ruby
+gem 'rack-perftools_profiler', :require =&gt; 'rack/perftools_profiler'
+</code></p>
+
+<ul>
+<li>Add middleware to <strong>config/environment.rb</strong>:</li>
+</ul>
+
+
+<p><code>ruby
+config.middleware.use ::Rack::PerftoolsProfiler, :default_printer =&gt; 'pdf', :bundler =&gt; true
+</code></p>
+
+<p>See more options <a href="https://github.com/bhb/rack-perftools_profiler#options" target="_blank">here</a>.</p>
+
+<ul>
+<li>Profile your application</li>
+</ul>
+
+
+<p><code>
+curl http://localhost:3000/__start__
+curl http://localhost:3000/__stop__
+curl http://localhost:3000/__data__
+</code></p>
+
+<h3>Visualization of your report</h3>
+
+<ul>
+<li>ruby-prof and perftools.rb has support for different output formats. One of them is <a href="http://kcachegrind.sourceforge.net/html/Home.html" target="_blank">KCacheGrind</a></li>
+<li>In Ruby 2 you can gather your stack traces. Read more <a href="Flame graphs in Ruby MiniProfiler" target="_blank">here</a></li>
+</ul>
+
+
+<h2>Summary</h2>
+
+<ul>
+<li>Remember: More Objects => Longer GC => Slow application</li>
+<li>Always examine your HEAP</li>
+<li>Use Tools!</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

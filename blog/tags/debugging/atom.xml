@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: debugging | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.com/blog/tags/debugging/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.com/"/>
+  <updated>2013-04-17T10:10:45+03:00</updated>
+  <id>http://dpaluy.github.com/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Debugging Rails Application - Part 2]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/02/06/debugging-rails-application-part-2/"/>
+    <updated>2013-02-06T11:32:00+02:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/02/06/debugging-rails-application-part-2</id>
+    <content type="html"><![CDATA[<p>In previous <a href="/blog/2013/01/30/debugging-rails-application-part1/">post</a>, I described which tools I use for debugging Rails (Ruby) applications.</p>
+
+<p>In this post I will show you how to debug your Garbage Collector.</p>
+
+<h3>Why should I debug my GC?</h3>
+
+<p>First, you should understand how ruby allocates memory for new objects.
+What happened inside your OS, each time you write <code>book = Book.new</code>?</p>
+
+<p><img src="/images/how_ruby_works.png" alt="How Ruby Memory Works" /></p>
+
+<p>RVM defines Process Heap for each Ruby process. Than, it creates first Ruby Heap.
+Each Ruby Heap contains allocated objects. There is a "Free List" array inside the heap.</p>
+
+<p><img src="/images/freelist_ruby_heap.png" alt="Ruby Heap - Free List" /></p>
+
+<p>While new object allocated, the RVM looks for an empty place in "Free List" and allocates it for a newly creted one.
+If the "Free List" is empty (all slots are allocated), RVM calls to Garbage Collector (GC).</p>
+
+<p>The Garbage Collector finds non-reachable objects and remove them. If "Free List" is still empty, another Heap allocated.</p>
+
+<p><strong>Conclusion</strong>: The more objects we have, the longer GC process. And it's a cause for slow application.</p>
+
+<h3>How should I debug my GC?</h3>
+
+<p>I suggest to use <a href="https://github.com/nixme/pry-debugger">pry-debugger</a>.</p>
+
+<p>There are several tools we can use while debugging:</p>
+
+<ul>
+<li><em>ObjectSpace class</em></li>
+<li><em>Heap dump (via GC patch)</em></li>
+</ul>
+
+
+<p>But to get it all functionality you need to use patched version of Ruby.</p>
+
+<p>To enable heap dump support, pass the –enable-gcdebug option to the rvm install command:</p>
+
+<p><code>
+rvm install 1.9.3 -C --enable-gcdebug -n gcdebug
+</code></p>
+
+<h4 id="object-space"><a href="http://ruby-doc.org/core-1.9.3/ObjectSpace.html" target="_blank">ObjectSpace class</a></h4>
+
+
+<ul>
+<li><em>ObjectSpace.count_objects</em> - returns a hash of counts objects of each type</li>
+<li><a href="http://cirw.in/blog/find-references">Visualizing memory leaks in Ruby</a></li>
+</ul>
+
+
+<p>An example of method I used to get a better output:</p>
+
+<p>```ruby
+def get_object_stats
+  return_value = Hash.new
+  ObjectSpace::each_object(Object) {|my_object|</p>
+
+<pre><code>unless return_value[my_object.class.to_s.downcase].nil?
+  return_value[my_object.class.to_s.downcase][:count] += 1
+else
+  return_value[my_object.class.to_s.downcase] = Hash.new
+  return_value[my_object.class.to_s.downcase][:name] = my_object.class
+  return_value[my_object.class.to_s.downcase][:count] = 1
+end
+</code></pre>
+
+<p>  }
+  return_value.sort_by {|k,v| -v[:count]}
+end
+```</p>
+
+<p><a href="https://blog.engineyard.com/2013/ruby-concurrency">Source</a></p>
+
+<h4>Heap dump</h4>
+
+<p>```ruby
+GC.enable_stats if defined?(GC) &amp;&amp; GC.respond_to?(:enable_stats)
+GC.start # clean up heap</p>
+
+<h1>...</h1>
+
+<h1>YOUR CODE GOES HERE</h1>
+
+<h1>...</h1>
+
+<h1>dump it, including class names of heap objects</h1>
+
+<p>GC.dump_file_and_line_info(filename: "heap.dump", include_class_names: true)
+stat_string = "allocated: #{GC.allocated_size/1024}K total in #{GC.num_allocations} allocations, GC calls: #{GC.collections}, GC time: #{GC.time / 1000} msec"
+```</p>
+
+<h3>Other interesting solutions to check:</h3>
+
+<ul>
+<li><a href="https://github.com/tmm1/gdb.rb">gdb7 hooks for MRI</a></li>
+<li><a href="http://patshaughnessy.net/2012/3/23/why-you-should-be-excited-about-garbage-collection-in-ruby-2-0">Why You Should Be Excited About Garbage Collection in Ruby 2.0</a></li>
+<li><a href="https://github.com/tmm1/rbtrace">Trace for Ruby</a></li>
+<li><a href="http://vimeo.com/12748731">GoRuCo 2010 - Aman Gupta - memprof: the ruby level memory profiler</a> - A little bit outdated but very interesting</li>
+</ul>
+
+
+<p><em>Note</em>: the <a href="https://github.com/ice799/memprof">memprof</a> works only with Ruby 1.8.x</p>
+
+<p>My <a href="https://speakerdeck.com/dpaluy/debugging-and-profiling-rails-app">slides</a> at <a href="http://www.rubyunderground.co.il/">RubyUnderground</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Debugging Rails Application - Part 1]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/"/>
+    <updated>2013-01-30T09:25:00+02:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1</id>
+    <content type="html"><![CDATA[<h2>How to debug Rails application?</h2>
+
+<p>There are several gems to debug your Ruby code:</p>
+
+<h3><strong><a href="https://github.com/cldwalker/debugger">debugger</a></strong> - A fork of ruby-debug that works on Ruby 1.9.3</h3>
+
+<p><strong>Install</strong> (rvm):
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>gem install debugger -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-p374/
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gemfile </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;gem &#39;debugger&#39;</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><strong>Usage</strong>:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
+</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;debugger&#39;</span><span class="p">;</span> <span class="n">debugger</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3><strong><a href="https://github.com/nixme/pry-debugger">pry-debugger</a></strong> - Using debugger within <a href="https://github.com/pry/pry">pry</a></h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gemfile </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;gem &#39;pry-debugger&#39;</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><strong>Configuration</strong> (Optional):</p>
+
+<p>Add aliases:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>$HOME/.pryrc </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;con&#39;</span><span class="p">,</span> <span class="s1">&#39;continue&#39;</span>
+</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span>
+</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;next&#39;</span>
+</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;fin&#39;</span><span class="p">,</span> <span class="s1">&#39;finish&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p><strong><em>NOTE: You won't be able to use those words as params while debugging</em></strong></p>
+
+<p><strong>Usage</strong>:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
+</span><span class='line'>  <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Example:
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>home_controller.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="no">ApplicationController</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;def index</span>
+</span><span class='line'><span class="sr">  # Some code ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">  binding.pry</span>
+</span><span class='line'><span class="sr">  # Code to debug</span>
+</span><span class='line'><span class="sr">  # ...</span>
+</span><span class='line'><span class="sr">end</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Now start your rails server (<em>rails s</em>) and visit your controller url: <em>http://localhost:3000/home</em>. The pry debugger console will appear in your terminal.
+You can use all <a href="https://github.com/pry/pry">pry</a> functionality inside your application in addition to predefined aliases(next, step, continue, etc.).</p>
+
+<p><strong>Other useful commands:</strong></p>
+
+<ul>
+<li><strong>help</strong> - show a list of available commands</li>
+<li><strong>exit</strong> - exit a context with a user provided value</li>
+<li><strong>whereami</strong> - describe the current location (alternative: <strong>$</strong>)</li>
+<li><strong>break</strong> - set a breakpoint</li>
+<li><strong>wtf -v</strong> - see the entire backtrace</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>
