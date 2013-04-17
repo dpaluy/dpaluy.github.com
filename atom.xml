@@ -4,7 +4,7 @@
   <title><![CDATA[Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.com/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.com/"/>
-  <updated>2013-04-15T14:13:20+03:00</updated>
+  <updated>2013-04-17T08:24:59+03:00</updated>
   <id>http://dpaluy.github.com/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -12,6 +12,104 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[protect email from spam bots]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots/"/>
+    <updated>2013-04-16T23:54:00+03:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
+
+<p>Spam bots are getting a lot smarter at harvesting email addresses from web pages. Use <em>encode</em> option while using <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-mail_to" target="_blank">mail_to</a></p>
+
+<h2>Ways to protect your email: me@domain.com</h2>
+
+<ul>
+<li>Weak solution - substitute characters: <strong>me_at_domain_dot_com</strong></li>
+<li>Weak solution - HEX encoding: <strong>%6d%65@%64%6f%6d%61%69%6e.%63%6f%6d</strong></li>
+<li>Better solution - Javascript encoding:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">mail_to</span> <span class="s2">&quot;me@domain.com&quot;</span><span class="p">,</span> <span class="s2">&quot;Contact us&quot;</span><span class="p">,</span> <span class="ss">:encode</span> <span class="o">=&gt;</span> <span class="s2">&quot;javascript&quot;</span>
+</span><span class='line'><span class="c1"># =&gt; &lt;script type=&quot;text/javascript&quot;&gt;eval(decodeURIComponent(&#39;%64%6f%63...%27%29%3b&#39;))&lt;/script&gt;</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># The JavaScript evaluates the following:</span>
+</span><span class='line'><span class="c1"># document.write(&#39;&lt;a href=\&quot;mailto:me@domain.com\&quot;&gt;Contact us&lt;\/a&gt;&#39;);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Check more details <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-mail_to" target="_blank">here</a>.</p>
+
+<h3>Another way to encode your mail_to with JavaScript</h3>
+
+<p><a href="http://www.jottings.com/obfuscator.htm" target="_blank">Email obfuscator script 2.1 by Tim Williams</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">script</span> <span class="n">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="n">language</span><span class="o">=</span><span class="s2">&quot;javascript&quot;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;!--</span>
+</span><span class='line'><span class="sr">//</span> <span class="no">Email</span> <span class="n">obfuscator</span> <span class="n">script</span> <span class="mi">2</span><span class="o">.</span><span class="mi">1</span> <span class="n">by</span> <span class="no">Tim</span> <span class="no">Williams</span><span class="p">,</span> <span class="no">University</span> <span class="n">of</span> <span class="no">Arizona</span>
+</span><span class='line'><span class="sr">//</span> <span class="no">Random</span> <span class="n">encryption</span> <span class="n">key</span> <span class="n">feature</span> <span class="n">by</span> <span class="no">Andrew</span> <span class="no">Moulden</span><span class="p">,</span> <span class="no">Site</span> <span class="no">Engineering</span> <span class="no">Ltd</span>
+</span><span class='line'><span class="sr">//</span> <span class="no">This</span> <span class="n">code</span> <span class="n">is</span> <span class="n">freeware</span> <span class="n">provided</span> <span class="n">these</span> <span class="n">four</span> <span class="n">comment</span> <span class="n">lines</span> <span class="n">remain</span> <span class="n">intact</span>
+</span><span class='line'><span class="sr">//</span> <span class="n">A</span> <span class="n">wizard</span> <span class="n">to</span> <span class="n">generate</span> <span class="n">this</span> <span class="n">code</span> <span class="n">is</span> <span class="n">at</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">www</span><span class="o">.</span><span class="n">jottings</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">obfuscator</span><span class="o">/</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">coded</span> <span class="o">=</span> <span class="s2">&quot;B6@LSBeJv.ASB&quot;</span>
+</span><span class='line'>  <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;78ncPmS9z0hseXrvAKBlgi1OC6tjYU2qdIJw5MVfQyb3ZLH4ExRWNTpoFkuGDa&quot;</span>
+</span><span class='line'>  <span class="n">shift</span><span class="o">=</span><span class="n">coded</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>  <span class="n">link</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">coded</span><span class="o">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">coded</span><span class="o">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">==-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">ltr</span> <span class="o">=</span> <span class="n">coded</span><span class="o">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">link</span> <span class="o">+=</span> <span class="p">(</span><span class="n">ltr</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">ltr</span> <span class="o">=</span> <span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">coded</span><span class="o">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">-</span><span class="n">shift</span><span class="o">+</span><span class="n">key</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">%</span> <span class="n">key</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>      <span class="n">link</span> <span class="o">+=</span> <span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">ltr</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">document</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&lt;a href=&#39;mailto:&quot;</span><span class="o">+</span><span class="n">link</span><span class="o">+</span><span class="s2">&quot;&#39;&gt;Contact us&lt;/a&gt;&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="sr">//</span><span class="o">--&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/script&gt;&lt;noscript&gt;Sorry, you need Javascript on to email me.&lt;/nos</span><span class="n">cript</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Important! You can&#8217;t protect your email 100%</h3>
+
+<p>If the bot evaluates JavaScript before harvesting email addresses, you can&#8217;t resist it.</p>
+
+<p>For example, it can be done using <a href="http://phantomjs.org/" target='_blank'>PhantomJS</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Caution - to_time in Rails]]></title>

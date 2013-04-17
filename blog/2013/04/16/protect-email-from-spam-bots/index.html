@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>protect email from spam bots - Paluy on Miscellaneous</title>
+  <meta name="author" content="David Paluy">
+
+  
+  <meta name="description" content="TL;DR Spam bots are getting a lot smarter at harvesting email addresses from web pages. Use encode option while using mail_to Ways to protect your &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Paluy on Miscellaneous" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-29316119-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Paluy on Miscellaneous</a></h1>
+  
+    <h2>Of course I'm an optimist - I don't see much point in being anything else. - Winston Churchill</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dpaluy.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Protect Email From Spam Bots</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-16T23:54:00+03:00" pubdate data-updated="true">Apr 16<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>TL;DR</h2>
+
+<p>Spam bots are getting a lot smarter at harvesting email addresses from web pages. Use <em>encode</em> option while using <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-mail_to" target="_blank">mail_to</a></p>
+
+<h2>Ways to protect your email: me@domain.com</h2>
+
+<ul>
+<li>Weak solution - substitute characters: <strong>me_at_domain_dot_com</strong></li>
+<li>Weak solution - HEX encoding: <strong>%6d%65@%64%6f%6d%61%69%6e.%63%6f%6d</strong></li>
+<li>Better solution - Javascript encoding:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">mail_to</span> <span class="s2">&quot;me@domain.com&quot;</span><span class="p">,</span> <span class="s2">&quot;Contact us&quot;</span><span class="p">,</span> <span class="ss">:encode</span> <span class="o">=&gt;</span> <span class="s2">&quot;javascript&quot;</span>
+</span><span class='line'><span class="c1"># =&gt; &lt;script type=&quot;text/javascript&quot;&gt;eval(decodeURIComponent(&#39;%64%6f%63...%27%29%3b&#39;))&lt;/script&gt;</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># The JavaScript evaluates the following:</span>
+</span><span class='line'><span class="c1"># document.write(&#39;&lt;a href=\&quot;mailto:me@domain.com\&quot;&gt;Contact us&lt;\/a&gt;&#39;);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Check more details <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-mail_to" target="_blank">here</a>.</p>
+
+<h3>Another way to encode your mail_to with JavaScript</h3>
+
+<p><a href="http://www.jottings.com/obfuscator.htm" target="_blank">Email obfuscator script 2.1 by Tim Williams</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">script</span> <span class="n">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="n">language</span><span class="o">=</span><span class="s2">&quot;javascript&quot;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;!--</span>
+</span><span class='line'><span class="sr">//</span> <span class="no">Email</span> <span class="n">obfuscator</span> <span class="n">script</span> <span class="mi">2</span><span class="o">.</span><span class="mi">1</span> <span class="n">by</span> <span class="no">Tim</span> <span class="no">Williams</span><span class="p">,</span> <span class="no">University</span> <span class="n">of</span> <span class="no">Arizona</span>
+</span><span class='line'><span class="sr">//</span> <span class="no">Random</span> <span class="n">encryption</span> <span class="n">key</span> <span class="n">feature</span> <span class="n">by</span> <span class="no">Andrew</span> <span class="no">Moulden</span><span class="p">,</span> <span class="no">Site</span> <span class="no">Engineering</span> <span class="no">Ltd</span>
+</span><span class='line'><span class="sr">//</span> <span class="no">This</span> <span class="n">code</span> <span class="n">is</span> <span class="n">freeware</span> <span class="n">provided</span> <span class="n">these</span> <span class="n">four</span> <span class="n">comment</span> <span class="n">lines</span> <span class="n">remain</span> <span class="n">intact</span>
+</span><span class='line'><span class="sr">//</span> <span class="n">A</span> <span class="n">wizard</span> <span class="n">to</span> <span class="n">generate</span> <span class="n">this</span> <span class="n">code</span> <span class="n">is</span> <span class="n">at</span> <span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">www</span><span class="o">.</span><span class="n">jottings</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">obfuscator</span><span class="o">/</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">coded</span> <span class="o">=</span> <span class="s2">&quot;B6@LSBeJv.ASB&quot;</span>
+</span><span class='line'>  <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;78ncPmS9z0hseXrvAKBlgi1OC6tjYU2qdIJw5MVfQyb3ZLH4ExRWNTpoFkuGDa&quot;</span>
+</span><span class='line'>  <span class="n">shift</span><span class="o">=</span><span class="n">coded</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>  <span class="n">link</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">coded</span><span class="o">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">coded</span><span class="o">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">==-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">ltr</span> <span class="o">=</span> <span class="n">coded</span><span class="o">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">link</span> <span class="o">+=</span> <span class="p">(</span><span class="n">ltr</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">ltr</span> <span class="o">=</span> <span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">coded</span><span class="o">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">-</span><span class="n">shift</span><span class="o">+</span><span class="n">key</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">%</span> <span class="n">key</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>      <span class="n">link</span> <span class="o">+=</span> <span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">charAt</span><span class="p">(</span><span class="n">ltr</span><span class="p">))</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">document</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&lt;a href=&#39;mailto:&quot;</span><span class="o">+</span><span class="n">link</span><span class="o">+</span><span class="s2">&quot;&#39;&gt;Contact us&lt;/a&gt;&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="sr">//</span><span class="o">--&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="sr">/script&gt;&lt;noscript&gt;Sorry, you need Javascript on to email me.&lt;/nos</span><span class="n">cript</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Important! You can&#8217;t protect your email 100%</h3>
+
+<p>If the bot evaluates JavaScript before harvesting email addresses, you can&#8217;t resist it.</p>
+
+<p>For example, it can be done using <a href="http://phantomjs.org/" target='_blank'>PhantomJS</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">David Paluy</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-16T23:54:00+03:00" pubdate data-updated="true">Apr 16<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/obfuscate-email/'>Obfuscate Email</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots/" data-via="dpaluy" data-counturl="http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/04/15/caution-to-time-in-rails/" title="Previous Post: Caution - to_time in Rails">&laquo; Caution - to_time in Rails</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/16/protect-email-from-spam-bots/">protect email from spam bots</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/15/caution-to-time-in-rails/">Caution - to_time in Rails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/04/09/profiling-rails-applications/">Profiling Rails Applications</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/02/06/debugging-rails-application-part-2/">Debugging Rails Application - Part 2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/30/debugging-rails-application-part1/">Debugging Rails Application - Part 1</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("dpaluy", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/dpaluy" class="twitter-follow-button" data-show-count="false">Follow @dpaluy</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - David Paluy -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'paluyonmiscellaneous';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots/';
+        var disqus_url = 'http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
