@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Admin | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.com/blog/categories/admin/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.com/"/>
+  <updated>2013-04-29T23:39:54+03:00</updated>
+  <id>http://dpaluy.github.com/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Process Information]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/04/29/process-information/"/>
+    <updated>2013-04-29T23:09:00+03:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/04/29/process-information</id>
+    <content type="html"><![CDATA[<p>I found it very useful to see my application process info on an admin page, as following:</p>
+
+<p><img src="/images/process_info.png" title="Process Info" ></p>
+
+<p>You can do it inside your Rails app.</p>
+
+<p>Inside your <em>controller/admin_controller.rb</em>:</p>
+
+<p><code>``ruby
+def index
+  @processes =</code>ps -g #{Process.getsid($$)} -o pid,wchan,%cpu,%mem,rss,vsz,command`.strip.split("\n")
+  @proc_headers = @processes.shift.split(/\s+/)
+  @processes.map! { |line| line.strip.split(/\s+/, @proc_headers.size) }.</p>
+
+<pre><code>  reject! { |line| line.last.start_with?('ps -g') }
+</code></pre>
+
+<p>end
+```</p>
+
+<p>and add the following to your <em>view/admin/index.html.erb</em></p>
+
+<p>```erb</p>
+
+<table>
+  <thead>
+    <tr>
+    <% @proc_headers.each do |th| %>
+      <th><%= th %></th>
+    <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @processes.each do |line| %>
+      <tr>
+      <% line.each do |td| %>
+        <td><%= td %></td>
+      <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<p>```</p>
+
+<p>I would like to thank <a href="https://twitter.com/romanbsd">@romanbsd</a> for this source.</p>
+]]></content>
+  </entry>
+  
+</feed>

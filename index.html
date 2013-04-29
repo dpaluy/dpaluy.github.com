@@ -9,7 +9,7 @@
   <meta name="author" content="David Paluy">
 
   
-  <meta name="description" content="TL;DR Spam bots are getting a lot smarter at harvesting email addresses from web pages. Use encode option while using mail_to Ways to protect your &hellip;">
+  <meta name="description" content="I found it very useful to see my application process info on an admin page, as following: You can do it inside your Rails app. Inside your controller &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,106 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/29/process-information/">Process Information</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-29T23:09:00+03:00" pubdate data-updated="true">Apr 29<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I found it very useful to see my application process info on an admin page, as following:</p>
+
+<p><img src="/images/process_info.png" title="Process Info" ></p>
+
+<p>You can do it inside your Rails app.</p>
+
+<p>Inside your <em>controller/admin_controller.rb</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@processes</span> <span class="o">=</span> <span class="sb">`ps -g </span><span class="si">#{</span><span class="no">Process</span><span class="o">.</span><span class="n">getsid</span><span class="p">(</span><span class="vg">$$</span><span class="p">)</span><span class="si">}</span><span class="sb"> -o pid,wchan,%cpu,%mem,rss,vsz,command`</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@proc_headers</span> <span class="o">=</span> <span class="vi">@processes</span><span class="o">.</span><span class="n">shift</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sr">/\s+/</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@processes</span><span class="o">.</span><span class="n">map!</span> <span class="p">{</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sr">/\s+/</span><span class="p">,</span> <span class="vi">@proc_headers</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="p">}</span><span class="o">.</span>
+</span><span class='line'>      <span class="n">reject!</span> <span class="p">{</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span> <span class="n">line</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="s1">&#39;ps -g&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and add the following to your <em>view/admin/index.html.erb</em></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;table&gt;</span>
+</span><span class='line'><span class="x">  &lt;thead&gt;</span>
+</span><span class='line'><span class="x">    &lt;tr&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="vi">@proc_headers</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">th</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;th&gt;</span><span class="cp">&lt;%=</span> <span class="n">th</span> <span class="cp">%&gt;</span><span class="x">&lt;/th&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/tr&gt;</span>
+</span><span class='line'><span class="x">  &lt;/thead&gt;</span>
+</span><span class='line'><span class="x">  &lt;tbody&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="vi">@processes</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;tr&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="n">line</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">td</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">        &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">td</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;/tr&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;/tbody&gt;</span>
+</span><span class='line'><span class="x">&lt;/table&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I would like to thank <a href="https://twitter.com/romanbsd">@romanbsd</a> for this source.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1191,6 +1291,10 @@ chmod 600 ~/.ssh/authorized_keys
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/04/29/process-information/">Process Information</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/04/16/protect-email-from-spam-bots/">protect email from spam bots</a>
       </li>
     
@@ -1204,10 +1308,6 @@ chmod 600 ~/.ssh/authorized_keys
     
       <li class="post">
         <a href="/blog/2013/02/06/debugging-rails-application-part-2/">Debugging Rails Application - Part 2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/01/30/debugging-rails-application-part1/">Debugging Rails Application - Part 1</a>
       </li>
     
   </ul>
@@ -1237,13 +1337,13 @@ chmod 600 ~/.ssh/authorized_keys
   <h1>Tags</h1>
   <ul class="tag-cloud">
 <li><a style="font-size: 165%" href="/blog/tags/rubyonrails/">rubyonrails</a></li>
-<li><a style="font-size: 155%" href="/blog/tags/ruby/">ruby</a></li>
-<li><a style="font-size: 107%" href="/blog/tags/debugging/">debugging</a></li>
-<li><a style="font-size: 107%" href="/blog/tags/tips/">tips</a></li>
-<li><a style="font-size: 107%" href="/blog/tags/optimization/">optimization</a></li>
-<li><a style="font-size: 70%" href="/blog/tags/debug/">debug</a></li>
-<li><a style="font-size: 70%" href="/blog/tags/rest/">REST</a></li>
+<li><a style="font-size: 149%" href="/blog/tags/ruby/">ruby</a></li>
+<li><a style="font-size: 104%" href="/blog/tags/debugging/">debugging</a></li>
+<li><a style="font-size: 104%" href="/blog/tags/tips/">tips</a></li>
+<li><a style="font-size: 104%" href="/blog/tags/optimization/">optimization</a></li>
 <li><a style="font-size: 70%" href="/blog/tags/net/">NET</a></li>
+<li><a style="font-size: 70%" href="/blog/tags/admin/">admin</a></li>
+<li><a style="font-size: 70%" href="/blog/tags/process/">process</a></li>
 
   </ul>
 </section>

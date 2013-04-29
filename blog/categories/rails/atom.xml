@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.com/"/>
-  <updated>2013-04-18T13:07:12+03:00</updated>
+  <updated>2013-04-29T23:39:54+03:00</updated>
   <id>http://dpaluy.github.com/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -12,6 +12,61 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Process Information]]></title>
+    <link href="http://dpaluy.github.com/blog/2013/04/29/process-information/"/>
+    <updated>2013-04-29T23:09:00+03:00</updated>
+    <id>http://dpaluy.github.com/blog/2013/04/29/process-information</id>
+    <content type="html"><![CDATA[<p>I found it very useful to see my application process info on an admin page, as following:</p>
+
+<p><img src="/images/process_info.png" title="Process Info" ></p>
+
+<p>You can do it inside your Rails app.</p>
+
+<p>Inside your <em>controller/admin_controller.rb</em>:</p>
+
+<p><code>``ruby
+def index
+  @processes =</code>ps -g #{Process.getsid($$)} -o pid,wchan,%cpu,%mem,rss,vsz,command`.strip.split("\n")
+  @proc_headers = @processes.shift.split(/\s+/)
+  @processes.map! { |line| line.strip.split(/\s+/, @proc_headers.size) }.</p>
+
+<pre><code>  reject! { |line| line.last.start_with?('ps -g') }
+</code></pre>
+
+<p>end
+```</p>
+
+<p>and add the following to your <em>view/admin/index.html.erb</em></p>
+
+<p>```erb</p>
+
+<table>
+  <thead>
+    <tr>
+    <% @proc_headers.each do |th| %>
+      <th><%= th %></th>
+    <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @processes.each do |line| %>
+      <tr>
+      <% line.each do |td| %>
+        <td><%= td %></td>
+      <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<p>```</p>
+
+<p>I would like to thank <a href="https://twitter.com/romanbsd">@romanbsd</a> for this source.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[protect email from spam bots]]></title>
@@ -447,137 +502,6 @@ stat_string = "allocated: #{GC.allocated_size/1024}K total in #{GC.num_allocatio
 <p><em>Note</em>: the <a href="https://github.com/ice799/memprof">memprof</a> works only with Ruby 1.8.x</p>
 
 <p>My <a href="https://speakerdeck.com/dpaluy/debugging-and-profiling-rails-app">slides</a> at <a href="http://www.rubyunderground.co.il/">RubyUnderground</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Debugging Rails Application - Part 1]]></title>
-    <link href="http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/"/>
-    <updated>2013-01-30T09:25:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1</id>
-    <content type="html"><![CDATA[<h2>How to debug Rails application?</h2>
-
-<p>There are several gems to debug your Ruby code:</p>
-
-<h3><strong><a href="https://github.com/cldwalker/debugger">debugger</a></strong> - A fork of ruby-debug that works on Ruby 1.9.3</h3>
-
-<p><strong>Install</strong> (rvm):
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>gem install debugger -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-p374/
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gemfile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;gem &#39;debugger&#39;</span>
-</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p><strong>Usage</strong>:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
-</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;debugger&#39;</span><span class="p">;</span> <span class="n">debugger</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<h3><strong><a href="https://github.com/nixme/pry-debugger">pry-debugger</a></strong> - Using debugger within <a href="https://github.com/pry/pry">pry</a></h3>
-
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gemfile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;gem &#39;pry-debugger&#39;</span>
-</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p><strong>Configuration</strong> (Optional):</p>
-
-<p>Add aliases:
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>$HOME/.pryrc </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;con&#39;</span><span class="p">,</span> <span class="s1">&#39;continue&#39;</span>
-</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span>
-</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;next&#39;</span>
-</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;fin&#39;</span><span class="p">,</span> <span class="s1">&#39;finish&#39;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p><strong><em>NOTE: You won't be able to use those words as params while debugging</em></strong></p>
-
-<p><strong>Usage</strong>:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
-</span><span class='line'>  <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Example:
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>home_controller.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="no">ApplicationController</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;def index</span>
-</span><span class='line'><span class="sr">  # Some code ...</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">  binding.pry</span>
-</span><span class='line'><span class="sr">  # Code to debug</span>
-</span><span class='line'><span class="sr">  # ...</span>
-</span><span class='line'><span class="sr">end</span>
-</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
-
-<p>Now start your rails server (<em>rails s</em>) and visit your controller url: <em>http://localhost:3000/home</em>. The pry debugger console will appear in your terminal.
-You can use all <a href="https://github.com/pry/pry">pry</a> functionality inside your application in addition to predefined aliases(next, step, continue, etc.).</p>
-
-<p><strong>Other useful commands:</strong></p>
-
-<ul>
-<li><strong>help</strong> - show a list of available commands</li>
-<li><strong>exit</strong> - exit a context with a user provided value</li>
-<li><strong>whereami</strong> - describe the current location (alternative: <strong>$</strong>)</li>
-<li><strong>break</strong> - set a breakpoint</li>
-<li><strong>wtf -v</strong> - see the entire backtrace</li>
-</ul>
-
 ]]></content>
   </entry>
   
