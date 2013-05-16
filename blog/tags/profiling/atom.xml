@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: profiling | Paluy on Miscellaneous]]></title>
-  <link href="http://dpaluy.github.com/blog/tags/profiling/atom.xml" rel="self"/>
-  <link href="http://dpaluy.github.com/"/>
-  <updated>2013-04-29T23:50:15+03:00</updated>
-  <id>http://dpaluy.github.com/</id>
+  <link href="http://dpaluy.github.io/blog/tags/profiling/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.io/"/>
+  <updated>2013-05-16T18:08:01+03:00</updated>
+  <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Profiling Rails Applications]]></title>
-    <link href="http://dpaluy.github.com/blog/2013/04/09/profiling-rails-applications/"/>
+    <link href="http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications/"/>
     <updated>2013-04-09T01:49:00+03:00</updated>
-    <id>http://dpaluy.github.com/blog/2013/04/09/profiling-rails-applications</id>
+    <id>http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications</id>
     <content type="html"><![CDATA[<p>Your finaly got clients and everything works fine.</p>
 
 <p><img src="/images/mass_attack.gif" title="Users Attack" ></p>

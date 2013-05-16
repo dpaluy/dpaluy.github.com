@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: debugging | Paluy on Miscellaneous]]></title>
-  <link href="http://dpaluy.github.com/blog/tags/debugging/atom.xml" rel="self"/>
-  <link href="http://dpaluy.github.com/"/>
-  <updated>2013-04-29T23:50:15+03:00</updated>
-  <id>http://dpaluy.github.com/</id>
+  <link href="http://dpaluy.github.io/blog/tags/debugging/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.io/"/>
+  <updated>2013-05-16T18:08:01+03:00</updated>
+  <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Debugging Rails Application - Part 2]]></title>
-    <link href="http://dpaluy.github.com/blog/2013/02/06/debugging-rails-application-part-2/"/>
+    <link href="http://dpaluy.github.io/blog/2013/02/06/debugging-rails-application-part-2/"/>
     <updated>2013-02-06T11:32:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2013/02/06/debugging-rails-application-part-2</id>
+    <id>http://dpaluy.github.io/blog/2013/02/06/debugging-rails-application-part-2</id>
     <content type="html"><![CDATA[<p>In previous <a href="/blog/2013/01/30/debugging-rails-application-part1/">post</a>, I described which tools I use for debugging Rails (Ruby) applications.</p>
 
 <p>In this post I will show you how to debug your Garbage Collector.</p>
@@ -129,9 +129,9 @@ stat_string = "allocated: #{GC.allocated_size/1024}K total in #{GC.num_allocatio
   
   <entry>
     <title type="html"><![CDATA[Debugging Rails Application - Part 1]]></title>
-    <link href="http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/"/>
+    <link href="http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1/"/>
     <updated>2013-01-30T09:25:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1</id>
+    <id>http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1</id>
     <content type="html"><![CDATA[<h2>How to debug Rails application?</h2>
 
 <p>There are several gems to debug your Ruby code:</p>

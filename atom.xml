@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Paluy on Miscellaneous]]></title>
-  <link href="http://dpaluy.github.com/atom.xml" rel="self"/>
-  <link href="http://dpaluy.github.com/"/>
-  <updated>2013-04-29T23:50:15+03:00</updated>
-  <id>http://dpaluy.github.com/</id>
+  <link href="http://dpaluy.github.io/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.io/"/>
+  <updated>2013-05-16T18:08:01+03:00</updated>
+  <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
     
@@ -15,12 +15,12 @@
   
   <entry>
     <title type="html"><![CDATA[Process Information]]></title>
-    <link href="http://dpaluy.github.com/blog/2013/04/29/process-information/"/>
+    <link href="http://dpaluy.github.io/blog/2013/04/29/process-information/"/>
     <updated>2013-04-29T23:09:00+03:00</updated>
-    <id>http://dpaluy.github.com/blog/2013/04/29/process-information</id>
+    <id>http://dpaluy.github.io/blog/2013/04/29/process-information</id>
     <content type="html"><![CDATA[<p>I found it very useful to see my application process info on an admin page, as following:</p>
 
-<p><img src="http://dpaluy.github.com/images/process_info.png" title="Process Info" ></p>
+<p><img src="http://dpaluy.github.io/images/process_info.png" title="Process Info" ></p>
 
 <p>You can do it inside your Rails app.</p>
 
@@ -88,9 +88,9 @@
   
   <entry>
     <title type="html"><![CDATA[protect email from spam bots]]></title>
-    <link href="http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots/"/>
+    <link href="http://dpaluy.github.io/blog/2013/04/16/protect-email-from-spam-bots/"/>
     <updated>2013-04-16T23:54:00+03:00</updated>
-    <id>http://dpaluy.github.com/blog/2013/04/16/protect-email-from-spam-bots</id>
+    <id>http://dpaluy.github.io/blog/2013/04/16/protect-email-from-spam-bots</id>
     <content type="html"><![CDATA[<h2>TL;DR</h2>
 
 <p>Spam bots are getting a lot smarter at harvesting email addresses from web pages. Use <em>encode</em> option while using <a href="http://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-mail_to" target="_blank">mail_to</a></p>
@@ -186,9 +186,9 @@
   
   <entry>
     <title type="html"><![CDATA[Caution - to_time in Rails]]></title>
-    <link href="http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails/"/>
+    <link href="http://dpaluy.github.io/blog/2013/04/15/caution-to-time-in-rails/"/>
     <updated>2013-04-15T13:14:00+03:00</updated>
-    <id>http://dpaluy.github.com/blog/2013/04/15/caution-to-time-in-rails</id>
+    <id>http://dpaluy.github.io/blog/2013/04/15/caution-to-time-in-rails</id>
     <content type="html"><![CDATA[<h2>TL;DR</h2>
 
 <p>Attention on time zone while using <em>today.to_time</em> in your Rails application!</p>
@@ -243,12 +243,12 @@
   
   <entry>
     <title type="html"><![CDATA[Profiling Rails Applications]]></title>
-    <link href="http://dpaluy.github.com/blog/2013/04/09/profiling-rails-applications/"/>
+    <link href="http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications/"/>
     <updated>2013-04-09T01:49:00+03:00</updated>
-    <id>http://dpaluy.github.com/blog/2013/04/09/profiling-rails-applications</id>
+    <id>http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications</id>
     <content type="html"><![CDATA[<p>Your finaly got clients and everything works fine.</p>
 
-<p><img src="http://dpaluy.github.com/images/mass_attack.gif" title="Users Attack" ></p>
+<p><img src="http://dpaluy.github.io/images/mass_attack.gif" title="Users Attack" ></p>
 
 <p>But users expect several performance issues.</p>
 
@@ -330,7 +330,7 @@
 <h4 id='object-space'>ObjectSpace</h4>
 
 
-<p>ObjectSpace class already described in previous <a href="http://dpaluy.github.com/blog/2013/02/06/debugging-rails-application-part-2/#object-space">post</a>.
+<p>ObjectSpace class already described in previous <a href="http://dpaluy.github.io/blog/2013/02/06/debugging-rails-application-part-2/#object-space">post</a>.
 You should also check <a href="http://cirw.in/blog/find-references" target="_blank">Visualizing memory leaks in Ruby</a> using ObjectSpace methods.</p>
 
 <h4 id='ruby-prof'><a href="https://github.com/ruby-prof/ruby-prof" target="_blank">RUBY-PROF</a></h4>
@@ -479,10 +479,10 @@ It also has a <a href="https://github.com/bhb/rack-perftools_profiler" target="_
   
   <entry>
     <title type="html"><![CDATA[Debugging Rails Application - Part 2]]></title>
-    <link href="http://dpaluy.github.com/blog/2013/02/06/debugging-rails-application-part-2/"/>
+    <link href="http://dpaluy.github.io/blog/2013/02/06/debugging-rails-application-part-2/"/>
     <updated>2013-02-06T11:32:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2013/02/06/debugging-rails-application-part-2</id>
-    <content type="html"><![CDATA[<p>In previous <a href="http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/">post</a>, I described which tools I use for debugging Rails (Ruby) applications.</p>
+    <id>http://dpaluy.github.io/blog/2013/02/06/debugging-rails-application-part-2</id>
+    <content type="html"><![CDATA[<p>In previous <a href="http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1/">post</a>, I described which tools I use for debugging Rails (Ruby) applications.</p>
 
 <p>In this post I will show you how to debug your Garbage Collector.</p>
 
@@ -491,12 +491,12 @@ It also has a <a href="https://github.com/bhb/rack-perftools_profiler" target="_
 <p>First, you should understand how ruby allocates memory for new objects.
 What happened inside your OS, each time you write <code>book = Book.new</code>?</p>
 
-<p><img src="http://dpaluy.github.com/images/how_ruby_works.png" alt="How Ruby Memory Works" /></p>
+<p><img src="http://dpaluy.github.io/images/how_ruby_works.png" alt="How Ruby Memory Works" /></p>
 
 <p>RVM defines Process Heap for each Ruby process. Than, it creates first Ruby Heap.
 Each Ruby Heap contains allocated objects. There is a &#8220;Free List&#8221; array inside the heap.</p>
 
-<p><img src="http://dpaluy.github.com/images/freelist_ruby_heap.png" alt="Ruby Heap - Free List" /></p>
+<p><img src="http://dpaluy.github.io/images/freelist_ruby_heap.png" alt="Ruby Heap - Free List" /></p>
 
 <p>While new object allocated, the RVM looks for an empty place in &#8220;Free List&#8221; and allocates it for a newly creted one.
 If the &#8220;Free List&#8221; is empty (all slots are allocated), RVM calls to Garbage Collector (GC).</p>
@@ -608,9 +608,9 @@ If the &#8220;Free List&#8221; is empty (all slots are allocated), RVM calls to 
   
   <entry>
     <title type="html"><![CDATA[Debugging Rails Application - Part 1]]></title>
-    <link href="http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1/"/>
+    <link href="http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1/"/>
     <updated>2013-01-30T09:25:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2013/01/30/debugging-rails-application-part1</id>
+    <id>http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1</id>
     <content type="html"><![CDATA[<h2>How to debug Rails application?</h2>
 
 <p>There are several gems to debug your Ruby code:</p>
@@ -725,9 +725,9 @@ You can use all <a href="https://github.com/pry/pry">pry</a> functionality insid
   
   <entry>
     <title type="html"><![CDATA[Improve Rails Bootup Time]]></title>
-    <link href="http://dpaluy.github.com/blog/2012/12/04/improve-rails-bootup-time/"/>
+    <link href="http://dpaluy.github.io/blog/2012/12/04/improve-rails-bootup-time/"/>
     <updated>2012-12-04T21:27:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2012/12/04/improve-rails-bootup-time</id>
+    <id>http://dpaluy.github.io/blog/2012/12/04/improve-rails-bootup-time</id>
     <content type="html"><![CDATA[<h3>Guide: How to improve your Rails Bootup Time</h3>
 
 <h4>Benchmarks:</h4>
@@ -775,9 +775,9 @@ It&#8217;s a part of <a href="https://gist.github.com/4136519">falcon patch</a> 
   
   <entry>
     <title type="html"><![CDATA[Optimize your RVM Ruby ]]></title>
-    <link href="http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby/"/>
+    <link href="http://dpaluy.github.io/blog/2012/11/25/optimize-your-ruby/"/>
     <updated>2012-11-25T22:15:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2012/11/25/optimize-your-ruby</id>
+    <id>http://dpaluy.github.io/blog/2012/11/25/optimize-your-ruby</id>
     <content type="html"><![CDATA[<h3>TL;DR</h3>
 
 <p>If you are using rvm with ruby-1.9.3 patch &lt; 327, reinstall it with cflags.patch.</p>
@@ -848,9 +848,9 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
   
   <entry>
     <title type="html"><![CDATA[REST Debug Tips]]></title>
-    <link href="http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips/"/>
+    <link href="http://dpaluy.github.io/blog/2012/03/04/rest-debug-tips/"/>
     <updated>2012-03-04T00:00:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips</id>
+    <id>http://dpaluy.github.io/blog/2012/03/04/rest-debug-tips</id>
     <content type="html"><![CDATA[<p>If you need to debug Net protocol between your application and some other API,
 you can output all request, this way:</p>
 
@@ -885,9 +885,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Passwordless Login]]></title>
-    <link href="http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin/"/>
+    <link href="http://dpaluy.github.io/blog/2012/03/01/passwordlesslogin/"/>
     <updated>2012-03-01T00:00:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin</id>
+    <id>http://dpaluy.github.io/blog/2012/03/01/passwordlesslogin</id>
     <content type="html"><![CDATA[<p>I noticed that some developers didn&#8217;t know about <em>Passwordless Login</em></p>
 
 <p>On your local computer, you must have an RSA public/private keys. Otherwise generate it:</p>

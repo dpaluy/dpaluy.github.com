@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: REST | Paluy on Miscellaneous]]></title>
-  <link href="http://dpaluy.github.com/blog/tags/rest/atom.xml" rel="self"/>
-  <link href="http://dpaluy.github.com/"/>
-  <updated>2013-04-29T23:50:15+03:00</updated>
-  <id>http://dpaluy.github.com/</id>
+  <link href="http://dpaluy.github.io/blog/tags/rest/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.io/"/>
+  <updated>2013-05-16T18:08:01+03:00</updated>
+  <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[REST Debug Tips]]></title>
-    <link href="http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips/"/>
+    <link href="http://dpaluy.github.io/blog/2012/03/04/rest-debug-tips/"/>
     <updated>2012-03-04T00:00:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips</id>
+    <id>http://dpaluy.github.io/blog/2012/03/04/rest-debug-tips</id>
     <content type="html"><![CDATA[<p>If you need to debug Net protocol between your application and some other API,
 you can output all request, this way:</p>
 

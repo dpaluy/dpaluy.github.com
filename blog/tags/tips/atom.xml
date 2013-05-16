@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Tag: tips | Paluy on Miscellaneous]]></title>
-  <link href="http://dpaluy.github.com/blog/tags/tips/atom.xml" rel="self"/>
-  <link href="http://dpaluy.github.com/"/>
-  <updated>2013-04-29T23:50:15+03:00</updated>
-  <id>http://dpaluy.github.com/</id>
+  <link href="http://dpaluy.github.io/blog/tags/tips/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.io/"/>
+  <updated>2013-05-16T18:08:01+03:00</updated>
+  <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[REST Debug Tips]]></title>
-    <link href="http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips/"/>
+    <link href="http://dpaluy.github.io/blog/2012/03/04/rest-debug-tips/"/>
     <updated>2012-03-04T00:00:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2012/03/04/rest-debug-tips</id>
+    <id>http://dpaluy.github.io/blog/2012/03/04/rest-debug-tips</id>
     <content type="html"><![CDATA[<p>If you need to debug Net protocol between your application and some other API,
 you can output all request, this way:</p>
 
@@ -52,9 +52,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Passwordless Login]]></title>
-    <link href="http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin/"/>
+    <link href="http://dpaluy.github.io/blog/2012/03/01/passwordlesslogin/"/>
     <updated>2012-03-01T00:00:00+02:00</updated>
-    <id>http://dpaluy.github.com/blog/2012/03/01/passwordlesslogin</id>
+    <id>http://dpaluy.github.io/blog/2012/03/01/passwordlesslogin</id>
     <content type="html"><![CDATA[<p>I noticed that some developers didn't know about <em>Passwordless Login</em></p>
 
 <p>On your local computer, you must have an RSA public/private keys. Otherwise generate it:</p>
