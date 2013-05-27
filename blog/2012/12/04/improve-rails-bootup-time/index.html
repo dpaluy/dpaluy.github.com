@@ -36,7 +36,7 @@ echo puts Time.now > &hellip;">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-29316119-2']);
     _gaq.push(['_trackPageview']);
-
+    setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])", 15000);
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
@@ -192,6 +192,8 @@ It&#8217;s a part of <a href="https://gist.github.com/4136519">falcon patch</a> 
   
   <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dpaluy.github.io/blog/2012/12/04/improve-rails-bootup-time/" data-via="dpaluy" data-counturl="http://dpaluy.github.io/blog/2012/12/04/improve-rails-bootup-time/" >Tweet</a>
   
+  
+  <div class="g-plusone" data-size="medium"></div>
   
   
 </div>
@@ -402,6 +404,14 @@ It&#8217;s a part of <a href="https://gist.github.com/4136519">falcon patch</a> 
 
 
 
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
 
 
 

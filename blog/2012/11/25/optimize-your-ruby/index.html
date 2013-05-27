@@ -34,7 +34,7 @@
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-29316119-2']);
     _gaq.push(['_trackPageview']);
-
+    setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])", 15000);
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
@@ -213,6 +213,8 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
   
   <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dpaluy.github.io/blog/2012/11/25/optimize-your-ruby/" data-via="dpaluy" data-counturl="http://dpaluy.github.io/blog/2012/11/25/optimize-your-ruby/" >Tweet</a>
   
+  
+  <div class="g-plusone" data-size="medium"></div>
   
   
 </div>
@@ -423,6 +425,14 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
 
 
 
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
 
 
 

@@ -34,7 +34,7 @@
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-29316119-2']);
     _gaq.push(['_trackPageview']);
-
+    setTimeout("_gaq.push(['_trackEvent', '15_seconds', 'read'])", 15000);
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
@@ -377,6 +377,8 @@ It also has a <a href="https://github.com/bhb/rack-perftools_profiler" target="_
   <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications/" data-via="dpaluy" data-counturl="http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications/" >Tweet</a>
   
   
+  <div class="g-plusone" data-size="medium"></div>
+  
   
 </div>
 
@@ -586,6 +588,14 @@ It also has a <a href="https://github.com/bhb/rack-perftools_profiler" target="_
 
 
 
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
 
 
 
