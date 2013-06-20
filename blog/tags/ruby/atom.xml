@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: ruby | Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.io/blog/tags/ruby/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.io/"/>
-  <updated>2013-05-27T20:40:51+03:00</updated>
+  <updated>2013-06-20T20:27:42+03:00</updated>
   <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -68,7 +68,7 @@ var date = new Date(epoch);
     <id>http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications</id>
     <content type="html"><![CDATA[<p>Your finaly got clients and everything works fine.</p>
 
-<p><img src="/images/mass_attack.gif" title="Users Attack" ></p>
+<p>{% img /images/mass_attack.gif Users Attack %}</p>
 
 <p>But users expect several performance issues.</p>
 
@@ -384,108 +384,72 @@ stat_string = "allocated: #{GC.allocated_size/1024}K total in #{GC.num_allocatio
 <h3><strong><a href="https://github.com/cldwalker/debugger">debugger</a></strong> - A fork of ruby-debug that works on Ruby 1.9.3</h3>
 
 <p><strong>Install</strong> (rvm):
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>gem install debugger -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-p374/
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{% codeblock %}</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gemfile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;gem &#39;debugger&#39;</span>
-</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<pre><code>gem install debugger -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-p374/
+</code></pre>
+
+<p>{% endcodeblock %}</p>
+
+<p>{% codeblock lang:ruby Gemfile %}
+  group :development, :test do</p>
+
+<pre><code>gem 'debugger'
+</code></pre>
+
+<p>  end
+{% endcodeblock %}</p>
 
 <p><strong>Usage</strong>:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
-</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;debugger&#39;</span><span class="p">;</span> <span class="n">debugger</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{% codeblock lang:ruby %}
+  # Wherever you need a debugger, simply add:
+  require 'debugger'; debugger
+{% endcodeblock %}</p>
 
 <h3><strong><a href="https://github.com/nixme/pry-debugger">pry-debugger</a></strong> - Using debugger within <a href="https://github.com/pry/pry">pry</a></h3>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Gemfile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;gem &#39;pry-debugger&#39;</span>
-</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock lang:ruby Gemfile %}
+  group :development, :test do</p>
+
+<pre><code>gem 'pry-debugger'
+</code></pre>
+
+<p>  end
+{% endcodeblock %}</p>
 
 <p><strong>Configuration</strong> (Optional):</p>
 
 <p>Add aliases:
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>$HOME/.pryrc </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;con&#39;</span><span class="p">,</span> <span class="s1">&#39;continue&#39;</span>
-</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span>
-</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;next&#39;</span>
-</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;fin&#39;</span><span class="p">,</span> <span class="s1">&#39;finish&#39;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{% codeblock lang:ruby $HOME/.pryrc %}
+  Pry.commands.alias_command 'con', 'continue'
+  Pry.commands.alias_command 's', 'step'
+  Pry.commands.alias_command 'n', 'next'
+  Pry.commands.alias_command 'fin', 'finish'
+{% endcodeblock %}</p>
 
 <p><strong><em>NOTE: You won't be able to use those words as params while debugging</em></strong></p>
 
 <p><strong>Usage</strong>:
-<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
-</span><span class='line'>  <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{% codeblock lang:ruby %}
+  # Wherever you need a debugger, simply add:
+  binding.pry
+{% endcodeblock %}</p>
 
 <p>Example:
-<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>home_controller.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="no">ApplicationController</span><span class="o">&lt;</span><span class="sr">/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;pre&gt;&lt;code&gt;def index</span>
-</span><span class='line'><span class="sr">  # Some code ...</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">  binding.pry</span>
-</span><span class='line'><span class="sr">  # Code to debug</span>
-</span><span class='line'><span class="sr">  # ...</span>
-</span><span class='line'><span class="sr">end</span>
-</span><span class='line'><span class="sr">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;</span><span class="sr">/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">&lt;p&gt;  end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+{% codeblock lang:ruby home_controller.rb %}
+  class HomeController &lt; ApplicationController</p>
+
+<pre><code>def index
+  # Some code ...
+
+  binding.pry
+  # Code to debug
+  # ...
+end
+</code></pre>
+
+<p>  end
+{% endcodeblock %}</p>
 
 <p>Now start your rails server (<em>rails s</em>) and visit your controller url: <em>http://localhost:3000/home</em>. The pry debugger console will appear in your terminal.
 You can use all <a href="https://github.com/pry/pry">pry</a> functionality inside your application in addition to predefined aliases(next, step, continue, etc.).</p>
@@ -534,8 +498,9 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
 
 <p>How to apply:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm reinstall 1.9.3 --patch cflags.patch</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+  rvm reinstall 1.9.3 --patch cflags.patch
+{% endcodeblock %}</p>
 
 <h3>Is it really improves ruby benchmark? Yes.</h3>
 
@@ -543,37 +508,27 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
 
 <h4>ruby-1.9.3-p286 without patch</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>   user     system      total        real
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>+=  46.020000   2.610000  48.630000 ( 48.827064)
-</span><span class='line'>&lt;&lt;   0.220000   0.000000   0.220000 (  0.224581)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+./benchmark</p>
+
+<pre><code>   user     system      total        real
+</code></pre>
+
+<p>+=  46.020000   2.610000  48.630000 ( 48.827064)
+&lt;&lt;   0.220000   0.000000   0.220000 (  0.224581)
+{% endcodeblock %}</p>
 
 <h4>ruby-1.9.3-p286 with patch</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>   user     system      total        real
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>+=  42.830000   2.480000  45.310000 ( 45.521011)
-</span><span class='line'>&lt;&lt;   0.100000   0.000000   0.100000 (  0.099425)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+./benchmark</p>
+
+<pre><code>   user     system      total        real
+</code></pre>
+
+<p>+=  42.830000   2.480000  45.310000 ( 45.521011)
+&lt;&lt;   0.100000   0.000000   0.100000 (  0.099425)
+{% endcodeblock %}</p>
 
 <h3>Is it good for production?</h3>
 

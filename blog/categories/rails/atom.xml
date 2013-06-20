@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.io/"/>
-  <updated>2013-05-27T20:40:51+03:00</updated>
+  <updated>2013-06-20T20:27:42+03:00</updated>
   <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -20,7 +20,7 @@
     <id>http://dpaluy.github.io/blog/2013/04/29/process-information</id>
     <content type="html"><![CDATA[<p>I found it very useful to see my application process info on an admin page, as following:</p>
 
-<p><img src="/images/process_info.png" title="Process Info" ></p>
+<p>{% img /images/process_info.png Process Info %}</p>
 
 <p>You can do it inside your Rails app.</p>
 
@@ -201,7 +201,7 @@ var date = new Date(epoch);
     <id>http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications</id>
     <content type="html"><![CDATA[<p>Your finaly got clients and everything works fine.</p>
 
-<p><img src="/images/mass_attack.gif" title="Users Attack" ></p>
+<p>{% img /images/mass_attack.gif Users Attack %}</p>
 
 <p>But users expect several performance issues.</p>
 

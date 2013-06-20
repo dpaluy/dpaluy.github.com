@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: optimization | Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.io/blog/tags/optimization/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.io/"/>
-  <updated>2013-05-27T20:40:51+03:00</updated>
+  <updated>2013-06-20T20:27:42+03:00</updated>
   <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -26,10 +26,10 @@
 
 <h5>The test is:</h5>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>echo puts Time.now > test_script
-</span><span class='line'>  time rails runner test_script</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+  echo puts Time.now > test_script
+  time rails runner test_script
+{% endcodeblock %}</p>
 
 <h5>The results are:</h5>
 
@@ -45,8 +45,9 @@
 
 <p>Than, install the patch:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm install 1.9.3 --patch fast_load.patch -n fast_load</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+  rvm install 1.9.3 --patch fast_load.patch -n fast_load
+{% endcodeblock %}</p>
 
 <h3>Credentials</h3>
 
@@ -92,8 +93,9 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
 
 <p>How to apply:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm reinstall 1.9.3 --patch cflags.patch</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+  rvm reinstall 1.9.3 --patch cflags.patch
+{% endcodeblock %}</p>
 
 <h3>Is it really improves ruby benchmark? Yes.</h3>
 
@@ -101,37 +103,27 @@ It suggested to apply <a href="https://raw.github.com/gist/3854178/fcd2f6d774cd3
 
 <h4>ruby-1.9.3-p286 without patch</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>   user     system      total        real
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>+=  46.020000   2.610000  48.630000 ( 48.827064)
-</span><span class='line'>&lt;&lt;   0.220000   0.000000   0.220000 (  0.224581)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+./benchmark</p>
+
+<pre><code>   user     system      total        real
+</code></pre>
+
+<p>+=  46.020000   2.610000  48.630000 ( 48.827064)
+&lt;&lt;   0.220000   0.000000   0.220000 (  0.224581)
+{% endcodeblock %}</p>
 
 <h4>ruby-1.9.3-p286 with patch</h4>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./benchmark&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;pre>&lt;code>   user     system      total        real
-</span><span class='line'>&lt;/code>&lt;/pre>
-</span><span class='line'>
-</span><span class='line'>&lt;p>+=  42.830000   2.480000  45.310000 ( 45.521011)
-</span><span class='line'>&lt;&lt;   0.100000   0.000000   0.100000 (  0.099425)</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+./benchmark</p>
+
+<pre><code>   user     system      total        real
+</code></pre>
+
+<p>+=  42.830000   2.480000  45.310000 ( 45.521011)
+&lt;&lt;   0.100000   0.000000   0.100000 (  0.099425)
+{% endcodeblock %}</p>
 
 <h3>Is it good for production?</h3>
 
