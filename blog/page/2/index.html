@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Tools - Paluy on Miscellaneous</title>
+  <title>Paluy on Miscellaneous</title>
   <meta name="author" content="David Paluy">
 
   
-  <meta name="description" content="Category: Tools">
+  <meta name="description" content="I noticed that some developers didn&#8217;t know about Passwordless Login On your local computer, you must have an RSA public/private keys. Otherwise &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dpaluy.github.ioblog/categories/tools/">
+  <link rel="canonical" href="http://dpaluy.github.io/blog/page/2/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -74,105 +74,89 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
-    <h1 class="entry-title">Category: Tools</h1>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/01/passwordlesslogin/">Passwordless Login</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-01T00:00:00+02:00" pubdate data-updated="true">Mar 1<span>st</span>, 2012</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+  <div class="entry-content"><p>I noticed that some developers didn&#8217;t know about <em>Passwordless Login</em></p>
 
-  
-  <h2>2013</h2>
+<p>On your local computer, you must have an RSA public/private keys. Otherwise generate it:</p>
 
-<article>
-  
+<pre><code>ssh-keygen -t rsa
+</code></pre>
 
-<h1><a href="/blog/2013/04/09/profiling-rails-applications/">Profiling Rails Applications</a></h1>
-<time datetime="2013-04-09T01:49:00+03:00" pubdate><span class='month'>Apr</span> <span class='day'>09</span> <span class='year'>2013</span></time>
+<p>One row solution is here:</p>
 
-<footer>
+<pre><code>cat .ssh/id_rsa.pub | ssh user@example.com 'cat &gt;&gt; .ssh/authorized_keys'
+</code></pre>
 
-  <span class="categories">posted in <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/tools/'>Tools</a></span>
+<p>Otherwise step-by-step explanation:</p>
 
+<p>Copy your public key to your <em>example.com</em></p>
 
-  <span class="tags">tagged with <a class='tag' href='/blog/tags/profiling/'>profiling</a>, <a class='tag' href='/blog/tags/ruby/'>ruby</a>, <a class='tag' href='/blog/tags/rubyonrails/'>rubyonrails</a></span>
+<pre><code>scp ~/.ssh/id_rsa.pub user@example.com:~/
+</code></pre>
 
-</footer>
+<p>SSH to your server</p>
 
-</article>
+<pre><code>ssh user@example.com
+</code></pre>
 
+<p>Now, append the public key to your authorized keys file and delete the file you uploaded:</p>
 
+<pre><code>mkdir .ssh
+cat id_rsa.pub &gt;&gt; .ssh/authorized_keys
+rm id_rsa.pub
+</code></pre>
 
-<article>
-  
+<p>Make sure your permissions set properly:</p>
 
-<h1><a href="/blog/2013/02/06/debugging-rails-application-part-2/">Debugging Rails Application - Part 2</a></h1>
-<time datetime="2013-02-06T11:32:00+02:00" pubdate><span class='month'>Feb</span> <span class='day'>06</span> <span class='year'>2013</span></time>
-
-<footer>
-
-  <span class="categories">posted in <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/tools/'>Tools</a></span>
-
-
-  <span class="tags">tagged with <a class='tag' href='/blog/tags/debugging/'>debugging</a>, <a class='tag' href='/blog/tags/garbage-collector/'>garbage collector</a>, <a class='tag' href='/blog/tags/ruby/'>ruby</a>, <a class='tag' href='/blog/tags/rubyonrails/'>rubyonrails</a></span>
-
-</footer>
-
-</article>
-
-
-
-<article>
-  
-
-<h1><a href="/blog/2013/01/30/debugging-rails-application-part1/">Debugging Rails Application - Part 1</a></h1>
-<time datetime="2013-01-30T09:25:00+02:00" pubdate><span class='month'>Jan</span> <span class='day'>30</span> <span class='year'>2013</span></time>
-
-<footer>
-
-  <span class="categories">posted in <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/tools/'>Tools</a></span>
-
-
-  <span class="tags">tagged with <a class='tag' href='/blog/tags/debugging/'>debugging</a>, <a class='tag' href='/blog/tags/ruby/'>ruby</a>, <a class='tag' href='/blog/tags/rubyonrails/'>rubyonrails</a></span>
-
-</footer>
-
-</article>
-
-
-
-  
-  <h2>2012</h2>
-
-<article>
-  
-
-<h1><a href="/blog/2012/03/01/passwordlesslogin/">Passwordless Login</a></h1>
-<time datetime="2012-03-01T00:00:00+02:00" pubdate><span class='month'>Mar</span> <span class='day'>01</span> <span class='year'>2012</span></time>
-
-<footer>
-
-  <span class="categories">posted in <a class='category' href='/blog/categories/tools/'>Tools</a></span>
-
-
-  <span class="tags">tagged with <a class='tag' href='/blog/tags/ssh/'>SSH</a>, <a class='tag' href='/blog/tags/passwordless/'>passwordless</a>, <a class='tag' href='/blog/tags/tips/'>tips</a></span>
-
-</footer>
-
-</article>
-
+<pre><code>chmod go-w ~
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+</code></pre>
 </div>
-
   
-</article>
+  
 
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
 </div>
-
 <aside class="sidebar">
   
     
@@ -222,7 +206,7 @@
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -256,7 +240,7 @@
 <section>
   <h1>Coderwall</h1>
   <ul id="cw_badges">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
 
   <script type="text/javascript">
@@ -326,7 +310,6 @@
 
   
 </aside>
-
 
     </div>
   </div>

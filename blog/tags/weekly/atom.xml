@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: weekly | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.io/blog/tags/weekly/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.io/"/>
+  <updated>2013-07-05T18:34:51+03:00</updated>
+  <id>http://dpaluy.github.io/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[My Weekly Read]]></title>
+    <link href="http://dpaluy.github.io/blog/2013/07/05/my-weekly-read/"/>
+    <updated>2013-07-05T17:31:00+03:00</updated>
+    <id>http://dpaluy.github.io/blog/2013/07/05/my-weekly-read</id>
+    <content type="html"><![CDATA[<h2>I have several weekly subscriptions that you, as a web software leader, should read too</h2>
+
+<ul>
+<li><a target="_blank" href="http://softwareleadweekly.com">Software Lead Weekly</a> - Friday emails by Oren Ellenbogen, with good overview of interesting posts, relevant for Software Leaders.</li>
+</ul>
+
+
+<p><strong>Example:</strong> <a target="_blank" href="http://softwareleadweekly.com/issues/33/4">What Dan Ariely can teach us about Software Development</a></p>
+
+<h3>Other weeklies by <a target="_blank" href="https://twitter.com/peterc">Peter Cooper</a>:</h3>
+
+<ol>
+<li><a target="_blank" href="http://javascriptweekly.com">JavaScript Weekly</a> - all about JavaScript</li>
+<li><a target="_blank" href="http://html5weekly.com">HTML5 Weekly</a> - all about HTML5</li>
+<li><a target="_blank" href="http://rubyweekly.com">Ruby Weekly</a> - all about Ruby</li>
+</ol>
+
+
+<h3>Another weeklies that could be relevant for some of you:</h3>
+
+<ul>
+<li><a target="_blank" href="http://www.nosqlweekly.com">NoSQL Weekly</a> - Thursday weekly on NoSQL news</li>
+<li><a target="_blank" href="http://goodui.org">Good UI</a> - Twice a month email on UI/UX ideas and tips</li>
+<li><a target="_blank" href="http://devopsweekly.com/">DevOps Weekly</a> - Weekly on DevOps news</li>
+<li><a target="_blank" href="http://www.pythonweekly.com/">Python Weekly</a> - if you aren't Ruby developer</li>
+</ul>
+
+
+<h2>My other sources comes from:</h2>
+
+<ul>
+<li><a target="_blank" href="http://highscalability.com">HighScalability</a></li>
+<li><a target="_blank" href="http://www.infoq.com">InfoQ</a></li>
+<li>Podcasts, Blogs, Twitter etc.</li>
+<li><a target="_blank" href="http://news.ycombinator.com">HackerNews</a></li>
+</ul>
+
+
+<h2>What is yours?</h2>
+]]></content>
+  </entry>
+  
+</feed>
