@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: rubyonrails | Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.io/blog/tags/rubyonrails/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.io/"/>
-  <updated>2013-07-05T18:34:51+03:00</updated>
+  <updated>2013-09-07T03:37:12-04:00</updated>
   <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -14,9 +14,94 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Kata RubyUnderground TLV]]></title>
+    <link href="http://dpaluy.github.io/blog/2013/08/24/kata-rubyunderground-tlv/"/>
+    <updated>2013-08-24T03:10:00-04:00</updated>
+    <id>http://dpaluy.github.io/blog/2013/08/24/kata-rubyunderground-tlv</id>
+    <content type="html"><![CDATA[<p>We had a different <a href="http://www.meetup.com/IsraelRubyUnderground/events/116715192/" target="_blank">Meetup event</a>.
+Me, <a href="https://twitter.com/arikfr" target="_blank">@arikfr</a> and <a href="https://twitter.com/torkale" target="_blank">@torkale</a> were mentoring Kata groups. None of us had a previous experience doing Kata but we all really liked it.</p>
+
+<p><img src="/images/RubyUndergroundMeetup_Kata_David_Paluy.jpg" alt="RubyUnderground Meetup Kata David Paluy" /></p>
+
+<p><strong>Code Kata</strong> is programming exercise that concentrated not on the final solution, but discussing and implementing the possible ways to solve it.</p>
+
+<p>IMHO, every team should do a 1 hour kata periodically.</p>
+
+<h3>Kata examples:</h3>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=983zk0eqYLY" target="_blank">Roman Numerals Kata</a></li>
+<li><a href="http://vimeo.com/7762511" target="_blank">Prime Factors Kata</a></li>
+<li><a href="http://vimeo.com/7961506" target="_blank">String Calculator Kata</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SteelCity Ruby - My First International Ruby conference]]></title>
+    <link href="http://dpaluy.github.io/blog/2013/08/20/steelcity-ruby-my-first-international-ruby-conference/"/>
+    <updated>2013-08-20T22:54:00-04:00</updated>
+    <id>http://dpaluy.github.io/blog/2013/08/20/steelcity-ruby-my-first-international-ruby-conference</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
+
+<p>You have to visit at least one Ruby conference in USA! Check this <a href="#summary">summary</a></p>
+
+<h2>SteelCity Ruby</h2>
+
+<p>At the beginning of this year (2013) I decided that I have to participate in at least one international Ruby conference.
+I already participated in Development conferences in Europe and even did several talks. But I have never been in USA Ruby conference yet.</p>
+
+<p>Some one tweeted about <a href="http://steelcityruby.org/">SteelCity Ruby</a> conference and I decided to register immediately.
+I found amazing appartment via <a href="https://www.airbnb.com/tell-a-friend?airef=2idrtz00414zz5">AirBnB</a> just near the venue for a half price of a room in hotel.</p>
+
+<p><img src="/images/PIT_AirBnB.jpg" alt="View from my appartment" /></p>
+
+<p>Pittsburgh is a very nice city with amazing Ruby community. They have a pub inside a church (The Church Brew Works)</p>
+
+<p><img src="/images/PIT_The_Church_Brew_Works.jpg" alt="The Church Brew Works" /></p>
+
+<p>and Pittsburgh Sandwich with French fries</p>
+
+<p><img src="/images/PIT_pittsburgh_sandwich.jpg" alt="Pittsburgh Sandwich" /></p>
+
+<p>But let's go back to the Ruby. Did you know that <a href="http://www.steveklabnik.com/" target="_blank">Steve Klabnik</a> lived in Pittsburgh till last year?</p>
+
+<p><img src="/images/PIT_Steve_Klabnik_David_Paluy.jpg" alt="Ruby Friends - Steve Klabnik with David Paluy" /></p>
+
+<p>I really like the "community feel" of this event. The organizers did amazing job! It's all done by local volunteers with help of sponsors.</p>
+
+<p>I was introduced to other at the beginning of first day, when the conference moderator asked, who did more than 10,000 miles to arrive to that event.</p>
+
+<p>I met a lot of great developers and had some #RubyFriends <a href="https://twitter.com/robbkidd/status/368384756217413633" target="_blank">pictures</a>. BTW, if you still don't have a <a href="http://rubyfriends.com/" target="_blank">RubyFriends picture</a>, go to a local meetup and do at least one!</p>
+
+<p>I had an interesting talk with founder of <a href="https://www.gittip.com/" target="_blank">Gittip</a> Chad Whitacre. He founded amazing product to support Open Source community.</p>
+
+<p><img src="/images/PIT_Chad_Whitacre_David_Paluy.jpg" alt="Ruby Friends - Chad Whitacre with David Paluy" /></p>
+
+<p>I also invited <a href="http://about.avdi.org/">Avdi Grimm</a> to come to Israel and give a talk in one of our events.</p>
+
+<p><img src="/images/PIT_Avdi_Grimm_David_Paluy.jpg" alt="Ruby Friends - Avdi Grimm with David Paluy" /></p>
+
+<h2>Summary</h2>
+
+<p>More conference pictures and other info can be found <a name="summary" href="http://eventifier.co/event/scrc13/photos" target="_blank">here</a>.</p>
+
+<p>You can find the confernece videos <a href="http://steelcityruby.confbots.com/" target="_blank">here</a>. But I would like to advise you to check at least those talks:</p>
+
+<ul>
+<li><a href="https://twitter.com/avdi" target="_balnk">@avdi</a>'s talk about <a href="http://steelcityruby.confbots.com/video/73590687" target="_blank">metaprogramming, coding for fun, and the joy of sharing</a></li>
+<li><a href="http://steelcityruby.confbots.com/video/72762735" target="_blank">Deliberate Git</a> by Stephen Ball with <a href="https://speakerdeck.com/sdball/deliberate-git" target="_blank">slides</a> and <a href="http://rakeroutes.com/blog/deliberate-git" target="_blank">text version</a> or his presentation.</li>
+<li><a href="http://steelcityruby.confbots.com/video/72791610" target="_blank">DevOps for the Ruby Soul</a> by John Downey  (<a href="https://speakerdeck.com/jtdowney/devops-for-the-rubyist-soul-at-steel-city-ruby-2013" target="_blank">slides</a>)</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Process Information]]></title>
     <link href="http://dpaluy.github.io/blog/2013/04/29/process-information/"/>
-    <updated>2013-04-29T23:09:00+03:00</updated>
+    <updated>2013-04-29T23:09:00-04:00</updated>
     <id>http://dpaluy.github.io/blog/2013/04/29/process-information</id>
     <content type="html"><![CDATA[<p>I found it very useful to see my application process info on an admin page, as following:</p>
 
@@ -71,7 +156,7 @@ def index
   <entry>
     <title type="html"><![CDATA[protect email from spam bots]]></title>
     <link href="http://dpaluy.github.io/blog/2013/04/16/protect-email-from-spam-bots/"/>
-    <updated>2013-04-16T23:54:00+03:00</updated>
+    <updated>2013-04-16T23:54:00-04:00</updated>
     <id>http://dpaluy.github.io/blog/2013/04/16/protect-email-from-spam-bots</id>
     <content type="html"><![CDATA[<h2>TL;DR</h2>
 
@@ -149,7 +234,7 @@ mail_to "me@domain.com", "Contact us", :encode => "javascript"</p>
   <entry>
     <title type="html"><![CDATA[Caution - to_time in Rails]]></title>
     <link href="http://dpaluy.github.io/blog/2013/04/15/caution-to-time-in-rails/"/>
-    <updated>2013-04-15T13:14:00+03:00</updated>
+    <updated>2013-04-15T13:14:00-04:00</updated>
     <id>http://dpaluy.github.io/blog/2013/04/15/caution-to-time-in-rails</id>
     <content type="html"><![CDATA[<h2>TL;DR</h2>
 
@@ -191,317 +276,6 @@ epoch = date.to_time(:utc).to_i
 <p><code>
 var date = new Date(epoch);
 </code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Profiling Rails Applications]]></title>
-    <link href="http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications/"/>
-    <updated>2013-04-09T01:49:00+03:00</updated>
-    <id>http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications</id>
-    <content type="html"><![CDATA[<p>Your finaly got clients and everything works fine.</p>
-
-<p>{% img /images/mass_attack.gif Users Attack %}</p>
-
-<p>But users expect several performance issues.</p>
-
-<h2>How can I profile my Ruby on Rails application?</h2>
-
-<h3>Available Tools</h3>
-
-<ul>
-<li><a href="#gc-profiler">GC::Profiler</a></li>
-<li><a href="#ruby-benchmark">Ruby Benchmark</a></li>
-<li><a href="#object-space">ObjectSpace</a></li>
-<li><a href="#ruby-prof">gem ruby-prof</a></li>
-<li><a href="#perftools">gem perftools.rb</a></li>
-</ul>
-
-
-<h4 id='gc-profiler'><a href="http://ruby-doc.org/core-1.9.3/GC/Profiler.html" target="_blank">GC::Profiler</a></h4>
-
-
-<p>The GC profiler provides access to information on GC runs including time, length and object space size.</p>
-
-<p>```ruby
-GC.start # clear GC before profiling
-GC::Profiler.enable</p>
-
-<h1>your code</h1>
-
-<p>GC.start
-puts GC::Profiler.report
-GC::Profiler.disable
-```</p>
-
-<h4 id='ruby-benchmark'><a href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/benchmark/rdoc/Benchmark.html" target="_blank">Ruby Benchmark</a></h4>
-
-
-<p>Ruby has core module to Benchmark your code. It helps you to mesure running time of your code.</p>
-
-<p>```ruby
-require 'benchmark'</p>
-
-<p>Benchmark.bm do|b|
-  b.report("+= ") do</p>
-
-<pre><code>a = ""
-500_000.times { a += "." }
-</code></pre>
-
-<p>  end</p>
-
-<p>  b.report("&lt;&lt; ") do</p>
-
-<pre><code>a = ""
-500_000.times { a &lt;&lt; "." }
-</code></pre>
-
-<p>  end
-end
-```</p>
-
-<p>I suggest you to add <a href="https://github.com/evanphx/benchmark_suite" target="_blank">benchmark_suite gem</a>. There is a set of enhancements to the standard library benchmark.rb</p>
-
-<h4 id='object-space'>ObjectSpace</h4>
-
-
-<p>ObjectSpace class already described in previous <a href="/blog/2013/02/06/debugging-rails-application-part-2/#object-space">post</a>.
-You should also check <a href="http://cirw.in/blog/find-references" target="_blank">Visualizing memory leaks in Ruby</a> using ObjectSpace methods.</p>
-
-<h4 id='ruby-prof'><a href="https://github.com/ruby-prof/ruby-prof" target="_blank">RUBY-PROF</a></h4>
-
-
-<p><strong>How to use in Rails:</strong></p>
-
-<ul>
-<li>Add the ruby-prof to your gemfile</li>
-</ul>
-
-
-<p><code>ruby
-group :profile do
-  gem 'ruby-prof'
-end
-</code></p>
-
-<p><strong>Note:</strong> verify your <em>/config/environments/profile.rb</em> has the following settings:</p>
-
-<p><code>ruby
-config.cache_classes = true
-config.cache_template_loading = true
-</code></p>
-
-<ul>
-<li>Add rack adapter to <strong>config.ru</strong>:</li>
-</ul>
-
-
-<p><code>ruby
-if Rails.env.profile?
-  use Rack::RubyProf, :path =&gt; '/temp/profile'
-end
-</code></p>
-
-<p><strong>Note:</strong> By default the rack adapter will generate a html call graph report and flat text report. You can add printer option as following:</p>
-
-<p><code>ruby
-use Rack::RubyProf, :path =&gt; '/temp/profile', :printers =&gt; {RubyProf::GraphHtmlPrinter =&gt; 'graph.html'} # or any other printer as described
-</code></p>
-
-<p>More printers options can be found <a href="https://github.com/ruby-prof/ruby-prof#printers" target="_blank">here</a></p>
-
-<ul>
-<li>Add Profile to your code:</li>
-</ul>
-
-
-<p>```ruby</p>
-
-<h1>define mesurment type</h1>
-
-<h1>as described: https://github.com/ruby-prof/ruby-prof#measurements</h1>
-
-<p>RubyProf.measure_mode = RubyProf::PROCESS_TIME</p>
-
-<p>RubyProf.start</p>
-
-<h1>code to profile</h1>
-
-<p>result = RubyProf.stop
-```</p>
-
-<h4 id='perftools'><a href="https://github.com/tmm1/perftools.rb" target="_blank">Perftools.rb</a></h4>
-
-
-<p>While ruby-prof is a good tool, I, personally, prefere to use <strong>perftools.rb</strong>.
-It also has a <a href="https://github.com/bhb/rack-perftools_profiler" target="_blank">rack gem</a>.</p>
-
-<p>The <strong>main advantage</strong> of perftools: it samples your process using setitimer() so it can be used in production with minimal overhead.</p>
-
-<p><strong>How to use in Rails:</strong></p>
-
-<ul>
-<li>Add the rack-perftools_profiler to your gemfile</li>
-</ul>
-
-
-<p><code>ruby
-gem 'rack-perftools_profiler', :require =&gt; 'rack/perftools_profiler'
-</code></p>
-
-<ul>
-<li>Add middleware to <strong>config/environment.rb</strong>:</li>
-</ul>
-
-
-<p><code>ruby
-config.middleware.use ::Rack::PerftoolsProfiler, :default_printer =&gt; 'pdf', :bundler =&gt; true
-</code></p>
-
-<p>See more options <a href="https://github.com/bhb/rack-perftools_profiler#options" target="_blank">here</a>.</p>
-
-<ul>
-<li>Profile your application</li>
-</ul>
-
-
-<p><code>
-curl http://localhost:3000/__start__
-curl http://localhost:3000/__stop__
-curl http://localhost:3000/__data__
-</code></p>
-
-<h3>Visualization of your report</h3>
-
-<ul>
-<li>ruby-prof and perftools.rb has support for different output formats. One of them is <a href="http://kcachegrind.sourceforge.net/html/Home.html" target="_blank">KCacheGrind</a></li>
-<li>In Ruby 2 you can gather your stack traces. Read more <a href="Flame graphs in Ruby MiniProfiler" target="_blank">here</a></li>
-</ul>
-
-
-<h2>Summary</h2>
-
-<ul>
-<li>Remember: More Objects => Longer GC => Slow application</li>
-<li>Always examine your HEAP</li>
-<li>Use Tools!</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Debugging Rails Application - Part 2]]></title>
-    <link href="http://dpaluy.github.io/blog/2013/02/06/debugging-rails-application-part-2/"/>
-    <updated>2013-02-06T11:32:00+02:00</updated>
-    <id>http://dpaluy.github.io/blog/2013/02/06/debugging-rails-application-part-2</id>
-    <content type="html"><![CDATA[<p>In previous <a href="/blog/2013/01/30/debugging-rails-application-part1/">post</a>, I described which tools I use for debugging Rails (Ruby) applications.</p>
-
-<p>In this post I will show you how to debug your Garbage Collector.</p>
-
-<h3>Why should I debug my GC?</h3>
-
-<p>First, you should understand how ruby allocates memory for new objects.
-What happened inside your OS, each time you write <code>book = Book.new</code>?</p>
-
-<p><img src="/images/how_ruby_works.png" alt="How Ruby Memory Works" /></p>
-
-<p>RVM defines Process Heap for each Ruby process. Than, it creates first Ruby Heap.
-Each Ruby Heap contains allocated objects. There is a "Free List" array inside the heap.</p>
-
-<p><img src="/images/freelist_ruby_heap.png" alt="Ruby Heap - Free List" /></p>
-
-<p>While new object allocated, the RVM looks for an empty place in "Free List" and allocates it for a newly creted one.
-If the "Free List" is empty (all slots are allocated), RVM calls to Garbage Collector (GC).</p>
-
-<p>The Garbage Collector finds non-reachable objects and remove them. If "Free List" is still empty, another Heap allocated.</p>
-
-<p><strong>Conclusion</strong>: The more objects we have, the longer GC process. And it's a cause for slow application.</p>
-
-<h3>How should I debug my GC?</h3>
-
-<p>I suggest to use <a href="https://github.com/nixme/pry-debugger">pry-debugger</a>.</p>
-
-<p>There are several tools we can use while debugging:</p>
-
-<ul>
-<li><em>ObjectSpace class</em></li>
-<li><em>Heap dump (via GC patch)</em></li>
-</ul>
-
-
-<p>But to get it all functionality you need to use patched version of Ruby.</p>
-
-<p>To enable heap dump support, pass the –enable-gcdebug option to the rvm install command:</p>
-
-<p><code>
-rvm install 1.9.3 -C --enable-gcdebug -n gcdebug
-</code></p>
-
-<h4 id="object-space"><a href="http://ruby-doc.org/core-1.9.3/ObjectSpace.html" target="_blank">ObjectSpace class</a></h4>
-
-
-<ul>
-<li><em>ObjectSpace.count_objects</em> - returns a hash of counts objects of each type</li>
-<li><a href="http://cirw.in/blog/find-references">Visualizing memory leaks in Ruby</a></li>
-</ul>
-
-
-<p>An example of method I used to get a better output:</p>
-
-<p>```ruby
-def get_object_stats
-  return_value = Hash.new
-  ObjectSpace::each_object(Object) {|my_object|</p>
-
-<pre><code>unless return_value[my_object.class.to_s.downcase].nil?
-  return_value[my_object.class.to_s.downcase][:count] += 1
-else
-  return_value[my_object.class.to_s.downcase] = Hash.new
-  return_value[my_object.class.to_s.downcase][:name] = my_object.class
-  return_value[my_object.class.to_s.downcase][:count] = 1
-end
-</code></pre>
-
-<p>  }
-  return_value.sort_by {|k,v| -v[:count]}
-end
-```</p>
-
-<p><a href="https://blog.engineyard.com/2013/ruby-concurrency">Source</a></p>
-
-<h4>Heap dump</h4>
-
-<p>```ruby
-GC.enable_stats if defined?(GC) &amp;&amp; GC.respond_to?(:enable_stats)
-GC.start # clean up heap</p>
-
-<h1>...</h1>
-
-<h1>YOUR CODE GOES HERE</h1>
-
-<h1>...</h1>
-
-<h1>dump it, including class names of heap objects</h1>
-
-<p>GC.dump_file_and_line_info(filename: "heap.dump", include_class_names: true)
-stat_string = "allocated: #{GC.allocated_size/1024}K total in #{GC.num_allocations} allocations, GC calls: #{GC.collections}, GC time: #{GC.time / 1000} msec"
-```</p>
-
-<h3>Other interesting solutions to check:</h3>
-
-<ul>
-<li><a href="https://github.com/tmm1/gdb.rb">gdb7 hooks for MRI</a></li>
-<li><a href="http://patshaughnessy.net/2012/3/23/why-you-should-be-excited-about-garbage-collection-in-ruby-2-0">Why You Should Be Excited About Garbage Collection in Ruby 2.0</a></li>
-<li><a href="https://github.com/tmm1/rbtrace">Trace for Ruby</a></li>
-<li><a href="http://vimeo.com/12748731">GoRuCo 2010 - Aman Gupta - memprof: the ruby level memory profiler</a> - A little bit outdated but very interesting</li>
-</ul>
-
-
-<p><em>Note</em>: the <a href="https://github.com/ice799/memprof">memprof</a> works only with Ruby 1.8.x</p>
-
-<p>My <a href="https://speakerdeck.com/dpaluy/debugging-and-profiling-rails-app">slides</a> at <a href="http://www.rubyunderground.co.il/">RubyUnderground</a></p>
 ]]></content>
   </entry>
   

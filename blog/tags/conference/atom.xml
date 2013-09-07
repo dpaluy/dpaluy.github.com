@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: conference | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.io/blog/tags/conference/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.io/"/>
+  <updated>2013-09-07T03:37:12-04:00</updated>
+  <id>http://dpaluy.github.io/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[SteelCity Ruby - My First International Ruby conference]]></title>
+    <link href="http://dpaluy.github.io/blog/2013/08/20/steelcity-ruby-my-first-international-ruby-conference/"/>
+    <updated>2013-08-20T22:54:00-04:00</updated>
+    <id>http://dpaluy.github.io/blog/2013/08/20/steelcity-ruby-my-first-international-ruby-conference</id>
+    <content type="html"><![CDATA[<h2>TL;DR</h2>
+
+<p>You have to visit at least one Ruby conference in USA! Check this <a href="#summary">summary</a></p>
+
+<h2>SteelCity Ruby</h2>
+
+<p>At the beginning of this year (2013) I decided that I have to participate in at least one international Ruby conference.
+I already participated in Development conferences in Europe and even did several talks. But I have never been in USA Ruby conference yet.</p>
+
+<p>Some one tweeted about <a href="http://steelcityruby.org/">SteelCity Ruby</a> conference and I decided to register immediately.
+I found amazing appartment via <a href="https://www.airbnb.com/tell-a-friend?airef=2idrtz00414zz5">AirBnB</a> just near the venue for a half price of a room in hotel.</p>
+
+<p><img src="/images/PIT_AirBnB.jpg" alt="View from my appartment" /></p>
+
+<p>Pittsburgh is a very nice city with amazing Ruby community. They have a pub inside a church (The Church Brew Works)</p>
+
+<p><img src="/images/PIT_The_Church_Brew_Works.jpg" alt="The Church Brew Works" /></p>
+
+<p>and Pittsburgh Sandwich with French fries</p>
+
+<p><img src="/images/PIT_pittsburgh_sandwich.jpg" alt="Pittsburgh Sandwich" /></p>
+
+<p>But let's go back to the Ruby. Did you know that <a href="http://www.steveklabnik.com/" target="_blank">Steve Klabnik</a> lived in Pittsburgh till last year?</p>
+
+<p><img src="/images/PIT_Steve_Klabnik_David_Paluy.jpg" alt="Ruby Friends - Steve Klabnik with David Paluy" /></p>
+
+<p>I really like the "community feel" of this event. The organizers did amazing job! It's all done by local volunteers with help of sponsors.</p>
+
+<p>I was introduced to other at the beginning of first day, when the conference moderator asked, who did more than 10,000 miles to arrive to that event.</p>
+
+<p>I met a lot of great developers and had some #RubyFriends <a href="https://twitter.com/robbkidd/status/368384756217413633" target="_blank">pictures</a>. BTW, if you still don't have a <a href="http://rubyfriends.com/" target="_blank">RubyFriends picture</a>, go to a local meetup and do at least one!</p>
+
+<p>I had an interesting talk with founder of <a href="https://www.gittip.com/" target="_blank">Gittip</a> Chad Whitacre. He founded amazing product to support Open Source community.</p>
+
+<p><img src="/images/PIT_Chad_Whitacre_David_Paluy.jpg" alt="Ruby Friends - Chad Whitacre with David Paluy" /></p>
+
+<p>I also invited <a href="http://about.avdi.org/">Avdi Grimm</a> to come to Israel and give a talk in one of our events.</p>
+
+<p><img src="/images/PIT_Avdi_Grimm_David_Paluy.jpg" alt="Ruby Friends - Avdi Grimm with David Paluy" /></p>
+
+<h2>Summary</h2>
+
+<p>More conference pictures and other info can be found <a name="summary" href="http://eventifier.co/event/scrc13/photos" target="_blank">here</a>.</p>
+
+<p>You can find the confernece videos <a href="http://steelcityruby.confbots.com/" target="_blank">here</a>. But I would like to advise you to check at least those talks:</p>
+
+<ul>
+<li><a href="https://twitter.com/avdi" target="_balnk">@avdi</a>'s talk about <a href="http://steelcityruby.confbots.com/video/73590687" target="_blank">metaprogramming, coding for fun, and the joy of sharing</a></li>
+<li><a href="http://steelcityruby.confbots.com/video/72762735" target="_blank">Deliberate Git</a> by Stephen Ball with <a href="https://speakerdeck.com/sdball/deliberate-git" target="_blank">slides</a> and <a href="http://rakeroutes.com/blog/deliberate-git" target="_blank">text version</a> or his presentation.</li>
+<li><a href="http://steelcityruby.confbots.com/video/72791610" target="_blank">DevOps for the Ruby Soul</a> by John Downey  (<a href="https://speakerdeck.com/jtdowney/devops-for-the-rubyist-soul-at-steel-city-ruby-2013" target="_blank">slides</a>)</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

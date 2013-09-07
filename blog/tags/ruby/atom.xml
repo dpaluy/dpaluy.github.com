@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: ruby | Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.io/blog/tags/ruby/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.io/"/>
-  <updated>2013-07-05T18:34:51+03:00</updated>
+  <updated>2013-09-07T03:37:12-04:00</updated>
   <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Caution - to_time in Rails]]></title>
     <link href="http://dpaluy.github.io/blog/2013/04/15/caution-to-time-in-rails/"/>
-    <updated>2013-04-15T13:14:00+03:00</updated>
+    <updated>2013-04-15T13:14:00-04:00</updated>
     <id>http://dpaluy.github.io/blog/2013/04/15/caution-to-time-in-rails</id>
     <content type="html"><![CDATA[<h2>TL;DR</h2>
 
@@ -64,7 +64,7 @@ var date = new Date(epoch);
   <entry>
     <title type="html"><![CDATA[Profiling Rails Applications]]></title>
     <link href="http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications/"/>
-    <updated>2013-04-09T01:49:00+03:00</updated>
+    <updated>2013-04-09T01:49:00-04:00</updated>
     <id>http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications</id>
     <content type="html"><![CDATA[<p>Your finaly got clients and everything works fine.</p>
 
@@ -261,7 +261,7 @@ curl http://localhost:3000/__data__
   <entry>
     <title type="html"><![CDATA[Debugging Rails Application - Part 2]]></title>
     <link href="http://dpaluy.github.io/blog/2013/02/06/debugging-rails-application-part-2/"/>
-    <updated>2013-02-06T11:32:00+02:00</updated>
+    <updated>2013-02-06T11:32:00-05:00</updated>
     <id>http://dpaluy.github.io/blog/2013/02/06/debugging-rails-application-part-2</id>
     <content type="html"><![CDATA[<p>In previous <a href="/blog/2013/01/30/debugging-rails-application-part1/">post</a>, I described which tools I use for debugging Rails (Ruby) applications.</p>
 
@@ -300,7 +300,7 @@ If the "Free List" is empty (all slots are allocated), RVM calls to Garbage Coll
 
 <p>But to get it all functionality you need to use patched version of Ruby.</p>
 
-<p>To enable heap dump support, pass the –enable-gcdebug option to the rvm install command:</p>
+<p>To enable heap dump support, pass the <em>-enable-gcdebug</em> option to the rvm install command:</p>
 
 <p><code>
 rvm install 1.9.3 -C --enable-gcdebug -n gcdebug
@@ -375,7 +375,7 @@ stat_string = "allocated: #{GC.allocated_size/1024}K total in #{GC.num_allocatio
   <entry>
     <title type="html"><![CDATA[Debugging Rails Application - Part 1]]></title>
     <link href="http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1/"/>
-    <updated>2013-01-30T09:25:00+02:00</updated>
+    <updated>2013-01-30T09:25:00-05:00</updated>
     <id>http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1</id>
     <content type="html"><![CDATA[<h2>How to debug Rails application?</h2>
 
@@ -470,7 +470,7 @@ You can use all <a href="https://github.com/pry/pry">pry</a> functionality insid
   <entry>
     <title type="html"><![CDATA[Optimize your RVM Ruby ]]></title>
     <link href="http://dpaluy.github.io/blog/2012/11/25/optimize-your-ruby/"/>
-    <updated>2012-11-25T22:15:00+02:00</updated>
+    <updated>2012-11-25T22:15:00-05:00</updated>
     <id>http://dpaluy.github.io/blog/2012/11/25/optimize-your-ruby</id>
     <content type="html"><![CDATA[<h3>TL;DR</h3>
 
@@ -482,7 +482,7 @@ You can use all <a href="https://github.com/pry/pry">pry</a> functionality insid
 
 <ul>
 <li><a href="http://alisnic.net/blog/making-your-ruby-fly/">Making your ruby fly</a></li>
-<li><a href="http://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/">Is Your Application Running with Ruby – Slow?</a></li>
+<li><a href="http://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/">Is Your Application Running with Ruby - slow?</a></li>
 </ul>
 
 

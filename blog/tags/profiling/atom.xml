@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: profiling | Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.io/blog/tags/profiling/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.io/"/>
-  <updated>2013-07-05T18:34:51+03:00</updated>
+  <updated>2013-09-07T03:37:12-04:00</updated>
   <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Profiling Rails Applications]]></title>
     <link href="http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications/"/>
-    <updated>2013-04-09T01:49:00+03:00</updated>
+    <updated>2013-04-09T01:49:00-04:00</updated>
     <id>http://dpaluy.github.io/blog/2013/04/09/profiling-rails-applications</id>
     <content type="html"><![CDATA[<p>Your finaly got clients and everything works fine.</p>
 

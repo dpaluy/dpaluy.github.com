@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: kata | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.io/blog/tags/kata/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.io/"/>
+  <updated>2013-09-07T03:37:12-04:00</updated>
+  <id>http://dpaluy.github.io/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Kata RubyUnderground TLV]]></title>
+    <link href="http://dpaluy.github.io/blog/2013/08/24/kata-rubyunderground-tlv/"/>
+    <updated>2013-08-24T03:10:00-04:00</updated>
+    <id>http://dpaluy.github.io/blog/2013/08/24/kata-rubyunderground-tlv</id>
+    <content type="html"><![CDATA[<p>We had a different <a href="http://www.meetup.com/IsraelRubyUnderground/events/116715192/" target="_blank">Meetup event</a>.
+Me, <a href="https://twitter.com/arikfr" target="_blank">@arikfr</a> and <a href="https://twitter.com/torkale" target="_blank">@torkale</a> were mentoring Kata groups. None of us had a previous experience doing Kata but we all really liked it.</p>
+
+<p><img src="/images/RubyUndergroundMeetup_Kata_David_Paluy.jpg" alt="RubyUnderground Meetup Kata David Paluy" /></p>
+
+<p><strong>Code Kata</strong> is programming exercise that concentrated not on the final solution, but discussing and implementing the possible ways to solve it.</p>
+
+<p>IMHO, every team should do a 1 hour kata periodically.</p>
+
+<h3>Kata examples:</h3>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=983zk0eqYLY" target="_blank">Roman Numerals Kata</a></li>
+<li><a href="http://vimeo.com/7762511" target="_blank">Prime Factors Kata</a></li>
+<li><a href="http://vimeo.com/7961506" target="_blank">String Calculator Kata</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

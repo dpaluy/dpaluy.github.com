@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: optimization | Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.io/blog/tags/optimization/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.io/"/>
-  <updated>2013-07-05T18:34:51+03:00</updated>
+  <updated>2013-09-07T03:37:12-04:00</updated>
   <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Improve Rails Bootup Time]]></title>
     <link href="http://dpaluy.github.io/blog/2012/12/04/improve-rails-bootup-time/"/>
-    <updated>2012-12-04T21:27:00+02:00</updated>
+    <updated>2012-12-04T21:27:00-05:00</updated>
     <id>http://dpaluy.github.io/blog/2012/12/04/improve-rails-bootup-time</id>
     <content type="html"><![CDATA[<h3>Guide: How to improve your Rails Bootup Time</h3>
 
@@ -65,7 +65,7 @@ It's a part of <a href="https://gist.github.com/4136519">falcon patch</a> but on
   <entry>
     <title type="html"><![CDATA[Optimize your RVM Ruby ]]></title>
     <link href="http://dpaluy.github.io/blog/2012/11/25/optimize-your-ruby/"/>
-    <updated>2012-11-25T22:15:00+02:00</updated>
+    <updated>2012-11-25T22:15:00-05:00</updated>
     <id>http://dpaluy.github.io/blog/2012/11/25/optimize-your-ruby</id>
     <content type="html"><![CDATA[<h3>TL;DR</h3>
 
@@ -77,7 +77,7 @@ It's a part of <a href="https://gist.github.com/4136519">falcon patch</a> but on
 
 <ul>
 <li><a href="http://alisnic.net/blog/making-your-ruby-fly/">Making your ruby fly</a></li>
-<li><a href="http://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/">Is Your Application Running with Ruby – Slow?</a></li>
+<li><a href="http://spin.atomicobject.com/2012/11/06/is-your-application-running-with-ruby-slow/">Is Your Application Running with Ruby - slow?</a></li>
 </ul>
 
 

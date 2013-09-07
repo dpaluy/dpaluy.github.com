@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: timezone | Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.io/blog/tags/timezone/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.io/"/>
-  <updated>2013-07-05T18:34:51+03:00</updated>
+  <updated>2013-09-07T03:37:12-04:00</updated>
   <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Caution - to_time in Rails]]></title>
     <link href="http://dpaluy.github.io/blog/2013/04/15/caution-to-time-in-rails/"/>
-    <updated>2013-04-15T13:14:00+03:00</updated>
+    <updated>2013-04-15T13:14:00-04:00</updated>
     <id>http://dpaluy.github.io/blog/2013/04/15/caution-to-time-in-rails</id>
     <content type="html"><![CDATA[<h2>TL;DR</h2>
 
