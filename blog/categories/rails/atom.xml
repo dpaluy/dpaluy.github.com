@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.io/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.io/"/>
-  <updated>2013-09-07T03:37:12-04:00</updated>
+  <updated>2013-09-09T00:42:35-04:00</updated>
   <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -12,6 +12,141 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[RSpec - less known features]]></title>
+    <link href="http://dpaluy.github.io/blog/2013/09/07/rspec-less-known-features/"/>
+    <updated>2013-09-07T03:41:00-04:00</updated>
+    <id>http://dpaluy.github.io/blog/2013/09/07/rspec-less-known-features</id>
+    <content type="html"><![CDATA[<p>I would like to summarize some of less known RSpec feature I use during my development.</p>
+
+<h3>Execute specific test from command line</h3>
+
+<p>```ruby</p>
+
+<h1>spec/controllers/user_controller_spec.rb</h1>
+
+<p>require 'spec_helper'</p>
+
+<p>describe UsersController do</p>
+
+<p>  before (:each) do</p>
+
+<pre><code>@user = FactoryGirl.create(:user)
+sign_in @user
+</code></pre>
+
+<p>  end</p>
+
+<p>  describe "GET 'show'" do</p>
+
+<pre><code>it "should be successful" do
+  get :show, id: @user.id
+  response.should be_success
+end
+
+it "should find the right user" do
+  get :show, id: @user.id
+  assigns(:user).should == @user
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>end</p>
+
+<p>```</p>
+
+<p>Suppose you want to test only the test at line <em>#17</em>. You can append the line number to file pathrun:</p>
+
+<p><code>
+rspec spec/controllers/user_controller_spec.rb:17
+</code></p>
+
+<p>It will run only the test inside the scoped line. The same can be used with <em>describe</em>/<em>context</em>.</p>
+
+<h3>Temporary pending test</h3>
+
+<p>Suppose you need temporary disable a test at line <em>#8</em>. You can add <strong>x</strong> before <strong>it</strong> and the test is <strong>pending</strong> now.</p>
+
+<p>```ruby
+describe "GET 'show'" do</p>
+
+<p>  it "should be successful" do</p>
+
+<pre><code>get :show, id: @user.id
+response.should be_success
+</code></pre>
+
+<p>  end</p>
+
+<p>  # THIS TEST IS PENDING NOW
+  xit "should find the right user" do</p>
+
+<pre><code>get :show, id: @user.id
+assigns(:user).should == @user
+</code></pre>
+
+<p>  end</p>
+
+<p>end</p>
+
+<p>```</p>
+
+<h3>Focus on specific test</h3>
+
+<p>Add a tag to the selected test:</p>
+
+<p>```ruby
+describe "GET 'show'" do</p>
+
+<p>  it "should be successful", focus: true do</p>
+
+<pre><code>get :show, id: @user.id
+response.should be_success
+</code></pre>
+
+<p>  end</p>
+
+<p>  it "should find the right user" do</p>
+
+<pre><code>get :show, id: @user.id
+assigns(:user).should == @user
+</code></pre>
+
+<p>  end</p>
+
+<p>end</p>
+
+<p>```</p>
+
+<p>Then, run rspec as following: <code>rspec -t focus</code></p>
+
+<h3>Rails.logger stub</h3>
+
+<p>If you need to stub Rails logger, you should do the following:</p>
+
+<p>```ruby</p>
+
+<h1>Expecting to receive Rails.logger.debug some_message</h1>
+
+<p>let(:logger_mock) { double("Rails.logger").as_null_object }
+Rails.stub_chain(:logger, :debug).and_return(logger_mock)</p>
+
+<h1>your test goes here</h1>
+
+<h1>...</h1>
+
+<p>#</p>
+
+<h1>Don't forget to unstub the logger at the end of test!</h1>
+
+<p>Rails.unstub(:logger)
+```</p>
+
+<p>More about <a href="https://www.relishapp.com/rspec/rspec-mocks/v/2-0/docs/stubs/stub-a-chain-of-methods">stub_chain</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Kata RubyUnderground TLV]]></title>
@@ -105,7 +240,7 @@ I found amazing appartment via <a href="https://www.airbnb.com/tell-a-friend?air
     <id>http://dpaluy.github.io/blog/2013/04/29/process-information</id>
     <content type="html"><![CDATA[<p>I found it very useful to see my application process info on an admin page, as following:</p>
 
-<p>{% img /images/process_info.png Process Info %}</p>
+<p><img src="/images/process_info.png" title="Process Info" ></p>
 
 <p>You can do it inside your Rails app.</p>
 
@@ -228,54 +363,6 @@ mail_to "me@domain.com", "Contact us", :encode => "javascript"</p>
 <p>If the bot evaluates JavaScript before harvesting email addresses, you can't resist it.</p>
 
 <p>For example, it can be done using <a href="http://phantomjs.org/" target='_blank'>PhantomJS</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Caution - to_time in Rails]]></title>
-    <link href="http://dpaluy.github.io/blog/2013/04/15/caution-to-time-in-rails/"/>
-    <updated>2013-04-15T13:14:00-04:00</updated>
-    <id>http://dpaluy.github.io/blog/2013/04/15/caution-to-time-in-rails</id>
-    <content type="html"><![CDATA[<h2>TL;DR</h2>
-
-<p>Attention on time zone while using <em>today.to_time</em> in your Rails application!</p>
-
-<h2>Ruby <em>to_time</em> in your Rails application</h2>
-
-<p>Suppose, you need to convert some date to datetime. You can use the Ruby <a href="http://api.rubyonrails.org/classes/Date.html#method-i-to_time" target="_blank">to_time</a> method:</p>
-
-<p>```ruby
-date = Date.new(2013, 04, 15)</p>
-
-<p>date.to_time            # 2013-04-15 00:00:00 +0300
-date.to_time(:local)    # 2013-04-15 00:00:00 +0300</p>
-
-<h1>The Time Zone depends on your local machine</h1>
-
-<p>date.to_time(:utc)      # 2013-04-15 00:00:00 +0000
-```</p>
-
-<p>If your server time zone is UTC, but Rails application has different time zone, for example:</p>
-
-<p><code>ruby
-config.time_zone = 'Central Time (US &amp; Canada)'
-</code></p>
-
-<p>converting from date to time will ignore Rails settings!</p>
-
-<p>It happens, when you need to output your date in epoch format (for example: in json).</p>
-
-<p>I suggest to convert your date to utc and than to epoch.</p>
-
-<p><code>ruby
-epoch = date.to_time(:utc).to_i
-</code></p>
-
-<p>Then, apply local time zone using JavaScript::</p>
-
-<p><code>
-var date = new Date(epoch);
-</code></p>
 ]]></content>
   </entry>
   

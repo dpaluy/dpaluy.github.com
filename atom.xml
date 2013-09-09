@@ -4,7 +4,7 @@
   <title><![CDATA[Paluy on Miscellaneous]]></title>
   <link href="http://dpaluy.github.io/atom.xml" rel="self"/>
   <link href="http://dpaluy.github.io/"/>
-  <updated>2013-09-07T03:37:09-04:00</updated>
+  <updated>2013-09-09T00:42:35-04:00</updated>
   <id>http://dpaluy.github.io/</id>
   <author>
     <name><![CDATA[David Paluy]]></name>
@@ -12,6 +12,178 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[RSpec - less known features]]></title>
+    <link href="http://dpaluy.github.io/blog/2013/09/07/rspec-less-known-features/"/>
+    <updated>2013-09-07T03:41:00-04:00</updated>
+    <id>http://dpaluy.github.io/blog/2013/09/07/rspec-less-known-features</id>
+    <content type="html"><![CDATA[<p>I would like to summarize some of less known RSpec feature I use during my development.</p>
+
+<h3>Execute specific test from command line</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># spec/controllers/user_controller_spec.rb</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">UsersController</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before</span> <span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@user</span> <span class="o">=</span> <span class="no">FactoryGirl</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">sign_in</span> <span class="vi">@user</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">describe</span> <span class="s2">&quot;GET &#39;show&#39;&quot;</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;should be successful&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">get</span> <span class="ss">:show</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>      <span class="n">response</span><span class="o">.</span><span class="n">should</span> <span class="n">be_success</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;should find the right user&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">get</span> <span class="ss">:show</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>      <span class="n">assigns</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="vi">@user</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Suppose you want to test only the test at line <em>#17</em>. You can append the line number to file pathrun:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rspec</span> <span class="n">spec</span><span class="o">/</span><span class="n">controllers</span><span class="o">/</span><span class="n">user_controller_spec</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">17</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It will run only the test inside the scoped line. The same can be used with <em>describe</em>/<em>context</em>.</p>
+
+<h3>Temporary pending test</h3>
+
+<p>Suppose you need temporary disable a test at line <em>#8</em>. You can add <strong>x</strong> before <strong>it</strong> and the test is <strong>pending</strong> now.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="s2">&quot;GET &#39;show&#39;&quot;</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be successful&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">get</span> <span class="ss">:show</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>    <span class="n">response</span><span class="o">.</span><span class="n">should</span> <span class="n">be_success</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># THIS TEST IS PENDING NOW</span>
+</span><span class='line'>  <span class="n">xit</span> <span class="s2">&quot;should find the right user&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">get</span> <span class="ss">:show</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>    <span class="n">assigns</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="vi">@user</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Focus on specific test</h3>
+
+<p>Add a tag to the selected test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="s2">&quot;GET &#39;show&#39;&quot;</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should be successful&quot;</span><span class="p">,</span> <span class="n">focus</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">get</span> <span class="ss">:show</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>    <span class="n">response</span><span class="o">.</span><span class="n">should</span> <span class="n">be_success</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;should find the right user&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">get</span> <span class="ss">:show</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>    <span class="n">assigns</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="vi">@user</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, run rspec as following: <code>rspec -t focus</code></p>
+
+<h3>Rails.logger stub</h3>
+
+<p>If you need to stub Rails logger, you should do the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Expecting to receive Rails.logger.debug some_message</span>
+</span><span class='line'><span class="n">let</span><span class="p">(</span><span class="ss">:logger_mock</span><span class="p">)</span> <span class="p">{</span> <span class="n">double</span><span class="p">(</span><span class="s2">&quot;Rails.logger&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">as_null_object</span> <span class="p">}</span>
+</span><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">stub_chain</span><span class="p">(</span><span class="ss">:logger</span><span class="p">,</span> <span class="ss">:debug</span><span class="p">)</span><span class="o">.</span><span class="n">and_return</span><span class="p">(</span><span class="n">logger_mock</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># your test goes here</span>
+</span><span class='line'><span class="c1"># ...</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Don&#39;t forget to unstub the logger at the end of test!</span>
+</span><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">unstub</span><span class="p">(</span><span class="ss">:logger</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>More about <a href="https://www.relishapp.com/rspec/rspec-mocks/v/2-0/docs/stubs/stub-a-chain-of-methods">stub_chain</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Kata RubyUnderground TLV]]></title>
