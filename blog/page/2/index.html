@@ -9,9 +9,7 @@
   <meta name="author" content="David Paluy">
 
   
-  <meta name="description" content="Guide: How to improve your Rails Bootup Time Benchmarks: I used ruby-1.9.3-p327 with and without patch. The test is: 1
-2
-echo puts Time.now > &hellip;">
+  <meta name="description" content="How to debug Rails application? There are several gems to debug your Ruby code: debugger - A fork of ruby-debug that works on Ruby 1.9.3 Install (rvm &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +76,150 @@ echo puts Time.now > &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/30/debugging-rails-application-part1/">Debugging Rails Application - Part 1</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-30T09:25:00-05:00" pubdate data-updated="true">Jan 30<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>How to debug Rails application?</h2>
+
+<p>There are several gems to debug your Ruby code:</p>
+
+<h3><strong><a href="https://github.com/cldwalker/debugger">debugger</a></strong> - A fork of ruby-debug that works on Ruby 1.9.3</h3>
+
+<p><strong>Install</strong> (rvm):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install debugger -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-p374/</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Gemfile </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">gem</span> <span class="s1">&#39;debugger&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Usage</strong>:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
+</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;debugger&#39;</span><span class="p">;</span> <span class="n">debugger</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><strong><a href="https://github.com/nixme/pry-debugger">pry-debugger</a></strong> - Using debugger within <a href="https://github.com/pry/pry">pry</a></h3>
+
+<figure class='code'><figcaption><span>Gemfile </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">gem</span> <span class="s1">&#39;pry-debugger&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Configuration</strong> (Optional):</p>
+
+<p>Add aliases:</p>
+
+<figure class='code'><figcaption><span>$HOME/.pryrc </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;con&#39;</span><span class="p">,</span> <span class="s1">&#39;continue&#39;</span>
+</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span>
+</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;next&#39;</span>
+</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;fin&#39;</span><span class="p">,</span> <span class="s1">&#39;finish&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong><em>NOTE: You won&#8217;t be able to use those words as params while debugging</em></strong></p>
+
+<p><strong>Usage</strong>:</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
+</span><span class='line'>  <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Example:</p>
+
+<figure class='code'><figcaption><span>home_controller.rb </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>      <span class="c1"># Some code ...</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
+</span><span class='line'>      <span class="c1"># Code to debug</span>
+</span><span class='line'>      <span class="c1"># ...</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now start your rails server (<em>rails s</em>) and visit your controller url: <em>http://localhost:3000/home</em>. The pry debugger console will appear in your terminal.
+You can use all <a href="https://github.com/pry/pry">pry</a> functionality inside your application in addition to predefined aliases(next, step, continue, etc.).</p>
+
+<p><strong>Other useful commands:</strong></p>
+
+<ul>
+<li><strong>help</strong> - show a list of available commands</li>
+<li><strong>exit</strong> - exit a context with a user provided value</li>
+<li><strong>whereami</strong> - describe the current location (alternative: <strong>$</strong>)</li>
+<li><strong>break</strong> - set a breakpoint</li>
+<li><strong>wtf -v</strong> - see the entire backtrace</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -423,6 +565,10 @@ chmod 600 ~/.ssh/authorized_keys
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/09/09/rails-code-quality-tools/">Rails code quality tools</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/09/07/rspec-less-known-features/">RSpec - less known features</a>
       </li>
     
@@ -436,10 +582,6 @@ chmod 600 ~/.ssh/authorized_keys
     
       <li class="post">
         <a href="/blog/2013/07/05/my-weekly-read/">My Weekly Read</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/29/process-information/">Process Information</a>
       </li>
     
   </ul>
@@ -469,11 +611,11 @@ chmod 600 ~/.ssh/authorized_keys
   <h1>Tags</h1>
   <ul class="tag-cloud">
 <li><a style="font-size: 165%" href="/blog/tags/rubyonrails/">rubyonrails</a></li>
-<li><a style="font-size: 144%" href="/blog/tags/ruby/">ruby</a></li>
-<li><a style="font-size: 99%" href="/blog/tags/debugging/">debugging</a></li>
-<li><a style="font-size: 99%" href="/blog/tags/optimization/">optimization</a></li>
-<li><a style="font-size: 99%" href="/blog/tags/tips/">tips</a></li>
-<li><a style="font-size: 70%" href="/blog/tags/timezone/">timezone</a></li>
+<li><a style="font-size: 147%" href="/blog/tags/ruby/">ruby</a></li>
+<li><a style="font-size: 97%" href="/blog/tags/debugging/">debugging</a></li>
+<li><a style="font-size: 97%" href="/blog/tags/optimization/">optimization</a></li>
+<li><a style="font-size: 97%" href="/blog/tags/tips/">tips</a></li>
+<li><a style="font-size: 70%" href="/blog/tags/obfuscate/">obfuscate</a></li>
 <li><a style="font-size: 70%" href="/blog/tags/net/">NET</a></li>
 <li><a style="font-size: 70%" href="/blog/tags/rest/">REST</a></li>
 

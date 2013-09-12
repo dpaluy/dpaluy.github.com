@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Debugging Rails Application - Part 1 - Paluy on Miscellaneous</title>
+  <title>Rails code quality tools - Paluy on Miscellaneous</title>
   <meta name="author" content="David Paluy">
 
   
-  <meta name="description" content="How to debug Rails application? There are several gems to debug your Ruby code: debugger - A fork of ruby-debug that works on Ruby 1.9.3 Install (rvm &hellip;">
+  <meta name="description" content="The only valid measurement of code quality: WTFs/minute source I would like to cover code quality tools I use while developing Rails applications. Of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1/">
+  <link rel="canonical" href="http://dpaluy.github.io/blog/2013/09/09/rails-code-quality-tools/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Debugging Rails Application - Part 1</h1>
+      <h1 class="entry-title">Rails Code Quality Tools</h1>
     
     
       <p class="meta">
@@ -95,89 +95,48 @@
   
 
 
-<time datetime="2013-01-30T09:25:00-05:00" pubdate data-updated="true">Jan 30<span>th</span>, 2013</time>
+<time datetime="2013-09-09T14:03:00-04:00" pubdate data-updated="true">Sep 9<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>How to debug Rails application?</h2>
+<div class="entry-content"><p><em>The only valid measurement of code quality: WTFs/minute</em> <br /><a href="http://www.osnews.com/story/19266/WTFs_m" target="_blank">source</a></p>
 
-<p>There are several gems to debug your Ruby code:</p>
+<p>I would like to cover code quality tools I use while developing Rails applications.</p>
 
-<h3><strong><a href="https://github.com/cldwalker/debugger">debugger</a></strong> - A fork of ruby-debug that works on Ruby 1.9.3</h3>
+<p>Of course you should try <a href="https://codeclimate.com/" target="_blank">CodeClimate</a> service to monitor your project, but&#8230;</p>
 
-<p><strong>Install</strong> (rvm):</p>
+<h2>Let`s overview some open source solutions:</h2>
+
+<h3>1. <a href="https://github.com/railsbp/rails_best_practices">Rails Best Practises</a> - RBP</h3>
+
+<p>It&#8217;s a static code analysis tool that checks the quality of rails code. It can be <a href="https://github.com/railsbp/rails_best_practices#customize-configuration" target="_blank">customized</a> for your needs and even add your own <a href="https://github.com/railsbp/rails_best_practices/wiki/How-to-write-your-own-check-list" target="_blank">checklist</a></p>
+
+<p>I prefer to add RBP analysis to CI tasks, as following:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem install debugger -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-p374/</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rails_best_practices -f html --template config/my_rails_best_practices.html.erb .</span></code></pre></td></tr></table></div></figure>
 
 
+<p>while I use my custom RBP template report <code>config/my_rails_best_practices.html.erb</code>. The RBP report is a part of my CI artifacts.</p>
 
+<p><strong>Alternative 1</strong>: <a href="https://github.com/roodi/roodi" target="_blank">ROODI</a> - Ruby Object Oriented Design Inferometer.
+Usage: <code>roodi -config=config/roodi.yml "app/**/*.rb" "lib/**/*.rb" &gt; roodi_report.txt</code></p>
 
-<figure class='code'><figcaption><span>Gemfile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">gem</span> <span class="s1">&#39;debugger&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
+<p><strong>Alternative 2</strong>: <a href="https://github.com/bbatsov/rubocop" target="_blank">Rubocop</a></p>
 
+<p><strong>Alternative 3</strong>: <a href="https://github.com/square/cane" target="_blank">Cane</a></p>
 
-<p><strong>Usage</strong>:</p>
+<p><strong>Alternative 4</strong>: <a href="http://rubydoc.info/github/YorickPeterse/ruby-lint/
+" target="_blank">Ruby Lint</a></p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
-</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;debugger&#39;</span><span class="p">;</span> <span class="n">debugger</span>
-</span></code></pre></td></tr></table></div></figure>
+<h3>2. Code Coverage - <a href="https://github.com/colszowka/simplecov" target="_blank">SimpleCov</a></h3>
 
+<p>Add the following code to <code>spec_helper.rb</code></p>
 
-<h3><strong><a href="https://github.com/nixme/pry-debugger">pry-debugger</a></strong> - Using debugger within <a href="https://github.com/pry/pry">pry</a></h3>
-
-<figure class='code'><figcaption><span>Gemfile </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">gem</span> <span class="s1">&#39;pry-debugger&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong>Configuration</strong> (Optional):</p>
-
-<p>Add aliases:</p>
-
-<figure class='code'><figcaption><span>$HOME/.pryrc </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;con&#39;</span><span class="p">,</span> <span class="s1">&#39;continue&#39;</span>
-</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span>
-</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;next&#39;</span>
-</span><span class='line'>  <span class="no">Pry</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">alias_command</span> <span class="s1">&#39;fin&#39;</span><span class="p">,</span> <span class="s1">&#39;finish&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><strong><em>NOTE: You won&#8217;t be able to use those words as params while debugging</em></strong></p>
-
-<p><strong>Usage</strong>:</p>
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="c1"># Wherever you need a debugger, simply add:</span>
-</span><span class='line'>  <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Example:</p>
-
-<figure class='code'><figcaption><span>home_controller.rb </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -185,32 +144,28 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">HomeController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">index</span>
-</span><span class='line'>      <span class="c1"># Some code ...</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
 </span><span class='line'>
-</span><span class='line'>      <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
-</span><span class='line'>      <span class="c1"># Code to debug</span>
-</span><span class='line'>      <span class="c1"># ...</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">if</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;COVERAGE&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;simplecov&#39;</span>
+</span><span class='line'>  <span class="no">SimpleCov</span><span class="o">.</span><span class="n">start</span> <span class="s1">&#39;rails&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ...</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now start your rails server (<em>rails s</em>) and visit your controller url: <em>http://localhost:3000/home</em>. The pry debugger console will appear in your terminal.
-You can use all <a href="https://github.com/pry/pry">pry</a> functionality inside your application in addition to predefined aliases(next, step, continue, etc.).</p>
+<p><strong>Note</strong>: Add <code>export COVERAGE=true</code> before you run your tests.</p>
 
-<p><strong>Other useful commands:</strong></p>
+<h3>3. <a href="https://github.com/bbatsov/ruby-style-guide" target="_blank">Ruby Style Guide</a>, <a href="https://github.com/bbatsov/rails-style-guide" target="_blank">Rails Style Guide</a> and <a href="https://github.com/airbnb/javascript" target="_blank">JavaScript Guide</a></h3>
 
-<ul>
-<li><strong>help</strong> - show a list of available commands</li>
-<li><strong>exit</strong> - exit a context with a user provided value</li>
-<li><strong>whereami</strong> - describe the current location (alternative: <strong>$</strong>)</li>
-<li><strong>break</strong> - set a breakpoint</li>
-<li><strong>wtf -v</strong> - see the entire backtrace</li>
-</ul>
+<p>Your team should apply those guides or define your own. You should also check those <a href="https://github.com/styleguide/" target="_blank">Github guides</a>.</p>
 
+<h3>4. Rails Security Scanner - <a href="http://brakemanscanner.org/" target="_blank">Brakeman</a></h3>
+
+<h3>Note:</h3>
+
+<p>Read this <a href="http://blog.codeclimate.com/blog/2013/08/07/deciphering-ruby-code-metrics/">blog post</a> by CodeClimate</p>
 </div>
 
 
@@ -233,12 +188,12 @@ You can use all <a href="https://github.com/pry/pry">pry</a> functionality insid
   
 
 
-<time datetime="2013-01-30T09:25:00-05:00" pubdate data-updated="true">Jan 30<span>th</span>, 2013</time>
+<time datetime="2013-09-09T14:03:00-04:00" pubdate data-updated="true">Sep 9<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/ruby/'>Ruby</a>, <a class='category' href='/blog/categories/tools/'>Tools</a>
+    <a class='category' href='/blog/categories/rails/'>Rails</a>, <a class='category' href='/blog/categories/tools/'>Tools</a>
   
 </span>
 
@@ -247,7 +202,7 @@ You can use all <a href="https://github.com/pry/pry">pry</a> functionality insid
 
 <span class="tags">
   
-    <a class='tag' href='/blog/tags/debugging/'>debugging</a>, <a class='tag' href='/blog/tags/ruby/'>ruby</a>, <a class='tag' href='/blog/tags/rubyonrails/'>rubyonrails</a>
+    <a class='tag' href='/blog/tags/code-quality/'>code-quality</a>, <a class='tag' href='/blog/tags/ruby/'>ruby</a>, <a class='tag' href='/blog/tags/rubyonrails/'>rubyonrails</a>
   
 </span>
 
@@ -255,7 +210,7 @@ You can use all <a href="https://github.com/pry/pry">pry</a> functionality insid
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1/" data-via="dpaluy" data-counturl="http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dpaluy.github.io/blog/2013/09/09/rails-code-quality-tools/" data-via="dpaluy" data-counturl="http://dpaluy.github.io/blog/2013/09/09/rails-code-quality-tools/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -266,10 +221,8 @@ You can use all <a href="https://github.com/pry/pry">pry</a> functionality insid
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/12/04/improve-rails-bootup-time/" title="Previous Post: Improve Rails Bootup Time">&laquo; Improve Rails Bootup Time</a>
+        <a class="basic-alignment left" href="/blog/2013/09/07/rspec-less-known-features/" title="Previous Post: RSpec - less known features">&laquo; RSpec - less known features</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/02/06/debugging-rails-application-part-2/" title="Next Post: Debugging Rails Application - Part 2">Debugging Rails Application - Part 2 &raquo;</a>
       
     </p>
   </footer>
@@ -455,8 +408,8 @@ You can use all <a href="https://github.com/pry/pry">pry</a> functionality insid
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1/';
-        var disqus_url = 'http://dpaluy.github.io/blog/2013/01/30/debugging-rails-application-part1/';
+        var disqus_identifier = 'http://dpaluy.github.io/blog/2013/09/09/rails-code-quality-tools/';
+        var disqus_url = 'http://dpaluy.github.io/blog/2013/09/09/rails-code-quality-tools/';
         var disqus_script = 'embed.js';
       
     (function () {

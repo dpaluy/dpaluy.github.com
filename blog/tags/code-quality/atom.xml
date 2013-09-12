@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: code-quality | Paluy on Miscellaneous]]></title>
+  <link href="http://dpaluy.github.io/blog/tags/code-quality/atom.xml" rel="self"/>
+  <link href="http://dpaluy.github.io/"/>
+  <updated>2013-09-11T23:21:53-04:00</updated>
+  <id>http://dpaluy.github.io/</id>
+  <author>
+    <name><![CDATA[David Paluy]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rails code quality tools]]></title>
+    <link href="http://dpaluy.github.io/blog/2013/09/09/rails-code-quality-tools/"/>
+    <updated>2013-09-09T14:03:00-04:00</updated>
+    <id>http://dpaluy.github.io/blog/2013/09/09/rails-code-quality-tools</id>
+    <content type="html"><![CDATA[<p><em>The only valid measurement of code quality: WTFs/minute</em> <br /><a href="http://www.osnews.com/story/19266/WTFs_m" target="_blank">source</a></p>
+
+<p>I would like to cover code quality tools I use while developing Rails applications.</p>
+
+<p>Of course you should try <a href="https://codeclimate.com/" target="_blank">CodeClimate</a> service to monitor your project, but...</p>
+
+<h2>Let`s overview some open source solutions:</h2>
+
+<h3>1. <a href="https://github.com/railsbp/rails_best_practices">Rails Best Practises</a> - RBP</h3>
+
+<p>It's a static code analysis tool that checks the quality of rails code. It can be <a href="https://github.com/railsbp/rails_best_practices#customize-configuration" target="_blank">customized</a> for your needs and even add your own <a href="https://github.com/railsbp/rails_best_practices/wiki/How-to-write-your-own-check-list" target="_blank">checklist</a></p>
+
+<p>I prefer to add RBP analysis to CI tasks, as following:</p>
+
+<p><code>
+rails_best_practices -f html --template config/my_rails_best_practices.html.erb .
+</code></p>
+
+<p>while I use my custom RBP template report <code>config/my_rails_best_practices.html.erb</code>. The RBP report is a part of my CI artifacts.</p>
+
+<p><strong>Alternative 1</strong>: <a href="https://github.com/roodi/roodi" target="_blank">ROODI</a> - Ruby Object Oriented Design Inferometer.
+Usage: <code>roodi -config=config/roodi.yml "app/**/*.rb" "lib/**/*.rb" &gt; roodi_report.txt</code></p>
+
+<p><strong>Alternative 2</strong>: <a href="https://github.com/bbatsov/rubocop" target="_blank">Rubocop</a></p>
+
+<p><strong>Alternative 3</strong>: <a href="https://github.com/square/cane" target="_blank">Cane</a></p>
+
+<p><strong>Alternative 4</strong>: <a href="http://rubydoc.info/github/YorickPeterse/ruby-lint/
+" target="_blank">Ruby Lint</a></p>
+
+<h3>2. Code Coverage - <a href="https://github.com/colszowka/simplecov" target="_blank">SimpleCov</a></h3>
+
+<p>Add the following code to <code>spec_helper.rb</code></p>
+
+<p>```ruby
+require 'rubygems'</p>
+
+<p>if ENV["COVERAGE"]
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end</p>
+
+<h1>...</h1>
+
+<p>```</p>
+
+<p><strong>Note</strong>: Add <code>export COVERAGE=true</code> before you run your tests.</p>
+
+<h3>3. <a href="https://github.com/bbatsov/ruby-style-guide" target="_blank">Ruby Style Guide</a>, <a href="https://github.com/bbatsov/rails-style-guide" target="_blank">Rails Style Guide</a> and <a href="https://github.com/airbnb/javascript" target="_blank">JavaScript Guide</a></h3>
+
+<p>Your team should apply those guides or define your own. You should also check those <a href="https://github.com/styleguide/" target="_blank">Github guides</a>.</p>
+
+<h3>4. Rails Security Scanner - <a href="http://brakemanscanner.org/" target="_blank">Brakeman</a></h3>
+
+<h3>Note:</h3>
+
+<p>Read this <a href="http://blog.codeclimate.com/blog/2013/08/07/deciphering-ruby-code-metrics/">blog post</a> by CodeClimate</p>
+]]></content>
+  </entry>
+  
+</feed>
